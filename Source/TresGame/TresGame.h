@@ -12792,7 +12792,8 @@ enum ESQEX_ATTACH_THEMES
 UENUM(BlueprintType)
 enum ESQEX_CHANGE_ANIMATION_TYPE
 {
-	ESQEX_CHANGE_ANIMATION_TYPE_END = 0 UMETA(DisplayName = "End")
+	ESQEX_CHANGE_ANIMATION_TYPE_NONE = 0 UMETA(DisplayName = "None"),
+	ESQEX_CHANGE_ANIMATION_TYPE_END = 1 UMETA(DisplayName = "End")
 };
 
 UENUM(BlueprintType)
@@ -14600,7 +14601,7 @@ public:
 	int PlayNumber;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
-	TEnumAsByte<ESQEX_CHANGE_ANIMATION_TYPE> WhenChangeAnimationType;
+	TEnumAsByte<ESQEX_CHANGE_ANIMATION_TYPE> WhenChangeAnimationType = ESQEX_CHANGE_ANIMATION_TYPE_END;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
 	TEnumAsByte<ESQEX_ATTACH_EFFECT_END_TYPE> AttachEffectEndType;
