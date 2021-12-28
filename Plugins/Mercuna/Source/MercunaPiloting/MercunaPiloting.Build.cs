@@ -2,41 +2,35 @@
 
 using UnrealBuildTool;
 
-public class SQEXSEAD : ModuleRules
+public class MercunaPiloting : ModuleRules
 {
-	public SQEXSEAD(ReadOnlyTargetRules Target) : base(Target)
+	public MercunaPiloting(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
-		if (Target.Type == TargetType.Editor) // Is UBT building for Editor ?
-		{
-			PrivateDependencyModuleNames.Add("SQEXSEADEd");
-		}
-		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"SQEXSEAD/Public"
+				"MercunaPiloting/Public"
 				// ... add public include paths required here ...
 			}
-		);
+			);
 				
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"SQEXSEAD/Private",
+				"MercunaPiloting/Private",
 				// ... add other private include paths required here ...
 			}
-		);
+			);
 			
 		
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
-                //"ApexDestruction",
 				// ... add other public dependencies that you statically link with here ...
 			}
-		);
+			);
 			
 		
 		PrivateDependencyModuleNames.AddRange(
@@ -46,10 +40,9 @@ public class SQEXSEAD : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "UnrealEd",
 				// ... add private dependencies that you statically link with here ...	
 			}
-		);
+			);
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(
@@ -57,6 +50,6 @@ public class SQEXSEAD : ModuleRules
 			{
 				// ... add any modules that your module loads dynamically here ...
 			}
-		);
+			);
 	}
 }
