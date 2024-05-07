@@ -1,25 +1,26 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresDetectMarkerComponentBase.h"
 #include "TresNpcSmartphoneCameraComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresNpcSmartphoneCameraComponent : public UTresDetectMarkerComponentBase
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresNpcSmartphoneCameraComponent : public UTresDetectMarkerComponentBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcSmartphoneCameraComponent")
-	float m_AnimationAfterInterval;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcSmartphoneCameraComponent")
-	float m_WaitTimeBeforeStart;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcSmartphoneCameraComponent")
-	bool m_bTurnToCamera;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_AnimationNames;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AnimationAfterInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_WaitTimeBeforeStart;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bTurnToCamera;
+    
+public:
+    UTresNpcSmartphoneCameraComponent();
 };
+

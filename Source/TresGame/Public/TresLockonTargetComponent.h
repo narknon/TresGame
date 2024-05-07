@@ -1,57 +1,60 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickComponentBase.h"
-#include "TresGame.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_FreeFlowKind -FallbackName=ESQEX_FreeFlowKind
+#include "ESQEX_FreeFlowKind.h"
+#include "ETresLockonPriority.h"
+#include "TresLockonTargetDoLockSignatureDelegate.h"
 #include "TresLockonTargetComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresLockonTargetComponent : public UTresGimmickComponentBase
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresLockonTargetComponent : public UTresGimmickComponentBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bPermissionLockOn;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	TEnumAsByte<ETresLockonPriority> m_LockonPriority;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bPermissionShootFlow;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bPermissionMoveFlow;
-	
-	//ENGINE DEF
-	//ESQEX_FreeFlowKind                                 m_MoveFlowType;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bMoveFlowDestination;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	int m_ViewTargetIndex;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	float m_AutoLockOnRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	float m_ShootLockOnRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	FName m_LookAtTargetBoneName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bRushSuppression;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	float m_CloseRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	bool m_bPermissionCoverShot;
-	//struct FScriptMulticastDelegate                    OnTargetLock;                                             // 0x08A8(0x0010) (ZeroConstructor, InstancedReference, BlueprintAssignable)
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bPermissionLockOn: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresLockonPriority m_LockonPriority;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bPermissionShootFlow: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bPermissionMoveFlow: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ESQEX_FreeFlowKind m_MoveFlowType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bMoveFlowDestination: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ViewTargetIndex;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AutoLockOnRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ShootLockOnRange;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_LookAtTargetBoneName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bRushSuppression: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_CloseRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bPermissionCoverShot: 1;
+    
+public:
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresLockonTargetDoLockSignature OnTargetLock;
+    
+    UTresLockonTargetComponent();
 };
+

@@ -1,52 +1,56 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickActor.h"
 #include "TresGimmickFrogPerformer.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGimmickFrogPerformer : public ATresGimmickActor
-{
-	GENERATED_BODY()
+class UTresSkeletalMeshComponent;
+class UAnimSequence;
+class AActor;
+class USoundBase;
+class ATresGimmickFrogPerformer;
+
+UCLASS(Blueprintable, Config=Game)
+class ATresGimmickFrogPerformer : public ATresGimmickActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class UTresSkeletalMeshComponent* MyMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	bool Broken;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class USoundBase* PlaySound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class USoundBase* PlayBrokenSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class AActor* AttachedSoundActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class UAnimSequence* m_PerformAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class UAnimSequence* m_IdleAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickFrogPerformer")
-	class UAnimSequence* m_BrokenAnim;
-	
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickFrogPerformer")
-	void SetSpeedRate(float Rate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickFrogPerformer")
-	void SetMasterFrog(class ATresGimmickFrogPerformer* pFrog) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickFrogPerformer")
-	void SetBroken(bool _Broken) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickFrogPerformer")
-	void ChangeSpeedRate(float Rate) {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresSkeletalMeshComponent* MyMesh;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool Broken;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USoundBase* PlaySound;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USoundBase* PlayBrokenSound;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* AttachedSoundActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UAnimSequence* m_PerformAnim;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UAnimSequence* m_IdleAnim;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UAnimSequence* m_BrokenAnim;
+    
+public:
+    ATresGimmickFrogPerformer(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetSpeedRate(float Rate);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetMasterFrog(ATresGimmickFrogPerformer* pFrog);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBroken(bool _Broken);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void ChangeSpeedRate(float Rate);
+    
 };
+

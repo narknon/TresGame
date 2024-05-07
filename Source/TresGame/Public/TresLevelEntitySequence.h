@@ -1,20 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresGame.h"
+#include "UObject/Object.h"
+#include "TresLevelEntitySequenceConditionalAction.h"
 #include "TresLevelEntitySequence.generated.h"
 
-/**
- * 
- */
-UCLASS(Blueprintable)
-class TRESGAME_API UTresLevelEntitySequence : public UObject
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, EditInlineNew)
+class TRESGAME_API UTresLevelEntitySequence : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntitySequence")
-	TArray<struct FTresLevelEntitySequenceConditionalAction> m_ConditionalActions;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresLevelEntitySequenceConditionalAction> m_ConditionalActions;
+    
+    UTresLevelEntitySequence();
 };
+

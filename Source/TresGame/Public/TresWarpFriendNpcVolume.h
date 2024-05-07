@@ -1,32 +1,28 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
-#include "TresGame.h"
+#include "TresFriendWarpPointData.h"
 #include "TresWarpFriendNpcVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresWarpFriendNpcVolume : public ATresVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresWarpFriendNpcVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWarpFriendNpcVolume")
-	bool m_bVolumeOutEnd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWarpFriendNpcVolume")
-	bool m_bUsedWarpPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWarpFriendNpcVolume")
-	float m_DelayTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWarpFriendNpcVolume")
-	TArray<struct FTresFriendWarpPointData> m_WarpPointData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWarpFriendNpcVolume")
-	float m_IntervalTime;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bVolumeOutEnd: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bUsedWarpPoint: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DelayTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresFriendWarpPointData> m_WarpPointData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_IntervalTime;
+    
+    ATresWarpFriendNpcVolume(const FObjectInitializer& ObjectInitializer);
 };
+

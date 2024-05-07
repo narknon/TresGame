@@ -1,53 +1,54 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "TresGame.h"
+#include "UObject/Object.h"
+#include "ETresDebugMenuState.h"
 #include "TresDebugMenuScene.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresDebugMenuScene : public UObject
-{
-	GENERATED_BODY()
+class UFont;
+class UTresDebugMenuContainer;
+class UTresDebugMenuObject;
+
+UCLASS(Blueprintable, Transient)
+class UTresDebugMenuScene : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	FString m_Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	UFont* m_Font;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	int m_ViewX;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	int m_ViewY;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	int m_ViewWidth;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	int m_ViewHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	FLinearColor m_DrawColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	TEnumAsByte<ETresDebugMenuState> m_State;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	bool m_Fading;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	bool m_Modal;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	class UTresDebugMenuContainer* m_Root;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugMenuScene")
-	class UTresDebugMenuObject* m_FocusObject;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString m_Name;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UFont* m_Font;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ViewX;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ViewY;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ViewWidth;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ViewHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FLinearColor m_DrawColor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresDebugMenuState> m_State;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_Fading;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_Modal;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresDebugMenuContainer* m_Root;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresDebugMenuObject* m_FocusObject;
+    
+    UTresDebugMenuScene();
 };
+

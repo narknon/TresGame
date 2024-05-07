@@ -1,59 +1,60 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "TresGame.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresSoundAliasLabel_WeaponHit.h"
 #include "TresAnimNotifyState_Attack.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_Attack : public UAnimNotifyState
-{
-	GENERATED_BODY()
+class USoundBase;
+
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_Attack : public UAnimNotifyState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	FName CollisionGrpName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	FName m_AttackDataIDName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	float AttackInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	bool m_bOverrideHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	FName m_HitEffectGrpName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	class USoundBase* m_HitSEAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponHit> m_WeaponHitSEAliasID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	bool m_bOverrideHitEffectColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	bool m_bOverrideHitEffectAlpha;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	FLinearColor m_OverrideHitEffectColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	bool m_bTakeOverHitList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	FName m_TakeOverHitListGrpName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	bool m_bIgnoreComboCountUp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	int m_ComboCountUpParam;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName CollisionGrpName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_AttackDataIDName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float AttackInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bOverrideHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_HitEffectGrpName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USoundBase* m_HitSEAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresSoundAliasLabel_WeaponHit::Type> m_WeaponHitSEAliasID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bOverrideHitEffectColor: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bOverrideHitEffectAlpha: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FLinearColor m_OverrideHitEffectColor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bTakeOverHitList: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_TakeOverHitListGrpName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bIgnoreComboCountUp: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ComboCountUpParam;
+    
+public:
+    UTresAnimNotifyState_Attack();
 };
+

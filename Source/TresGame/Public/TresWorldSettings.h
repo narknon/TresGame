@@ -1,56 +1,64 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "SQEX_WorldSettings.h"
-#include "TresGame.h"
+#include "TresAttractionFlowDrawingInterface.h"
+#include "ETresWorldCode.h"
+#include "ETresWorldAreaCode.h"
+#include "TresAttractionFlowDrawingEntry.h"
+#include "ETresEffectAreaCode.h"
 #include "TresWorldSettings.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresWorldSettings : public ASQEX_WorldSettings
-{
-	GENERATED_BODY()
+class UTresWorldResidentActorClassAsset;
+class USoundBase;
+class UDataTable;
+class UDataAsset;
+class UTresPhysMatEffectAsset;
+
+UCLASS(Blueprintable)
+class TRESGAME_API ATresWorldSettings : public ASQEX_WorldSettings, public ITresAttractionFlowDrawingInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TEnumAsByte<ETresWorldCode> m_WorldCode;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TAssetPtr<class USoundBase> m_BGMField;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TAssetPtr<class USoundBase> m_BGMBattle;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TArray<struct FTresAttractionFlowDrawingEntry> m_DrawingTable;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	bool m_AttractionFlowDrawingEnable;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TArray<class UDataAsset*> m_Assets;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TArray<class UTresWorldResidentActorClassAsset*>   m_AssetMapsOnlyForLevel;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TArray<FName> m_LoadCommonAssetTags;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TArray<FName> m_DiscardCommonAssetTags;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	class UTresPhysMatEffectAsset* m_PhysMatEffects;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	TEnumAsByte<ETresEffectAreaCode> m_EffectAreaCode;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
-	class UDataTable* m_EffectBaseColorTable;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresWorldCode> m_WorldCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TAssetPtr<USoundBase> m_BGMField;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TAssetPtr<USoundBase> m_BGMBattle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresAttractionFlowDrawingEntry> m_DrawingTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_AttractionFlowDrawingEnable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UDataAsset*> m_Assets;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTresWorldResidentActorClassAsset*> m_AssetMapsOnlyForLevel;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_LoadCommonAssetTags;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_DiscardCommonAssetTags;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresPhysMatEffectAsset* m_PhysMatEffects;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresEffectAreaCode> m_EffectAreaCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UDataTable* m_EffectBaseColorTable;
+    
+    ATresWorldSettings(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

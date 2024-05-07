@@ -1,143 +1,141 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "Components/ActorComponent.h"
-#include "TresGame.h"
+#include "TresAnimInterface.h"
+#include "TresNotifyInterface.h"
+#include "ETresFriendAreaID.h"
+#include "ETresChrUniqueID.h"
+#include "ETresCommandKind.h"
+#include "UObject/NoExportTypes.h"
 #include "TresFriendComponent.generated.h"
 
+class AActor;
+class AController;
+class ATresNpcPawnBase;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TRESGAME_API UTresFriendComponent : public UActorComponent
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, Config=Game, meta=(BlueprintSpawnableComponent))
+class UTresFriendComponent : public UActorComponent, public ITresAnimInterface, public ITresNotifyInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	class AController* m_pController;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	TWeakObjectPtr<class ATresNpcPawnBase> m_pFriendPawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	TWeakObjectPtr<class AActor> m_pCameraTargetActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	class UClass* m_FriendPawnBPDefault;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	class UClass* m_FriendPawnBP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	bool m_bDispDebugInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFriendComponent")
-	bool m_bDispDebugLine;
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	bool SetFriendByIDName(const FName& inNpcName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetFriendAreaID(TEnumAsByte<ETresFriendAreaID> inAreaID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetFriendAll(const FName& inNpcName0, const FName& inNpcName1, const FName& inNpcName2, const FName& inNpcName3, const FName& inGuestName4, const FName& inGuestName5, bool bSetFriendClass) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	bool SetFriend(int inIdx, const FName& inNpcName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetDisableFriendWarpHome(bool DisableON) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetCinematicStateAllFNPC() {};
-
-	/* Sets the body paint to all Friends (IE: Mike & Sully) */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyPaintFriendAll(float InScalar) {};
-
-	/* Sets the body paint to a specific friend (IE: Mike & Sully) */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyPaintFriend(TEnumAsByte<ETresChrUniqueID> uid, float InScalar) {};
-
-	/* Allows you to prevent pushing all friends */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyImmovableFriendAll(bool InOnOff) {};
-
-	/* Allows you to prevent pushing a specific friend */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyImmovableFriend(TEnumAsByte<ETresChrUniqueID> uid, bool InOnOff) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetAllFriendLinkPointDisable(bool Disable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void PlayVoiceFriendLink(TEnumAsByte<ETresCommandKind> Command, TEnumAsByte<ETresChrUniqueID> uid) {};
-
-	/* Checks if Goofy exists */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExistGoofy() { return false; };
-
-	/* Checks if Donald exists */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExistDonald() { return false; };
-
-	/* Checks if both Donald & Goofy exists */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExistDonaGoo() { return false; };
-
-	/* Checks if a specific character exists */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExistChar(TEnumAsByte<ETresChrUniqueID> uid) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExeLink() { return false; };
-
-	/* Checks if friend warp home is disabled */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsDisableFriendWarpHome() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsCameraTargetActorEnable() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsCameraShortAnime() { return false; };
-
-	/* Gets the home position for the friend */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	FVector GetHomePos(class ATresNpcPawnBase* pNpcPawn) { return FVector::FVector(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	class AActor* GetCameraTargetActor() { return nullptr; };
-
-	/* Allows you to delete a friend based on the unique ID */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	bool DeleteFriendByUniqueID(TEnumAsByte<ETresChrUniqueID> uid) { return false; };
-
-	/* Allows you to delete all friends */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void DeleteFriendAll() {};
-
-	/* Allows you to delete a specific friend */
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	bool DeleteFriend(int inIdx) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void DeleteAllCmd(bool FriendLink, bool AttractionFlow) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void ClearStateAllFNPC(bool InCinematicClear) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void CheckDisableFriendLinkCmd() {};
-
-	/* Gets the friend pawn by a unique ID */
-	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(TEnumAsByte<ETresChrUniqueID> uid) { return nullptr; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void AnimStopFriend(bool InEnableGuest) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void AnimPlayFriend(const FName& InAnimName, bool InLoop, bool InEnableGuest) {};
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AController* m_pController;
+    
+    UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = true))
+    TWeakObjectPtr<ATresNpcPawnBase> m_pFriendPawn[6];
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TWeakObjectPtr<AActor> m_pCameraTargetActor;
+    
+public:
+    UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = true))
+    TSubclassOf<ATresNpcPawnBase> m_FriendPawnBPDefault[6];
+    
+    UPROPERTY(EditAnywhere, Transient)
+    TSubclassOf<ATresNpcPawnBase> m_FriendPawnBP[6];
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDispDebugInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDispDebugLine: 1;
+    
+    UTresFriendComponent();
+    UFUNCTION(BlueprintCallable)
+    bool SetFriendByIDName(FName inNpcName);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetFriendAreaID(ETresFriendAreaID inAreaID);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetFriendAll(FName inNpcName0, FName inNpcName1, FName inNpcName2, FName inNpcName3, FName inGuestName4, FName inGuestName5, bool bSetFriendClass);
+    
+    UFUNCTION(BlueprintCallable)
+    bool SetFriend(int32 inIdx, FName inNpcName);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetDisableFriendWarpHome(bool DisableON);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetCinematicStateAllFNPC();
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyPaintFriendAll(float InScalar);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyPaintFriend(ETresChrUniqueID uid, float InScalar);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyImmovableFriendAll(bool InOnOff);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyImmovableFriend(ETresChrUniqueID uid, bool InOnOff);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAllFriendLinkPointDisable(bool Disable);
+    
+    UFUNCTION(BlueprintCallable)
+    void PlayVoiceFriendLink(TEnumAsByte<ETresCommandKind> Command, ETresChrUniqueID uid);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExistGoofy() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExistDonald() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExistDonaGoo() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExistChar(ETresChrUniqueID uid) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExeLink() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsDisableFriendWarpHome();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsCameraTargetActorEnable();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsCameraShortAnime();
+    
+    UFUNCTION(BlueprintCallable)
+    FVector GetHomePos(ATresNpcPawnBase* pNpcPawn);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    AActor* GetCameraTargetActor();
+    
+    UFUNCTION(BlueprintCallable)
+    bool DeleteFriendByUniqueID(ETresChrUniqueID uid);
+    
+    UFUNCTION(BlueprintCallable)
+    void DeleteFriendAll();
+    
+    UFUNCTION(BlueprintCallable)
+    bool DeleteFriend(int32 inIdx);
+    
+    UFUNCTION(BlueprintCallable)
+    void DeleteAllCmd(bool FriendLink, bool AttractionFlow);
+    
+    UFUNCTION(BlueprintCallable)
+    void ClearStateAllFNPC(bool InCinematicClear);
+    
+    UFUNCTION(BlueprintCallable)
+    void CheckDisableFriendLinkCmd();
+    
+    UFUNCTION(BlueprintCallable)
+    ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid);
+    
+    UFUNCTION(BlueprintCallable)
+    void AnimStopFriend(bool InEnableGuest);
+    
+    UFUNCTION(BlueprintCallable)
+    void AnimPlayFriend(FName InAnimName, bool InLoop, bool InEnableGuest);
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

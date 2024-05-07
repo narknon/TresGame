@@ -1,208 +1,243 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresGumiShipCharaPawnBase.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresGumiShipEnemyStateID.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresGumiShipEnemyLookAtType.h"
+#include "ETresGumiShipEnemyStateResult.h"
+#include "ETresGumiShipEnemyID.h"
+#include "UObject/NoExportTypes.h"
 #include "TresGumiShipEnemyPawnBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGumiShipEnemyPawnBase : public ATresGumiShipCharaPawnBase
-{
-	GENERATED_BODY()
+class USQEX_ParticleAttachDataAsset;
+class ATresGumiShipEnemyPawnBase;
+class ATresGumiShipPlayerPawnBase;
+class UTresGumiShipBattleDataTableSet;
+class ATresGumiShipEnemyPartsBase;
+class UTresGumiShipEnemyStateController;
+class AActor;
+class ATresGumiShipEnemyGenerator;
+class ATresGumiShipEnemyBattleStarter;
+class UTresGumiShipEnemyGroupManager;
+
+UCLASS(Abstract, Blueprintable)
+class ATresGumiShipEnemyPawnBase : public ATresGumiShipCharaPawnBase {
+    GENERATED_BODY()
 public:
-	/*struct FScriptMulticastDelegate OnEnemyDead;
-	struct FScriptMulticastDelegate OnEnemyAppearComplete;
-	struct FScriptMulticastDelegate OnEnemyDisappearComplete;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	FName m_EnemyNameID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	float m_fEnemyBoundsRadius;
-
-	//class UTresGumiShipBattleDataTableSet* m_pBattleDataTableSet;
-	//class USQEX_ParticleAttachDataAsset* m_pEffectAttachDataAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	int m_nDeadEffectAttachGroupID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	int m_nUniqueDeadEffectAttachGroupID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	bool m_bEncountSymbolWithAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	FName m_EncountSymbolStateMotionName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	FVector2D m_GuideSymbolOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
-	class UClass* m_UseStateControllerClass;
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void TurnToTarget(class AActor* TargetActor, float LimitTurnDegrees, bool ApplyImmediately) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void TurnToLocation(const FVector& TargetLocation, float LimitTurnDegrees, bool ApplyImmediately) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void TurnToDesiredRotation(const FQuat& DesiredRotation, float LimitTurnDegrees, bool ApplyImmediately) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void StartAttackPermissionCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetPitchLimitAngle(float PitchLimit) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetMaxRotateSpeed(float MaxRotateSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetLockOnPermissionAll(bool LockOnEnable, bool PropagateToAttachedParts) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetEnemyLookAtType(ETresGumiShipEnemyLookAtType LookAtType) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetEnemyLookAtOffset(const FVector& CameraBaseLookAtOffset) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetAttachEffectsVisibility(bool Visibility, bool PropagateToAttachedParts) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetAllMeshVisibility(bool Visibility, bool PropagateToAttachedParts) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void SetAllMeshFadeRate(float FadeRate, bool PropagateToAttachedParts) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsLockOnPermissionOK() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsExistEnemyParts(const FName& PartsName) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsDeadOrDisappear() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsCrowdEnemy() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsBossEnemy() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	bool IsAttackPermissionOK() { return false; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//bool IsAttachedEnemyParts(class ATresGumiShipEnemyPartsBase* pEnemyParts) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void HideEnemyPawn(bool HiddenEnable, bool PropagateToAttachedParts) {};
-
-	//ETresGumiShipEnemyStateResult GetStateResult();
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FName GetStateName(ETresGumiShipEnemyStateID StateID) { return FName::FName(); };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class UTresGumiShipEnemyStateController* GetStateController() { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class ATresGumiShipEnemyGenerator* GetSpawnOwnerGenerator() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	int GetScorePoint() { return 0; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	float GetPitchLimitAngle() { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	float GetMaxRotateSpeed() { return 0.0f; };
-
-	//ETresGumiShipEnemyStateID GetLastStateID();
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class ATresGumiShipPlayerPawnBase* GetGumiShipPlayerPawn() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	int GetEnemyUnitID() { return 0; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FVector2D GetEnemySymbolOffset() { return FVector2D::FVector2D(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FName GetEnemyNameID() { return FName::FName(); };
-
-	//ETresGumiShipEnemyLookAtType GetEnemyLookAtType();
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FVector GetEnemyLookAtOffset() { return FVector::FVector(); };
-
-	//ETresGumiShipEnemyID GetEnemyID();
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FGuid GetEnemyGUID() { return FGuid::FGuid(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	float GetEnemyBoundsRadius() { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FRotator GetDirectActorRotator() { return FRotator::FRotator(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FVector GetDirectActorLocation() { return FVector::FVector(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	FName GetCurrentStateName() { return FName::FName(); };
-
-	//ETresGumiShipEnemyStateID GetCurrentStateID();
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class ATresGumiShipEnemyBattleStarter* GetCurrentEnemyBattleStarter() { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class UTresGumiShipBattleDataTableSet* GetBattleDataTableSet() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	int GetAttackPriority() { return 0; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class ATresGumiShipEnemyPartsBase* GetAttachedEnemyParts(const FName& PartsName) { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class UTresGumiShipEnemyGroupManager* GetAssignedEnemyGroupManager() { return nullptr; };
-
-	//void EnemyDisappearSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pDisappearEnemy);
-	//void EnemyDeadSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pDeadEnemy);
-	//void EnemyAppearSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pAppearEnemy);
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void _StartAttackCoolDownTimer(const FName& AttackName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void _SetUsableAttackEnable(const FName& AttackName, bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	bool _ReturnAttackPermission() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	bool _RequestAttackPermission() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void _DeleteAttackMethodEntry(const FName& AttackName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	bool _CreanupAttackPermission() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	void _ChangeState(ETresGumiShipEnemyStateID StateID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
-	bool _CancelAttackPermissionRequest() { return false; };
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyDisappearSignature, ATresGumiShipEnemyPawnBase*, pDisappearEnemy);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyDeadSignature, ATresGumiShipEnemyPawnBase*, pDeadEnemy);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyAppearSignature, ATresGumiShipEnemyPawnBase*, pAppearEnemy);
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FEnemyDeadSignature OnEnemyDead;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FEnemyAppearSignature OnEnemyAppearComplete;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FEnemyDisappearSignature OnEnemyDisappearComplete;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_EnemyNameID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fEnemyBoundsRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresGumiShipBattleDataTableSet* m_pBattleDataTableSet;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_pEffectAttachDataAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_nDeadEffectAttachGroupID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_nUniqueDeadEffectAttachGroupID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bEncountSymbolWithAnimation;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_EncountSymbolStateMotionName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector2D m_GuideSymbolOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresGumiShipEnemyStateController> m_UseStateControllerClass;
+    
+public:
+    ATresGumiShipEnemyPawnBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void TurnToTarget(const AActor* TargetActor, float LimitTurnDegrees, bool ApplyImmediately);
+    
+    UFUNCTION(BlueprintCallable)
+    void TurnToLocation(const FVector& TargetLocation, float LimitTurnDegrees, bool ApplyImmediately);
+    
+    UFUNCTION(BlueprintCallable)
+    void TurnToDesiredRotation(const FQuat& DesiredRotation, float LimitTurnDegrees, bool ApplyImmediately);
+    
+    UFUNCTION(BlueprintCallable)
+    void StartAttackPermissionCheck();
+    
+    UFUNCTION(BlueprintCallable)
+    void SetPitchLimitAngle(float PitchLimit);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetMaxRotateSpeed(float MaxRotateSpeed);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetLockOnPermissionAll(bool LockOnEnable, bool PropagateToAttachedParts);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetEnemyLookAtType(ETresGumiShipEnemyLookAtType LookAtType);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetEnemyLookAtOffset(FVector CameraBaseLookAtOffset);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAttachEffectsVisibility(bool Visibility, bool PropagateToAttachedParts);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAllMeshVisibility(bool Visibility, bool PropagateToAttachedParts);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAllMeshFadeRate(float FadeRate, bool PropagateToAttachedParts);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsLockOnPermissionOK() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsExistEnemyParts(FName PartsName) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsDeadOrDisappear() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsCrowdEnemy() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsBossEnemy() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsAttackPermissionOK() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsAttachedEnemyParts(ATresGumiShipEnemyPartsBase* pEnemyParts) const;
+    
+    UFUNCTION(BlueprintCallable)
+    void HideEnemyPawn(bool HiddenEnable, bool PropagateToAttachedParts);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipEnemyStateResult GetStateResult() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName GetStateName(ETresGumiShipEnemyStateID StateID) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresGumiShipEnemyStateController* GetStateController() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresGumiShipEnemyGenerator* GetSpawnOwnerGenerator() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetScorePoint() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetPitchLimitAngle() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetMaxRotateSpeed() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipEnemyStateID GetLastStateID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresGumiShipPlayerPawnBase* GetGumiShipPlayerPawn() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetEnemyUnitID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector2D GetEnemySymbolOffset() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName GetEnemyNameID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipEnemyLookAtType GetEnemyLookAtType() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector GetEnemyLookAtOffset() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipEnemyID GetEnemyID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FGuid GetEnemyGUID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetEnemyBoundsRadius() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FRotator GetDirectActorRotator() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector GetDirectActorLocation() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName GetCurrentStateName() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipEnemyStateID GetCurrentStateID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresGumiShipEnemyBattleStarter* GetCurrentEnemyBattleStarter() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresGumiShipBattleDataTableSet* GetBattleDataTableSet() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetAttackPriority() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresGumiShipEnemyPartsBase* GetAttachedEnemyParts(FName PartsName) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresGumiShipEnemyGroupManager* GetAssignedEnemyGroupManager() const;
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    void _StartAttackCoolDownTimer(FName AttackName);
+    
+    UFUNCTION(BlueprintCallable)
+    void _SetUsableAttackEnable(FName AttackName, bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    bool _ReturnAttackPermission();
+    
+    UFUNCTION(BlueprintCallable)
+    bool _RequestAttackPermission();
+    
+    UFUNCTION(BlueprintCallable)
+    void _DeleteAttackMethodEntry(FName AttackName);
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    bool _CreanupAttackPermission();
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    void _ChangeState(ETresGumiShipEnemyStateID StateID);
+    
+    UFUNCTION(BlueprintCallable)
+    bool _CancelAttackPermissionRequest();
+    
 };
+

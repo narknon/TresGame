@@ -1,77 +1,86 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGumiShipGimmickActorBase.h"
+#include "ETresWorldCode.h"
+#include "ETresGumiShipWorldSymbolID.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/EngineTypes.h"
 #include "TresGumiShipWorldSymbolActor.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGumiShipWorldSymbolActor : public ATresGumiShipGimmickActorBase
-{
-	GENERATED_BODY()
+class UStaticMeshComponent;
+class USphereComponent;
+class UPrimitiveComponent;
+class UCameraComponent;
+class AActor;
+
+UCLASS(Blueprintable)
+class ATresGumiShipWorldSymbolActor : public ATresGumiShipGimmickActorBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	TEnumAsByte<ETresGumiShipWorldSymbolID> WorldMapID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	TEnumAsByte<ETresWorldCode> WorldCode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	FVector CameraOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	class USphereComponent* ApproachCollision;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	float IconRadius;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	float MistRadius;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	class UCameraComponent* Camera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	bool IsLocked;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	bool IsLockedByBoss;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	class UStaticMeshComponent* WorldIcon;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	class UStaticMeshComponent* WorldMist;
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
-	void OnLeaveGoalVolume(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex);
-	void OnLeaveGoalVolume_Implementation(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex) {};
-	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
-	void OnHitGoalVolume(class UPrimitiveComponent* pHitComponent, class AActor* pOtherActor, class UPrimitiveComponent* pOtherComp, const FVector& vNormalImpulse, const FHitResult& rHit);
-	void OnHitGoalVolume_Implementation(class UPrimitiveComponent* pHitComponent, class AActor* pOtherActor, class UPrimitiveComponent* pOtherComp, const FVector& vNormalImpulse, const FHitResult& rHit) {};
-	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
-	void OnEnterGoalVolume(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	void OnEnterGoalVolume_Implementation(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
-	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
-	void OnCancel();
-	void OnCancel_Implementation() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipWorldSymbolActor")
-	void LockWorldByBoss(bool LockEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipWorldSymbolActor")
-	void LockWorld(bool Locked) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipWorldSymbolActor")
-	ETresGumiShipWorldSymbolID GetWorldMapID() { return ETresGumiShipWorldSymbolID::E_GM01_WS_HE; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipWorldSymbolActor")
-	bool CheckLanding() { return false; };
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresGumiShipWorldSymbolID WorldMapID;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresWorldCode> WorldCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector CameraOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    USphereComponent* ApproachCollision;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float IconRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MistRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UCameraComponent* Camera;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsLocked;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsLockedByBoss;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UStaticMeshComponent* WorldIcon;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UStaticMeshComponent* WorldMist;
+    
+    ATresGumiShipWorldSymbolActor(const FObjectInitializer& ObjectInitializer);
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnLeaveGoalVolume(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnHitGoalVolume(UPrimitiveComponent* pHitComponent, AActor* pOtherActor, UPrimitiveComponent* pOtherComp, FVector vNormalImpulse, const FHitResult& rHit);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnEnterGoalVolume(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnCancel();
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    void LockWorldByBoss(bool LockEnable);
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    void LockWorld(bool Locked);
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    ETresGumiShipWorldSymbolID GetWorldMapID();
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    bool CheckLanding();
+    
 };
+

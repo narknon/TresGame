@@ -1,44 +1,55 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
+#include "TresGimmickHitComponentOnTresHitGimmickSignatureDelegate.h"
 #include "Components/ActorComponent.h"
-#include "TresGame.h"
+#include "ETresChrUniqueID.h"
+#include "ETresEnemyUniqueID.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/EngineTypes.h"
 #include "TresGimmickHitComponent.generated.h"
 
+class AActor;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TRESGAME_API UTresGimmickHitComponent : public UActorComponent
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresGimmickHitComponent : public UActorComponent {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	bool m_bUseHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	bool m_bEnableHitInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	float m_HitInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	TArray<TEnumAsByte<ETresChrUniqueID>> m_ApplyHitChrUniqueIDs;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	TArray< TEnumAsByte<ETresEnemyUniqueID>> m_ApplyHitEnemyUniqueIDs;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
-	TArray<class UClass*> m_ApplyHitClass;
-
-	//struct FScriptMulticastDelegate OnTresHitGimmick;
-
-	//void OnActorHit(class AActor* SelfActor, class AActor* OtherActor, const struct FVector& NormalImpulse, const struct FHitResult& Hit) {};
-	//void BPEV_OnTresHitGimmick(const struct FHitResult& HitInfo, class AActor* DamageCauser) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickHitComponent")
-	void BP_SetEnableHit(bool Enable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickHitComponent")
-	void BP_ApplyHit(class AActor* DamageCauser) {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bUseHit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bEnableHitInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HitInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ETresChrUniqueID> m_ApplyHitChrUniqueIDs;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ETresEnemyUniqueID> m_ApplyHitEnemyUniqueIDs;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<TSubclassOf<AActor>> m_ApplyHitClass;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresGimmickHitComponentOnTresHitGimmickSignature OnTresHitGimmick;
+    
+    UTresGimmickHitComponent();
+protected:
+    UFUNCTION(BlueprintCallable)
+    void OnActorHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+    
+public:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void BPEV_OnTresHitGimmick(const FHitResult& HitInfo, AActor* DamageCauser);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetEnableHit(bool Enable);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ApplyHit(AActor* DamageCauser);
+    
 };
+

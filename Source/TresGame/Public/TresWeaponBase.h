@@ -1,154 +1,169 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ESQEX_OverwriteDiscrenment.h"
+#include "ESQEX_ShadowQuality.h"
 #include "TresPawnBase.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_OverwriteDiscrenment -FallbackName=ESQEX_OverwriteDiscrenment
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ShadowQuality -FallbackName=ESQEX_ShadowQuality
 #include "TresWeaponBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresWeaponBase : public ATresPawnBase
-{
-	GENERATED_BODY()
+class USQEXSEADSoundReferenceEnumSet;
+class UTresEffectAttachComponent;
+class UTresWeaponMovementComponent;
+class UTresSkeletalMeshComponent;
+class UTresAtkCollComponent;
+class UTresChrDataTableSet;
+class UParticleSystem;
+class USQEX_ParticleAttachDataAsset;
+class USceneComponent;
+class UParticleSystemComponent;
+class USQEX_KBD_Component;
+
+UCLASS(Abstract, Blueprintable)
+class TRESGAME_API ATresWeaponBase : public ATresPawnBase {
+    GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//class UTresWeaponMovementComponent* MyMovement;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UTresSkeletalMeshComponent* MyMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UTresAtkCollComponent* MyAtkColl;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//class UTresEffectAttachComponent* MyEffectAtt;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class ATresPawnBase* MyPawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	FName MuzzleAttachPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UParticleSystem* m_AppearEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	FName m_AppearEffectAttach;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_AppearVisibleDelayTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsEnableAppearScaleAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsDelayAppearScaleAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_AppearScaleAnimTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_AppearScaleAnimStartScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsEnableAppearDitherAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsDelayAppearDitherAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_AppearDitherAnimTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_AppearDitherAnimStartValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UParticleSystem* m_DisappearEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	FName m_DisappearEffectAttach;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearVisibleDelayTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsEnableDisappearScaleAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearScaleAnimTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearScaleAnimEndScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsEnableDisappearDitherAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearDitherAnimTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearDitherAnimEndValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DisappearWithScaleTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	float m_DestroyScaleAnimEndScale;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEX_ParticleAttachDataAsset* m_CmnMagicCastEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEX_ParticleAttachDataAsset* m_CmnBadStatesEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEX_ParticleAttachDataAsset* m_CmnChargeEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEX_ParticleAttachDataAsset* m_CmnStyleChangeChargeEffect;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UParticleSystem* m_pDrainEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UParticleSystem* m_pShootFlowEffect;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Hit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Swing;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bEnableMapCollisionOnFreeMove;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_DisableOverwriteMeshOrgOverwriteDiscrenment;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	bool m_bIsNotifyOnlyVisible;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USceneComponent* m_EquipAttachParent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UTresChrDataTableSet* m_pOwnerDataTableSet;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//TEnumAsByte<ESQEX_OverwriteDiscrenment> m_MeshOrgOverwriteDiscrenment;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//TEnumAsByte<ESQEX_ShadowQuality> m_MeshOrgShadowQuality;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UParticleSystemComponent* m_pDisappearEffect;
-
-	UFUNCTION(BlueprintPure, Category = "TresDetectMarkerComponentBase")
-	class ATresPawnBase* GetPawnOwner() { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresDetectMarkerComponentBase")
-	//class USQEX_KBD_Component* GetKBDComponent();
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresWeaponMovementComponent* MyMovement;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresSkeletalMeshComponent* MyMesh;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresAtkCollComponent* MyAtkColl;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresEffectAttachComponent* MyEffectAtt;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresPawnBase* MyPawn;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName MuzzleAttachPoint;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_AppearEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_AppearEffectAttach;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AppearVisibleDelayTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsEnableAppearScaleAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsDelayAppearScaleAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AppearScaleAnimTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AppearScaleAnimStartScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsEnableAppearDitherAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsDelayAppearDitherAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AppearDitherAnimTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AppearDitherAnimStartValue;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_DisappearEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DisappearEffectAttach;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearVisibleDelayTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsEnableDisappearScaleAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearScaleAnimTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearScaleAnimEndScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsEnableDisappearDitherAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearDitherAnimTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearDitherAnimEndValue;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DisappearWithScaleTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_DestroyScaleAnimEndScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_CmnMagicCastEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_CmnBadStatesEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_CmnChargeEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_CmnStyleChangeChargeEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pDrainEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pShootFlowEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Hit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Swing;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableMapCollisionOnFreeMove: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_DisableOverwriteMeshOrgOverwriteDiscrenment: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bIsNotifyOnlyVisible: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    USceneComponent* m_EquipAttachParent;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresChrDataTableSet* m_pOwnerDataTableSet;
+    
+    UPROPERTY(DuplicateTransient, EditAnywhere, Transient)
+    TEnumAsByte<ESQEX_OverwriteDiscrenment> m_MeshOrgOverwriteDiscrenment;
+    
+    UPROPERTY(DuplicateTransient, EditAnywhere, Transient)
+    TEnumAsByte<ESQEX_ShadowQuality> m_MeshOrgShadowQuality;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystemComponent* m_pDisappearEffect;
+    
+public:
+    ATresWeaponBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresPawnBase* GetPawnOwner() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    USQEX_KBD_Component* GetKBDComponent() const;
+    
 };
+

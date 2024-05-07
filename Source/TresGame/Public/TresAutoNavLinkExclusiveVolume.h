@@ -1,20 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "TresAutoNavLinkExclusiveInterface.h"
 #include "GameFramework/Volume.h"
-#include "TresGame.h"
+#include "TresAutoNavLinkExclusiveVolumeInfo.h"
 #include "TresAutoNavLinkExclusiveVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresAutoNavLinkExclusiveVolume : public AVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresAutoNavLinkExclusiveVolume : public AVolume, public ITresAutoNavLinkExclusiveInterface {
+    GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAutoNavLinkExclusiveVolume")
-	//TArray<struct FTresAutoNavLinkExclusiveVolumeInfo> ExclusiveInfo;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresAutoNavLinkExclusiveVolumeInfo> ExclusiveInfo;
+    
+    ATresAutoNavLinkExclusiveVolume(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

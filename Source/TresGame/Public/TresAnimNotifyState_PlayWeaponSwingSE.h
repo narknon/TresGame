@@ -1,41 +1,40 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "TresGame.h"
+#include "ETresSoundAliasLabel_WeaponSwing.h"
+#include "ETresSoundAliasUnit.h"
 #include "TresAnimNotifyState_PlayWeaponSwingSE.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_PlayWeaponSwingSE : public UAnimNotifyState
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_PlayWeaponSwingSE : public UAnimNotifyState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponSwing> m_SoundAliasID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	TEnumAsByte<ETresSoundAliasUnit> m_SoundAliasUnit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	float m_StartWaitTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	float m_VolumeMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	float m_PitchMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	FName m_SocketName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	bool m_bFollow;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_PlayWeaponSwingSE")
-	float m_FadeOutDuration;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresSoundAliasLabel_WeaponSwing::Type> m_SoundAliasID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresSoundAliasUnit::Type> m_SoundAliasUnit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_StartWaitTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_VolumeMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PitchMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_SocketName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bFollow: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FadeOutDuration;
+    
+public:
+    UTresAnimNotifyState_PlayWeaponSwingSE();
 };
+

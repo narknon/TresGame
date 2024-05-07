@@ -1,20 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
+#include "ETresAnimNotifyBpEventID.h"
 #include "TresAnimNotifyState_BpEvent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_BpEvent : public UAnimNotifyState
-{
-	GENERATED_BODY()
-	
-	
-	
-	
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_BpEvent : public UAnimNotifyState {
+    GENERATED_BODY()
+public:
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresAnimNotifyBpEventID> m_EventID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_Param;
+    
+public:
+    UTresAnimNotifyState_BpEvent();
 };
+

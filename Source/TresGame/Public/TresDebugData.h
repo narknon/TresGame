@@ -1,22 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
 #include "TresDebugData.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresDebugData : public UObject
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugData")
-	TArray<class UPackage*> m_UPackage;
+class UPackage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDebugData")
-	TArray<class UObject*> m_UObject;
+UCLASS(Blueprintable)
+class UTresDebugData : public UObject {
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UPackage*> m_UPackage;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UObject*> m_UObject;
+    
+    UTresDebugData();
 };
+

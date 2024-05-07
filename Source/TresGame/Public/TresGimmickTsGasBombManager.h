@@ -1,37 +1,36 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickActor.h"
+#include "UObject/NoExportTypes.h"
 #include "TresGimmickTsGasBombManager.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGimmickTsGasBombManager : public ATresGimmickActor
-{
-	GENERATED_BODY()
+class ATresCharPawnBase;
+
+UCLASS(Blueprintable, Config=Game)
+class ATresGimmickTsGasBombManager : public ATresGimmickActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickTsGasBombManager")
-	float m_VoiceEffectTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickTsGasBombManager")
-	float m_VoiceEffectFadeTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickTsGasBombManager")
-	float m_EffectRange;
-	
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickTsGasBombManager")
-	void StartVoiceEffect(const FVector& BaseLocation, float EffectRange) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickTsGasBombManager")
-	void NotifyChangeVoiceEffect(bool bEffected) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresGimmickTsGasBombManager")
-	bool IsPawnEffected(class ATresCharPawnBase* Pawn) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickTsGasBombManager")
-	void EndVoiceEffectImmediately() {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_VoiceEffectTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_VoiceEffectFadeTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_EffectRange;
+    
+    ATresGimmickTsGasBombManager(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void StartVoiceEffect(FVector BaseLocation, float EffectRange);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void NotifyChangeVoiceEffect(bool bEffected);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPawnEffected(ATresCharPawnBase* Pawn) const;
+    
+    UFUNCTION(BlueprintCallable)
+    void EndVoiceEffectImmediately();
+    
 };
+

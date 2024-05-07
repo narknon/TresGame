@@ -1,98 +1,102 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "TresGimmickComponentBase.h"
-#include "TresGame.h"
+#include "TresCollShapeAssetUnit.h"
+#include "UObject/NoExportTypes.h"
 #include "TresDetectMarkerComponentBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresDetectMarkerComponentBase : public UTresGimmickComponentBase
-{
-	GENERATED_BODY()
+class UActorComponent;
+class AActor;
+
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresDetectMarkerComponentBase : public UTresGimmickComponentBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bDetectValid;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bValidWhenOwnerVisible;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bLimitRotRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_RotRangeProp;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_RotRangePropHintRate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bLimitRollRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_RollRangeProp;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_RollRangePropHintRate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_ValidDistanceMin;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_ValidDistanceMax;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_ValidDistanceMaxHintRate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_ValidScreenRatioMin;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_ValidScreenRatioMinHintRate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	TArray<struct FTresCollShapeAssetUnit> m_CollisionShapesSrc;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	TArray<class AActor*> m_RaycastIgnoreList;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	FName m_RaycastIgnoreTag;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bRaycastIgnoreNpc;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	float m_HintFrameRatio;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	FColor m_MarkerSphereColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	bool m_bDrawLimitRotRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	FColor m_LimitRotRangeColor;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	FColor m_CollisionColor;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	TArray<FVector> m_CheckPointList;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDetectMarkerComponentBase")
-	TArray<class UActorComponent*> m_ValidAreaBox;
-	
-	UPROPERTY()
-	TArray<TWeakObjectPtr<class AActor>> m_RaycastIgnoreTagList;
-
-	UFUNCTION(BlueprintCallable, Category = "TresDetectMarkerComponentBase")
-	void SetDetectValid(bool bValid) {};
-	
-	UFUNCTION(Blueprintpure, Category = "TresDetectMarkerComponentBase")
-	bool IsDetectValid() { return false; };
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDetectValid: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bValidWhenOwnerVisible: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bLimitRotRange: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RotRangeProp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RotRangePropHintRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bLimitRollRange: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RollRangeProp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RollRangePropHintRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ValidDistanceMin;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ValidDistanceMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ValidDistanceMaxHintRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ValidScreenRatioMin;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ValidScreenRatioMinHintRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresCollShapeAssetUnit> m_CollisionShapesSrc;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_RaycastIgnoreList;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_RaycastIgnoreTag;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bRaycastIgnoreNpc: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HintFrameRatio;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FColor m_MarkerSphereColor;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDrawLimitRotRange: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FColor m_LimitRotRangeColor;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FColor m_CollisionColor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FVector> m_CheckPointList;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    TArray<UActorComponent*> m_ValidAreaBox;
+    
+    UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = true))
+    TArray<TWeakObjectPtr<AActor>> m_RaycastIgnoreTagList;
+    
+public:
+    UTresDetectMarkerComponentBase();
+    UFUNCTION(BlueprintCallable)
+    void SetDetectValid(bool bValid);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsDetectValid() const;
+    
 };
+

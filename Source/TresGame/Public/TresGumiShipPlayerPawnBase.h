@@ -1,94 +1,128 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGumiShipCharaPawnBase.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresGumiShipPlayerMovementType.h"
+#include "ETresGumiShipPlayerAccelerationType.h"
 #include "TresGumiShipPlayerPawnBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGumiShipPlayerPawnBase : public ATresGumiShipCharaPawnBase
-{
-	GENERATED_BODY()
+class UTresGumiShipPlayerAccelerationBase;
+class UTresGumiShipPlayerMovementCompoBase;
+class UTresGumiShipFSM;
+class UTresGumiShipSoundSetComponent;
+class UTresGumiShipPlayerSpringArmCompo;
+class UTresGumiShipEffectSetComponent;
+class UTresPlayerStateEventComponent;
+class AActor;
+
+UCLASS(Abstract, Blueprintable)
+class ATresGumiShipPlayerPawnBase : public ATresGumiShipCharaPawnBase {
+    GENERATED_BODY()
 public:
-	/*struct FScriptMulticastDelegate m_OnChangeAccelCompoDispather;
-	struct FScriptMulticastDelegate m_OnChangeSpeedDispather;*/
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipFSM* m_pFSM;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipSoundSetComponent* m_pSoundSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerMovementCompoBase* m_pMovementCompo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerAccelerationBase* m_pAcceleration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerSpringArmCompo* m_pCameraSpringArm;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipEffectSetComponent* m_pEffectSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresPlayerStateEventComponent* m_pStateEvent;*/
-
-	//void TresGumiShipChangeSpeed__DelegateSignature(float fOldSeed, float fNewSpeed, float fRatio);
-	//void TresGumiShipChangeAccelCompo__DelegateSignature(class UTresGumiShipPlayerAccelerationBase* pCompo);
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void SetOutsideMaxSpeed(float fSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void SetMovementEnable(bool bIn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void SetEventMode(bool bIn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void SetAccelerationEnable(bool bIn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void ResetOutsideMaxSpeed() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void RequestWarp(const FVector& vLocation, const FRotator& Rotation) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void RequestStop(bool bIn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void RequestMaxSpeed() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	void RequestForceStop(bool bIn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
-	bool RemoteGumiShipPlayerStateEvent(const FName& EventName, class AActor* inActor) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipPlayerPawnBase")
-	bool IsEventMode() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipPlayerPawnBase")
-	bool IsAvoiding() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipPlayerPawnBase")
-	ETresGumiShipPlayerMovementType GetPrevMovementType() { return ETresGumiShipPlayerMovementType::MT_DEFAULT_TYPE; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGumiShipPlayerPawnBase")
-	ETresGumiShipPlayerMovementType GetMovementType() { return ETresGumiShipPlayerMovementType::MT_DEFAULT_TYPE; };
-
-	/*void _UndoMovementCompo(bool bForce) {};
-	void _SetCameraLagEnable(bool bLocation, bool bRotation) {};
-	void _SetCameraControllEnable(bool bIn) {};
-	void _SetAvoiding(bool bIn) {};
-	void _RequestCameraReset(bool bImmediate) {};
-	void _OnChnageSpeed(float fOldSeed, float fNewSpeed, float fRatio) {};
-	void _ChangeMovementCompo(ETresGumiShipPlayerMovementType eType, bool bForce) {};
-	void _ChangeAccelerationCompo(ETresGumiShipPlayerAccelerationType eType, bool bForce) {};*/
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresGumiShipChangeSpeed, const float, fOldSeed, const float, fNewSpeed, const float, fRatio);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresGumiShipChangeAccelCompo, UTresGumiShipPlayerAccelerationBase*, pCompo);
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresGumiShipChangeAccelCompo m_OnChangeAccelCompoDispather;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresGumiShipChangeSpeed m_OnChangeSpeedDispather;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipFSM* m_pFSM;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipSoundSetComponent* m_pSoundSet;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipPlayerMovementCompoBase* m_pMovementCompo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipPlayerAccelerationBase* m_pAcceleration;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipPlayerSpringArmCompo* m_pCameraSpringArm;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipEffectSetComponent* m_pEffectSet;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresPlayerStateEventComponent* m_pStateEvent;
+    
+public:
+    ATresGumiShipPlayerPawnBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetOutsideMaxSpeed(float fSpeed);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetMovementEnable(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetEventMode(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAccelerationEnable(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void ResetOutsideMaxSpeed();
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestWarp(const FVector vLocation, const FRotator Rotation);
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestStop(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestMaxSpeed();
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestForceStop(bool bIn);
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    bool RemoteGumiShipPlayerStateEvent(FName EventName, AActor* inActor);
+    
+public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsEventMode() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsAvoiding() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipPlayerMovementType GetPrevMovementType() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ETresGumiShipPlayerMovementType GetMovementType() const;
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    void _UndoMovementCompo(const bool bForce);
+    
+    UFUNCTION(BlueprintCallable)
+    void _SetCameraLagEnable(bool bLocation, bool bRotation);
+    
+    UFUNCTION(BlueprintCallable)
+    void _SetCameraControllEnable(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void _SetAvoiding(bool bIn);
+    
+    UFUNCTION(BlueprintCallable)
+    void _RequestCameraReset(const bool bImmediate);
+    
+    UFUNCTION(BlueprintCallable)
+    void _OnChnageSpeed(const float fOldSeed, const float fNewSpeed, const float fRatio);
+    
+    UFUNCTION(BlueprintCallable)
+    void _ChangeMovementCompo(const ETresGumiShipPlayerMovementType eType, const bool bForce);
+    
+    UFUNCTION(BlueprintCallable)
+    void _ChangeAccelerationCompo(const ETresGumiShipPlayerAccelerationType eType, const bool bForce);
+    
 };
+

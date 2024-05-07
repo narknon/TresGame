@@ -1,19 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
 #include "TresLevelEntityGroup.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresLevelEntityGroup : public UObject
-{
-	GENERATED_BODY()
+class UTresLevelEntityManager;
+
+UCLASS(Blueprintable, Transient)
+class TRESGAME_API UTresLevelEntityGroup : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntityGroup")
-	class UTresLevelEntityManager* m_Manager;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresLevelEntityManager* m_Manager;
+    
+public:
+    UTresLevelEntityGroup();
 };
+

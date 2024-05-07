@@ -1,25 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
 #include "TresCheckLoadLevelVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresCheckLoadLevelVolume : public ATresVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresCheckLoadLevelVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCheckLoadLevelVolume")
-	TArray<FString> CheckLevelNameArray;
-
-	UFUNCTION(BlueprintCallable, Category = "TresCheckLoadLevelVolume")
-	void SelectLevelFromList() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCheckLoadLevelVolume")
-	void AutoSetFromSelect() {};
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FString> CheckLevelNameArray;
+    
+public:
+    ATresCheckLoadLevelVolume(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SelectLevelFromList();
+    
+    UFUNCTION(BlueprintCallable)
+    void AutoSetFromSelect();
+    
 };
+

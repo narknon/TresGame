@@ -1,313 +1,330 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresAIPawnBase.h"
+#include "ETresCommandKind.h"
+#include "ETresChrUniqueID.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresNpcActionOnType.h"
 #include "TresNpcPawnBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresNpcPawnBase : public ATresAIPawnBase
-{
-	GENERATED_BODY()
+class UTresReactorComponent;
+class UEnvQuery;
+class UTresLocomotionDefinitionBase;
+class UCapsuleComponent;
+class UTresFriendComponent;
+class AActor;
+class USQEXSEADSoundReferenceEnumSet;
+class UAudioComponent;
+class UBehaviorTree;
+
+UCLASS(Abstract, Blueprintable)
+class ATresNpcPawnBase : public ATresAIPawnBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UTresReactorComponent* MyReactor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float MyJumpPowerNormal;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_JumpRotRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_JumpSpeedRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_JumpDownBlendInTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_SuperSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_GripHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_FriendLinkPointMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_FriendLinkPointInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	TArray<TEnumAsByte<ETresCommandKind>> m_HaveFriendLinkCommand;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	bool m_bDispDebugInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	bool m_bDispDebugAnimSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	bool m_bDispDebugAnimInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	bool m_bDispDebugLineAndSphere;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	bool m_bDispDebugSmartphoneCamera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UClass* m_SlopeSlide;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UClass* m_Swimming;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UEnvQuery* m_FollowPlayerEQSQuery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UClass* m_Walk;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UCapsuleComponent* MyPhysObjHitComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UTresFriendComponent* m_pFriendMan;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class AActor* m_pActionTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class AActor* m_pActionPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_fCloudIntervalTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_fSneezeIntervalTime;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	//class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	FName m_DefaultFaceEyeAnimName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	FName m_DefaultFaceLipAnimName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_FaceEyeBlinkMinTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	float m_FaceEyeBlinkMaxTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	class UAudioComponent* m_pVoiceCompo;
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool SetTargetFNPC(TEnumAsByte<ETresChrUniqueID> UniqueId, bool InTargetActor, bool InDestination) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetTalkEventName(const FName& EventName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetRailSlideAfterWarp(class AActor* inActor) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetNpcActorExistence2(bool Visible, bool StopAI, bool Leave, bool VisibleWeapon, bool Invincible, bool LockOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetNpcActorExistence(bool Visible, bool StopAI, bool Leave, bool VisibleWeapon) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetLeaveFNPC(bool Leave) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetEnableWarp(bool EnableWarp) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetDisableBattleModeAI(bool InDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetDefaultBT() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetBodyImmovable(bool InOnOff) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool SetBBLocation(const FName& InName, const FVector& InLocation) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool SetBBActor(const FName& InName, class AActor* inActor, bool InClear) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetBattleType(TEnumAsByte<ETresNpcActionOnType> Type) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetActionTargetInfo() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetActionTargetAndPoint(class AActor* InActionTarget, class AActor* InActionPoint) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void SetActionPoint(class AActor* InActionPoint) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsStateMoving() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsSituationBattle() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsSelfOnDamageFloor() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsSameTargetAsPlayer() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsPlayerRecoveryNow() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsPlayerIdlingNow() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsPlayerBeingAttackedByEnemy() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsPlayerAttackNow() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsOverlappedForce() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsLeadSub() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsLeadMoveTypeToRun() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsLeadLeaderWaiting() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsLeadGoal() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsHostileTarget() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsFriendPointMax() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsFriendLinkPointMax() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsFriend(TEnumAsByte<ETresChrUniqueID> UniqueId) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsEnableChatMode() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsBreakPoseNow() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsBattleType(TEnumAsByte<ETresNpcActionOnType> Type) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsBattleFollowMode() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsBadStatus() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool IsActionOff() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	FName GetTalkEventName() { return FName::FName(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	float GetFriendPoint() { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	float GetActionTime() { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	int GetActionOnType() { return 0; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void ClearActionTargetInfo() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void ChangeBT(class UBehaviorTree* InBehaviorTree) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanSetActionPoint(int InType) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanNpcMode() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanLeadWait() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanLeadAvoidanceMove() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanLead() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanFriendLinkBring() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanbeSwirlUpDamageReactionByEnemy() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool CanBattle() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_StartTalkEndReTurn() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_SetTalkEndReTurnInfo(float InTime, class AActor* inActor, const FVector& InLocation) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_SetFriendLinkPointDisable(bool Disable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool BP_SetFriendLinkCommand(TEnumAsByte<ETresCommandKind> inCommand, float InReceptionTime, bool InAuto) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_SetCinematicStateFNPC() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_NpcUseItem(class AActor* InTargetActor, TEnumAsByte<ETresCommandKind> InItemCmd) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool BP_MethdNpcMotionStop() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool BP_MethdNpcMotionPlay(int MotionLoopMax, const FName& StartName, const FName& LoopName, const FName& EndName, bool ReTurnEndAnim) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool BP_MethdAnnihilationCatch(bool InCanbeCheck) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawnBase")
-	bool BP_IsNpcMotionPlay() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_InitTalkEnd() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_GetUsableBattleItem() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	bool BP_EndAnnihilationCatch() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_DelTalkEndReTurnInfo() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawnBase")
-	void BP_ClearStateFNPC(bool CinematicClear) {};
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresReactorComponent* MyReactor;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerNormal;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_JumpRotRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_JumpSpeedRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_JumpDownBlendInTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SuperSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_GripHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FriendLinkPointMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FriendLinkPointInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TArray<TEnumAsByte<ETresCommandKind>> m_HaveFriendLinkCommand;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDispDebugInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDispDebugAnimSet: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDispDebugAnimInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDispDebugLineAndSphere: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDispDebugSmartphoneCamera: 1;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresLocomotionDefinitionBase> m_SlopeSlide;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresLocomotionDefinitionBase> m_Swimming;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UEnvQuery* m_FollowPlayerEQSQuery;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresLocomotionDefinitionBase> m_Walk;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UCapsuleComponent* MyPhysObjHitComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresFriendComponent* m_pFriendMan;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* m_pActionTarget;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* m_pActionPoint;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fCloudIntervalTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fSneezeIntervalTime;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DefaultFaceEyeAnimName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DefaultFaceLipAnimName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FaceEyeBlinkMinTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FaceEyeBlinkMaxTimer;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UAudioComponent* m_pVoiceCompo;
+    
+public:
+    ATresNpcPawnBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    bool SetTargetFNPC(ETresChrUniqueID UniqueId, bool InTargetActor, bool InDestination);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetTalkEventName(FName EventName);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetRailSlideAfterWarp(const AActor* inActor);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetNpcActorExistence2(bool Visible, bool StopAI, bool Leave, bool VisibleWeapon, bool Invincible, bool LockOn);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetNpcActorExistence(bool Visible, bool StopAI, bool Leave, bool VisibleWeapon);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetLeaveFNPC(bool Leave);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetEnableWarp(bool EnableWarp);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetDisableBattleModeAI(bool InDisable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetDefaultBT();
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyImmovable(bool InOnOff);
+    
+    UFUNCTION(BlueprintCallable)
+    bool SetBBLocation(FName InName, FVector InLocation);
+    
+    UFUNCTION(BlueprintCallable)
+    bool SetBBActor(FName InName, AActor* inActor, bool InClear);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBattleType(TEnumAsByte<ETresNpcActionOnType> Type);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetActionTargetInfo();
+    
+    UFUNCTION(BlueprintCallable)
+    void SetActionTargetAndPoint(AActor* InActionTarget, AActor* InActionPoint);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetActionPoint(AActor* InActionPoint);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsStateMoving() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsSituationBattle() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsSelfOnDamageFloor() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsSameTargetAsPlayer() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsPlayerRecoveryNow() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPlayerIdlingNow() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPlayerBeingAttackedByEnemy() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPlayerAttackNow() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsOverlappedForce() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsLeadSub() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsLeadMoveTypeToRun() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsLeadLeaderWaiting() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsLeadGoal() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsHostileTarget() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsFriendPointMax() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsFriendLinkPointMax();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsFriend(ETresChrUniqueID UniqueId);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsEnableChatMode() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsBreakPoseNow() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsBattleType(TEnumAsByte<ETresNpcActionOnType> Type);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsBattleFollowMode() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsBadStatus();
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsActionOff();
+    
+    UFUNCTION(BlueprintCallable)
+    FName GetTalkEventName();
+    
+    UFUNCTION(BlueprintCallable)
+    float GetFriendPoint() const;
+    
+    UFUNCTION(BlueprintCallable)
+    float GetActionTime();
+    
+    UFUNCTION(BlueprintCallable)
+    int32 GetActionOnType();
+    
+    UFUNCTION(BlueprintCallable)
+    void ClearActionTargetInfo();
+    
+    UFUNCTION(BlueprintCallable)
+    void ChangeBT(UBehaviorTree* InBehaviorTree);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanSetActionPoint(int32 InType) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanNpcMode() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanLeadWait() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanLeadAvoidanceMove() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanLead() const;
+    
+    UFUNCTION(BlueprintCallable)
+    bool CanFriendLinkBring();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanbeSwirlUpDamageReactionByEnemy() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanBattle() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_StartTalkEndReTurn();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTalkEndReTurnInfo(float InTime, AActor* inActor, FVector InLocation);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetFriendLinkPointDisable(bool Disable);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_SetFriendLinkCommand(TEnumAsByte<ETresCommandKind> inCommand, float InReceptionTime, bool InAuto);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetCinematicStateFNPC();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NpcUseItem(AActor* InTargetActor, TEnumAsByte<ETresCommandKind> InItemCmd);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_MethdNpcMotionStop();
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_MethdNpcMotionPlay(int32 MotionLoopMax, const FName StartName, const FName LoopName, const FName EndName, bool ReTurnEndAnim);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_MethdAnnihilationCatch(bool InCanbeCheck);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_IsNpcMotionPlay();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_InitTalkEnd();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_GetUsableBattleItem();
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_EndAnnihilationCatch();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DelTalkEndReTurnInfo();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ClearStateFNPC(bool CinematicClear);
+    
 };
+

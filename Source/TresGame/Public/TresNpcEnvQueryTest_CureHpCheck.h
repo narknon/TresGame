@@ -1,0 +1,19 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "EnvironmentQuery/EnvQueryTest.h"
+#include "DataProviders/AIDataProvider.h"
+#include "TresNpcEnvQueryTest_CureHpCheck.generated.h"
+
+UCLASS(Blueprintable)
+class UTresNpcEnvQueryTest_CureHpCheck : public UEnvQueryTest {
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FAIDataProviderFloatValue m_HpRatio_Often;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FAIDataProviderFloatValue m_HpRatio_Pinch;
+    
+    UTresNpcEnvQueryTest_CureHpCheck();
+};
+

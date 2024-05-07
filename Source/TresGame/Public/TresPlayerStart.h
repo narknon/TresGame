@@ -1,37 +1,38 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerStart.h"
+#include "TresPlayerStartInterface.h"
 #include "TresPlayerStart.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresPlayerStart : public APlayerStart
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class TRESGAME_API ATresPlayerStart : public APlayerStart, public ITresPlayerStartInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	FName m_DispMapName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_AutoDispMapName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_Enabled = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_IsAutoSave;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	FName m_NavMapDataTableKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_IsEnableNavMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	float m_SwitchNavMapTime = 1.5f;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DispMapName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_AutoDispMapName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_Enabled;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_IsAutoSave;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_NavMapDataTableKey;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_IsEnableNavMap;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SwitchNavMapTime;
+    
+public:
+    ATresPlayerStart(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

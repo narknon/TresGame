@@ -1,190 +1,202 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "Camera/PlayerCameraManager.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ViewTargetTransitionParamsEx -FallbackName=ViewTargetTransitionParamsEx
+#include "TCPATH_SPLINEGROUP.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "TresCameraManager.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresCameraManager : public APlayerCameraManager
-{
-	GENERATED_BODY()
+class ATresCameraNormal;
+class AActor;
+class APlayerController;
+class ATresCameraBase;
+class UTresLockonTargetComponent;
+class UTresCameraConfig;
+class UParticleSystemComponent;
+class UCameraShake;
+
+UCLASS(Blueprintable, NonTransient)
+class ATresCameraManager : public APlayerCameraManager {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	TArray<class AActor*> m_CameraArray;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	TArray<class AActor*> m_AddArray;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	TArray<class AActor*> m_DelArray;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//struct FViewTargetTransitionParamsEx m_AddTransitionParams;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//struct FViewTargetTransitionParamsEx m_DelTransitionParams;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	TArray<class AActor*> m_SpawnArray;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class APlayerController* m_PlayerController;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class ATresCameraBase* m_LockonCamera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class UTresLockonTargetComponent* m_LockonTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class UTresLockonTargetComponent* m_DummyLockonTargetComp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class UTresCameraConfig* m_CameraConfig;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class ATresCameraNormal* m_CameraNormal1st;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class ATresCameraNormal* m_CameraNormal2nd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	TArray<class UParticleSystemComponent*> m_CameraPositionEffects;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class AActor* m_DebugCameraTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class AActor* m_DebugOrgCameraTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	class ATresCameraNormal* m_DebugPatrolCamera;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//TArray<struct FTCPATH_SPLINEGROUP> m_SplinePathRoute;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//TArray<struct FTCPATH_SPLINEGROUP> m_SplinePathLocation;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//TArray<struct FTCPATH_SPLINEGROUP> m_SplinePathRSLocation;
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void SetTresCameraRollOffset(float RollOffset) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void SetLockonNearLimit(float fLimit) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	class ATresCameraNormal* GetTresCameraNormal() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	class AActor* GetActiveViewCamera() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	class ATresCameraBase* GetActiveCamera() { return nullptr; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void EnableAllCameraPathRoute(bool bEnable, int Priority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DestroyAllBluprintCamera() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowOverlapTresCameraLocation(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraPathLine() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraOutsideWallCheck(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraManager() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraLookPos() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraGeneral(bool bEneble) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugShowCameraDistanceAdjust2T() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSetCameraSlideScale(float Scale) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSetCameraSize(float Size) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSetCameraShutOutFadeTime(float FadeTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSetCameraShutOutFadeAlpha(float FadeAlpha) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSetCameraLockonFixInFront(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugSelectCameraDebugOrthoTopView(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugPatrolCameraTarget(bool bOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugNoCameraShutOut(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugNoCameraShake() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void DebugCameraSelectDamageBeatType(bool bOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_SetTresCameraNormalDefault(class ATresCameraNormal* Camera) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_SetTresCameraHe02WallParam(const FRotator& WorldBaseRot, float U_Distance, const FRotator& U_Rotation, const FVector& U_TargetOffset, const FVector& U_TargetLocalOffset, const FVector& U_CameraLocalOffset, float U_LerpTime, float L_Distance, const FRotator& L_Rotation, const FVector& L_TargetOffset, const FVector& L_TargetLocalOffset, const FVector& L_CameraLocalOffset, float L_LerpTime, float R_Distance, const FRotator& R_Rotation, const FVector& R_TargetOffset, const FVector& R_TargetLocalOffset, const FVector& R_CameraLocalOffset, float R_LerpTime, float D_Distance, const FRotator& D_Rotation, const FVector& D_TargetOffset, const FVector& D_TargetLocalOffset, const FVector& D_CameraLocalOffset, float D_LerpTime, float D_RollMin, float D_RollMax, float D_TimeMin, float D_TimeMax, class UClass* CameraShake) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_SetTresCameraHe02WallDistance(float Distance, float Time) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_SetOverrideCameraSize(float Size) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	bool BP_IsInViewport(class ATresCameraBase* Camera, const struct FVector& TargetPos, float TargetSize) { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	bool BP_IsCameraSwitchingInterpolation() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	bool BP_IsCameraDamageBeatDirection() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	class ATresCameraBase* BP_GetOldCamera() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	void BP_GetInputCameraViewPoint(FVector& OutLocation, FRotator& OutRotation) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresCameraManager")
-	void BP_GetCameraViewPoint(FVector& OutCamLoc, FRotator& OutCamRot) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_EnableTresCameraWall(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_EnableTresCameraHe02Wall(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_EnableCameraDamageBeatDirection(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresCameraManager")
-	void BP_CancelCameraInterpolation() {};
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_CameraArray;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_AddArray;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_DelArray;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FViewTargetTransitionParamsEx m_AddTransitionParams;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FViewTargetTransitionParamsEx m_DelTransitionParams;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_SpawnArray;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    APlayerController* m_PlayerController;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraBase* m_LockonCamera;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresLockonTargetComponent* m_LockonTarget;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresLockonTargetComponent* m_DummyLockonTargetComp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresCameraConfig* m_CameraConfig;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresCameraNormal* m_CameraNormal1st;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresCameraNormal* m_CameraNormal2nd;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UParticleSystemComponent*> m_CameraPositionEffects;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    AActor* m_DebugCameraTarget;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    AActor* m_DebugOrgCameraTarget;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraNormal* m_DebugPatrolCamera;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<FTCPATH_SPLINEGROUP> m_SplinePathRoute;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<FTCPATH_SPLINEGROUP> m_SplinePathLocation;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<FTCPATH_SPLINEGROUP> m_SplinePathRSLocation;
+    
+    ATresCameraManager(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetTresCameraRollOffset(float RollOffset);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetLockonNearLimit(float fLimit);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCameraNormal* GetTresCameraNormal() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    AActor* GetActiveViewCamera() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCameraBase* GetActiveCamera() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void EnableAllCameraPathRoute(bool bEnable, int32 Priority);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DestroyAllBluprintCamera();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowOverlapTresCameraLocation(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraPathLine();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraOutsideWallCheck(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraManager();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraLookPos();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraGeneral(bool bEneble);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraDistanceAdjust2T();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraSlideScale(float Scale);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraSize(float Size);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraShutOutFadeTime(float FadeTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraShutOutFadeAlpha(float FadeAlpha);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraLockonFixInFront(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSelectCameraDebugOrthoTopView(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPatrolCameraTarget(bool bOn);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugNoCameraShutOut(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugNoCameraShake();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugCameraSelectDamageBeatType(bool bOn);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTresCameraNormalDefault(ATresCameraNormal* Camera);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTresCameraHe02WallParam(FRotator WorldBaseRot, float U_Distance, FRotator U_Rotation, FVector U_TargetOffset, FVector U_TargetLocalOffset, FVector U_CameraLocalOffset, float U_LerpTime, float L_Distance, FRotator L_Rotation, FVector L_TargetOffset, FVector L_TargetLocalOffset, FVector L_CameraLocalOffset, float L_LerpTime, float R_Distance, FRotator R_Rotation, FVector R_TargetOffset, FVector R_TargetLocalOffset, FVector R_CameraLocalOffset, float R_LerpTime, float D_Distance, FRotator D_Rotation, FVector D_TargetOffset, FVector D_TargetLocalOffset, FVector D_CameraLocalOffset, float D_LerpTime, float D_RollMin, float D_RollMax, float D_TimeMin, float D_TimeMax, TSubclassOf<UCameraShake> CameraShake);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTresCameraHe02WallDistance(float Distance, float Time);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetOverrideCameraSize(float Size);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_IsInViewport(ATresCameraBase* Camera, FVector TargetPos, float TargetSize);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_IsCameraSwitchingInterpolation();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool BP_IsCameraDamageBeatDirection();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCameraBase* BP_GetOldCamera() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_GetInputCameraViewPoint(FVector& OutLocation, FRotator& OutRotation);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void BP_GetCameraViewPoint(FVector& OutCamLoc, FRotator& OutCamRot) const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_EnableTresCameraWall(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_EnableTresCameraHe02Wall(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_EnableCameraDamageBeatDirection(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_CancelCameraInterpolation();
+    
 };
+

@@ -1,26 +1,24 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "TresGame.h"
+#include "ETresBodyCollReactionType.h"
 #include "TresAnimNotify_SetBodyCollReaction.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_SetBodyCollReaction : public UAnimNotify
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_SetBodyCollReaction : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_SetBodyCollReaction")
-	FName m_GroupName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_SetBodyCollReaction")
-	bool m_bReset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_SetBodyCollReaction")
-	ETresBodyCollReactionType m_ReactionType;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_GroupName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bReset: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresBodyCollReactionType m_ReactionType;
+    
+public:
+    UTresAnimNotify_SetBodyCollReaction();
 };
+

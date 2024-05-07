@@ -1,22 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "AITypes.h"
 #include "TresAIController.h"
 #include "TresComNpcController.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresComNpcController : public ATresAIController
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresComNpcController : public ATresAIController {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresComNpcController")
-	bool m_bNoPawnDestroy;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresComNpcController")
-	//struct FAIRequestID m_MoveRequestID;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bNoPawnDestroy: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FAIRequestID m_MoveRequestID;
+    
+public:
+    ATresComNpcController(const FObjectInitializer& ObjectInitializer);
 };
+

@@ -1,19 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickActor.h"
 #include "TresWallRunEffectActor.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresWallRunEffectActor : public ATresGimmickActor
-{
-	GENERATED_BODY()
+class UTresWallRunEffectComponent;
+
+UCLASS(Blueprintable, Config=Game)
+class ATresWallRunEffectActor : public ATresGimmickActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWallRunEffectActor")
-	class UTresWallRunEffectComponent* m_Root;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresWallRunEffectComponent* m_Root;
+    
+public:
+    ATresWallRunEffectActor(const FObjectInitializer& ObjectInitializer);
 };
+

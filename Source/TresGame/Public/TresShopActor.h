@@ -1,39 +1,53 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickSkeletalBase.h"
+#include "ETresSavePointDispType.h"
+#include "ETresShopChrID.h"
+#include "ETresShopID.h"
 #include "TresShopActor.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresShopActor : public ATresGimmickSkeletalBase
-{
-	GENERATED_BODY()
+class UTresMapMarkerComponent;
+class UTresReactorComponent;
+class UTresBodyCollComponent;
+
+UCLASS(Blueprintable)
+class ATresShopActor : public ATresGimmickSkeletalBase {
+    GENERATED_BODY()
 public:
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	class UTresReactorComponent* MyReactor;*/
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	class UTresMapMarkerComponent* MyMapMarker;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	class UTresBodyCollComponent* MyBodyColl;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	TEnumAsByte<ETresShopID> m_ShopID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	TEnumAsByte<ETresShopChrID> m_ShopChrID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresShopActor")
-	FName m_DefaultIdlingMotName;
-
-	/*void OnChangeShopActorDispType(ETresSavePointDispType InDispType);
-	void OnChangePlayerArtsMode(bool bIsArtsMode);
-	void OnChangeCinematicMode(bool bIsCinematicMode);
-	void OnChangeBattleMode(bool bIsBattleMode);*/
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresReactorComponent* MyReactor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresMapMarkerComponent* MyMapMarker;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresBodyCollComponent* MyBodyColl;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresShopID m_ShopID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresShopChrID m_ShopChrID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DefaultIdlingMotName;
+    
+public:
+    ATresShopActor(const FObjectInitializer& ObjectInitializer);
+protected:
+    UFUNCTION(BlueprintCallable)
+    void OnChangeShopActorDispType(ETresSavePointDispType InDispType);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnChangePlayerArtsMode(bool bIsArtsMode);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnChangeCinematicMode(bool bIsCinematicMode);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnChangeBattleMode(bool bIsBattleMode);
+    
 };
+

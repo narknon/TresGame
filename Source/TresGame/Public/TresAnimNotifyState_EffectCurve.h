@@ -1,32 +1,28 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "TresGame.h"
+#include "SQEX_EffectCurveData.h"
 #include "TresAnimNotifyState_EffectCurve.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_EffectCurve : public UAnimNotifyState
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_EffectCurve : public UAnimNotifyState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_EffectCurve")
-	FString Description;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_EffectCurve")
-	FName AnimSlotName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_EffectCurve")
-	TArray<struct FSQEX_EffectCurveData> CurveDatas;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_EffectCurve")
-	float StartValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_EffectCurve")
-	float EndValue;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString Description;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName AnimSlotName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FSQEX_EffectCurveData> CurveDatas;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float StartValue;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float EndValue;
+    
+    UTresAnimNotifyState_EffectCurve();
 };
+

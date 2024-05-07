@@ -1,25 +1,27 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TresPoleActorEw.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresPoleActorEw : public AActor
-{
-	GENERATED_BODY()
+class UTresPoleComponent;
+class USceneComponent;
+
+UCLASS(Blueprintable, Config=Game)
+class ATresPoleActorEw : public AActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPoleActorEw")
-	class USceneComponent* MyRootComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPoleActorEw")
-	class UTresPoleComponent* PoleComponentDefault;
-
-	UFUNCTION(BlueprintCallable, Category = "TresPoleActorEw")
-	void SetEnable(bool bEnable) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresPoleActorEw")
-	bool IsEnable() { return false; };
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    USceneComponent* MyRootComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresPoleComponent* PoleComponentDefault;
+    
+    ATresPoleActorEw(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetEnable(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsEnable() const;
+    
 };
+

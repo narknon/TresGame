@@ -1,137 +1,217 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "TresGame.h"
+#include "TresWorldCodeLoadAssetName.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=CoreUObject -ObjectName=StringAssetReference -FallbackName=StringAssetReference
+#include "ETresWorldCode.h"
+#include "Engine/EngineBaseTypes.h"
+#include "TresLSIGameDriver.h"
+#include "TresGamePlayWorldSwitcher.h"
 #include "TresGameInstance.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresGameInstance : public UGameInstance
-{
-	GENERATED_BODY()
+class UTresDebugData;
+class UTresGameModeLoadAsset;
+class UTresCommonAssets;
+class UObject;
+class UTresWorldCodeLoadAsset;
+class UTresMapSet;
+class UTresShare;
+class UTresChrInitData;
+class UAudioComponent;
+class UTresAchievement;
+class UTresTimelinePlayer;
+class UTresObjectDataBuffer;
+class UDataTable;
+class UTresBattleLevelAutoAsset;
+class UTresItemMan;
+class UTresDebugDisplayManager;
+class UTresTaskClassListExecuter;
+class UTresTaskExecutor;
+class AMatineeActor;
+class UTresUIManager;
+class APlayerStart;
+class UTresNotifyEventToBlueprint;
+class UTresScreenshotSaveController;
+class UTresLevelEntityManager;
+class UTresTaggedActorPropertyManager;
+class UTresTexturePump;
+class UTresAlbumPhotoManager;
+class UTresPhotoHologramManager;
+class UTresGameSettings;
+
+UCLASS(Blueprintable, NonTransient)
+class TRESGAME_API UTresGameInstance : public UGameInstance {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	FStringAssetReference m_AppLoadAssetName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	FStringAssetReference m_CommonAssetsName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	FStringAssetReference m_GameModeLoadAssetName;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//TArray<struct FTresWorldCodeLoadAssetName> m_WorldCodeLoadAssetNames;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresGameModeLoadAsset* m_AppStaticAsset;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresCommonAssets* m_CommonAssets;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	TArray<UObject*> m_Residents;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresGameModeLoadAsset* m_GameStaticAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresWorldCodeLoadAsset* m_WorldStaticAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresWorldCodeLoadAsset* m_WorldStaticAssetBackup;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	bool m_DisableWorldResidents;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresMapSet* m_TutorialMapSet;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresChrInitData* m_ChrInitData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UAudioComponent* m_GameOverSE;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresMapSet* m_pMapSetForTemp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresMapSet* m_pMapSetForLevelList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	TEnumAsByte<ETresWorldCode> m_PreviousWorldCode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	TEnumAsByte<ETresWorldCode> m_PreviousPlayableWorldCode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	bool m_DisableUpdatePreviousPlayableWorldCode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	TEnumAsByte<ETresWorldCode> m_CurrentWorldCode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	bool m_LevelTransition;
-
-	FURL m_TravelURL;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresObjectDataBuffer* m_WorldDataBuffer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	bool m_TheaterMode;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresShare* m_pShare;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresAchievement* m_pAchievement;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UDataTable* m_pMapNameDataTable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UDataTable* m_pAreaNameDataTable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UDataTable* m_pNavMapDataTable;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	//class UTresBattleLevelAutoAsset* m_pBattleLevelAutoTable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UDataTable* m_pBattleLevelFromNameTable;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresItemMan* m_ItemMan;
-	class UTresDebugDisplayManager* m_pDebugDisplayManager;
-	class UTresTaskClassListExecuter* m_pDebugTaskExecuter;
-	class UTresTaskExecutor* m_pTaskExecuter;
-	TArray<class AMatineeActor*> m_MatineeActorsForMovie;
-	class UTresUIManager* m_UIManager;
-	class APlayerStart* m_pPlayerStartForTeleport;
-	class UClass* m_BlockGCClasses;
-	TArray<class UObject*> m_BlockGCObjects;
-	class UTresNotifyEventToBlueprint* m_pCommonEvent;
-	struct FTresLSIGameDriver m_LSIGameDriver;
-	struct FTresGamePlayWorldSwitcher m_TutorialSwitcher;
-	TArray<class UTresTimelinePlayer*> m_TimelinePlayers;
-	class UTresDebugData* m_DebugData;
-	class UTresLevelEntityManager* m_TresLevelEntityManager;
-	class UTresTaggedActorPropertyManager* m_TresTaggedActorPropertyManager;
-	class UTresTexturePump* m_TexturePump;
-	class UTresScreenshotSaveController* m_TresScreenshotSaveController;
-	class UTresAlbumPhotoManager* m_TresAlbumPhotoManager;
-	class UTresPhotoHologramManager* m_TresPhotoHologramManager;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameInstance")
-	class UTresGameSettings* m_pGameSettings;*/
-
-	UFUNCTION(BlueprintCallable, Category = "TresGameInstance")
-	void DebugUnlockSmartphone(bool bUnlock) {};
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, GlobalConfig, meta=(AllowPrivateAccess=true))
+    FStringAssetReference m_AppLoadAssetName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, GlobalConfig, meta=(AllowPrivateAccess=true))
+    FStringAssetReference m_CommonAssetsName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, GlobalConfig, meta=(AllowPrivateAccess=true))
+    FStringAssetReference m_GameModeLoadAssetName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, GlobalConfig, meta=(AllowPrivateAccess=true))
+    TArray<FTresWorldCodeLoadAssetName> m_WorldCodeLoadAssetNames;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresGameModeLoadAsset* m_AppStaticAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresCommonAssets* m_CommonAssets;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UObject*> m_Residents;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresGameModeLoadAsset* m_GameStaticAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresWorldCodeLoadAsset* m_WorldStaticAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresWorldCodeLoadAsset* m_WorldStaticAssetBackup;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_DisableWorldResidents;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresMapSet* m_TutorialMapSet;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresChrInitData* m_ChrInitData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UAudioComponent* m_GameOverSE;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresMapSet* m_pMapSetForTemp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresMapSet* m_pMapSetForLevelList;
+    
+    UPROPERTY(EditAnywhere, Transient)
+    TEnumAsByte<ETresWorldCode> m_PreviousWorldCode;
+    
+    UPROPERTY(EditAnywhere, Transient)
+    TEnumAsByte<ETresWorldCode> m_PreviousPlayableWorldCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_DisableUpdatePreviousPlayableWorldCode;
+    
+    UPROPERTY(EditAnywhere, Transient)
+    TEnumAsByte<ETresWorldCode> m_CurrentWorldCode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_LevelTransition;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FURL m_TravelURL;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresObjectDataBuffer* m_WorldDataBuffer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_TheaterMode;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresShare* m_pShare;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresAchievement* m_pAchievement;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UDataTable* m_pMapNameDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UDataTable* m_pAreaNameDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UDataTable* m_pNavMapDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresBattleLevelAutoAsset* m_pBattleLevelAutoTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UDataTable* m_pBattleLevelFromNameTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresItemMan* m_ItemMan;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresDebugDisplayManager* m_pDebugDisplayManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresTaskClassListExecuter* m_pDebugTaskExecuter;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresTaskExecutor* m_pTaskExecuter;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<AMatineeActor*> m_MatineeActorsForMovie;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresUIManager* m_UIManager;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    APlayerStart* m_pPlayerStartForTeleport;
+    
+    UPROPERTY(EditAnywhere, Transient)
+    UClass* m_BlockGCClasses[8];
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UObject*> m_BlockGCObjects;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresNotifyEventToBlueprint* m_pCommonEvent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresLSIGameDriver m_LSIGameDriver;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresGamePlayWorldSwitcher m_TutorialSwitcher;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTresTimelinePlayer*> m_TimelinePlayers;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresDebugData* m_DebugData;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresLevelEntityManager* m_TresLevelEntityManager;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresTaggedActorPropertyManager* m_TresTaggedActorPropertyManager;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresTexturePump* m_TexturePump;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresScreenshotSaveController* m_TresScreenshotSaveController;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresAlbumPhotoManager* m_TresAlbumPhotoManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresPhotoHologramManager* m_TresPhotoHologramManager;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresGameSettings* m_pGameSettings;
+    
+public:
+    UTresGameInstance();
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugUnlockSmartphone(bool bUnlock);
+    
 };
+

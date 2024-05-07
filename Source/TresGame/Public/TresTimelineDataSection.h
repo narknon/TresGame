@@ -1,25 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
 #include "TresTimelineDataSection.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresTimelineDataSection : public UObject
-{
-	GENERATED_BODY()
+UCLASS(Abstract, Blueprintable)
+class TRESGAME_API UTresTimelineDataSection : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTimelineDataSection")
-	FName m_Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTimelineDataSection")
-	float m_StartOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTimelineDataSection")
-	float m_Duration;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_Name;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_StartOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_Duration;
+    
+    UTresTimelineDataSection();
 };
+

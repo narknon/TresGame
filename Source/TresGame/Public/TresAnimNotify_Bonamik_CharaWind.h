@@ -1,35 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "ESQEX_Bonamik_EmissiveDirection.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "BonamikRt_StructsAndEnums.h"
 #include "TresAnimNotify_Bonamik_CharaWind.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_Bonamik_CharaWind : public UAnimNotify
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_Bonamik_CharaWind : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	TArray<FString> m_Groups;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	TEnumAsByte<ESQEX_Bonamik_EmissiveDirection> m_DirectionSpace;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	FVector m_DirectionVec;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	float m_BaseStrength;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	float m_WaveAmplitude;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_Bonamik_CharaWind")
-	float m_WavePeriod;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FString> m_Groups;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ESQEX_Bonamik_EmissiveDirection> m_DirectionSpace;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_DirectionVec;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_BaseStrength;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_WaveAmplitude;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_WavePeriod;
+    
+    UTresAnimNotify_Bonamik_CharaWind();
 };
+

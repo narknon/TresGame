@@ -1,32 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
-#include "TresGame.h"
+#include "TresSpawnPointSet.h"
 #include "TresSpawnPointManagementVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresSpawnPointManagementVolume : public ATresVolume
-{
-	GENERATED_BODY()
+class ATresSpawnPointManagementVolume;
+
+UCLASS(Blueprintable)
+class TRESGAME_API ATresSpawnPointManagementVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSpawnPointManagementVolume")
-	bool m_WeldOuterInitial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSpawnPointManagementVolume")
-	TArray<struct FTresSpawnPointSet> m_PointSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSpawnPointManagementVolume")
-	TArray<class ATresSpawnPointManagementVolume*> m_InnerVolumes;
-
-	UFUNCTION(BlueprintCallable, Category = "TresSpawnPointManagementVolume")
-	void SetWeldOuter(bool WeldOuter) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresSpawnPointManagementVolume")
-	bool GetWeldOuter() { return false; };
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_WeldOuterInitial;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresSpawnPointSet> m_PointSet;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ATresSpawnPointManagementVolume*> m_InnerVolumes;
+    
+public:
+    ATresSpawnPointManagementVolume(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetWeldOuter(bool WeldOuter);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetWeldOuter() const;
+    
 };
+

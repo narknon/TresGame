@@ -1,19 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresCameraBase.h"
 #include "TresCameraFix.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresCameraFix : public ATresCameraBase
-{
-	GENERATED_BODY()
+class UObject;
+class ATresCameraFix;
+
+UCLASS(Blueprintable)
+class ATresCameraFix : public ATresCameraBase {
+    GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, Category = "TresCameraFix", meta = (WorldContext = "WorldContextObject"))
-	static class ATresCameraFix* BP_SpawnTresCameraFix(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
+    ATresCameraFix(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    static ATresCameraFix* BP_SpawnTresCameraFix(UObject* WorldContextObject, TSubclassOf<ATresCameraFix> CameraClass, const FName CameraName);
+    
 };
+

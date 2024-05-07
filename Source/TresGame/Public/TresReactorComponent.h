@@ -1,54 +1,65 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGimmickComponentBase.h"
+#include "ETresReactorCommandID.h"
+#include "TresReactorComponentInterface.h"
+#include "UObject/NoExportTypes.h"
+#include "TresReactorDoCommandSignatureDelegate.h"
+#include "TresCollShapeAssetUnit.h"
 #include "TresReactorComponent.generated.h"
 
-/**
- * 
- */
-UCLASS(meta = (BlueprintSpawnableComponent))
-class TRESGAME_API UTresReactorComponent : public UTresGimmickComponentBase
-{
-	GENERATED_BODY()
+class AActor;
+class UBodySetup;
+
+UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresReactorComponent : public UTresGimmickComponentBase, public ITresReactorComponentInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	FColor m_ShapeColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	bool m_bDrawBBox;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	FColor m_BBoxColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	TArray<struct FTresCollShapeAssetUnit> m_CollisionShapesSrc;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	bool m_bLimitRotRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	float m_RotRangeProp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	bool m_bNeedRayCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	TEnumAsByte<ETresReactorCommandID> m_Command;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	class AActor* m_CmdTargetActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	bool m_bDisableTargetMarker;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	bool m_bDisableCommandDisp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	class UBodySetup* m_pBodySetup;
-
-	//struct FScriptMulticastDelegate OnReactorDoCommand;
+protected:
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FColor m_ShapeColor;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDrawBBox: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FColor m_BBoxColor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresCollShapeAssetUnit> m_CollisionShapesSrc;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bLimitRotRange: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RotRangeProp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bNeedRayCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresReactorCommandID m_Command;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* m_CmdTargetActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableTargetMarker: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableCommandDisp: 1;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UBodySetup* m_pBodySetup;
+    
+public:
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresReactorDoCommandSignature OnReactorDoCommand;
+    
+    UTresReactorComponent();
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

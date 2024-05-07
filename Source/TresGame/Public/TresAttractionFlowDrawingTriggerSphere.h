@@ -1,26 +1,27 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresTriggerSphere.h"
-#include "TresGame.h"
+#include "TresAttractionFlowDrawingInterface.h"
+#include "TresAttractionFlowDrawingEntry.h"
 #include "TresAttractionFlowDrawingTriggerSphere.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresAttractionFlowDrawingTriggerSphere : public ATresTriggerSphere
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresAttractionFlowDrawingTriggerSphere : public ATresTriggerSphere, public ITresAttractionFlowDrawingInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttractionFlowDrawingTrigger")
-	TArray<struct FTresAttractionFlowDrawingEntry> m_DrawingTable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttractionFlowDrawingTrigger")
-	bool m_Enable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttractionFlowDrawingTrigger")
-	bool m_ForceDisplay;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresAttractionFlowDrawingEntry> m_DrawingTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_Enable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ForceDisplay;
+    
+public:
+    ATresAttractionFlowDrawingTriggerSphere(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

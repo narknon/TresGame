@@ -1,16 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
 #include "TresWinniePuzzleWallVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresWinniePuzzleWallVolume : public ATresVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresWinniePuzzleWallVolume : public ATresVolume {
+    GENERATED_BODY()
+public:
+    ATresWinniePuzzleWallVolume(const FObjectInitializer& ObjectInitializer);
 };
+

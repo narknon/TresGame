@@ -1,20 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresAnimNotify_GenericTiming.h"
-#include "TresGame.h"
+#include "TresPoppingHolyBulletShootParameter.h"
 #include "TresAnimNotify_PoppingHolyShootTiming.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_PoppingHolyShootTiming : public UTresAnimNotify_GenericTiming
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_PoppingHolyShootTiming : public UTresAnimNotify_GenericTiming {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PoppingHolyShootTiming")
-	struct FTresPoppingHolyBulletShootParameter m_HolyBulletShootParameter;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresPoppingHolyBulletShootParameter m_HolyBulletShootParameter;
+    
+public:
+    UTresAnimNotify_PoppingHolyShootTiming();
 };
+

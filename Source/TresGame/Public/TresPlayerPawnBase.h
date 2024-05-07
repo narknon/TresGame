@@ -1,975 +1,995 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresAIPawnBase.h"
+#include "ETresPlayerFlyModes.h"
+#include "ETresPlayerSpecificActionID.h"
+#include "ETresPlayerJumpModes.h"
+#include "ETresCommandKind.h"
+#include "TresAttractionFlowAssetInfo.h"
+#include "ETresActorSpecificActionID.h"
+#include "UObject/NoExportTypes.h"
+#include "ESQEX_AI_ThinkType.h"
+#include "ETresPlayerUniqueID.h"
 #include "TresPlayerPawnBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerSpecificAction, TEnumAsByte<ETresPlayerSpecificActionID>, ActionID, int, SubID);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActorSpecificAction, TEnumAsByte<ETresCommandKind>, CommandKind);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerBeginCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayerEndCommandAction, TEnumAsByte<ETresActorSpecificActionID>, ActionID, class AActor*, SendActor, int, SubID);
+class UTresUICommandInfoBase;
+class UTresPlayerPawnLoadAsset;
+class ATresCameraDiving;
+class AActor;
+class UTresFriendComponent;
+class UParticleSystemComponent;
+class UTresPlayerStateEventComponent;
+class USQEX_ParticleAttachDataAsset;
+class ATresSimpleEffect;
+class UTresAnimSet;
+class UParticleSystem;
+class AEmitterCameraLensEffectBase;
+class UTresSpawnPointDistanceScorer;
+class UTresSpawnPointAvoidActorFilter;
+class ATresCharPawnBase;
+class UTresPlayerStateEvent;
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresPlayerPawnBase : public ATresAIPawnBase
-{
-	GENERATED_BODY()
+UCLASS(Abstract, Blueprintable, DefaultConfig, config = Engine)
+class ATresPlayerPawnBase : public ATresAIPawnBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UTresFriendComponent* MyFrdMgr;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresPlayerStateEventComponent* MyStateEvent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySprintSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySprintDelay;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyForceWalkSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWaterFlowAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool MyHopRotateModeB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyHopEffectRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyPoleEffectRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bEnableClimbing;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingRadius;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingBottom;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingFront;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingFrontFar;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingFrontNear;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fClimbingFinalSpace;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bEnableWallRun;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWallRunSpeedScaleUp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWallRunSpeedScaleSide;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerNormal;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerHigh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerHighLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerHighLv3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerSuper;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJumpPowerDouble;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyJump2ndEnableMinimumVelocityZ;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySmallJumpGravityScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyGlideGravityScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyGlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyGlideTurnRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFloatingSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFloatingGravityScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFloatingGravityScale2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAttackRiseThreshold;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAttackRiseRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAttackFirstAirMoveRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bEnableDiveFall;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallStartHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallRotateScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallGravityScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallMoveSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallLockonRangeXY;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDiveFallLockonLimitZ;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAirSlideSpeedScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAirSlideSpeedScaleLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAirSlideSpeedScaleLv3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySuperSlideTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySuperSlideTimeLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySuperSlideTimeLv3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySuperSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_SuperSlideMinSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySuperSlideBreak;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyPoleTurnRotMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyRailSlideCheckRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyRailSlideCheckAirRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyRailSlideShotMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyRailSlideShotInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySlopeSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySlopeSlideAccelTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySlopeSlideMinSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWallRunSideSwitchAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWallRunDownSwitchAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyWallRunSideMoveSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverFindLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverMoveSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_CoverSlideMinSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideBreak;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideMutekiTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverCommandRreadyTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideSlowRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverSlideSlowTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotSlideTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_CoverShotSlideMinSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotSlideBreak;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotMutekiTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotSlideHomingRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotLockonLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCoverShotLockonSightMoveRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyCommandCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAirSlideCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAirGuardCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAntiFormCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyReactionCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDamageEndCancelTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyGuardHoldTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyGuardMoveSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAutoLockonLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAutoLockonNear;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyManualLockonLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyManualLockonOff;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyShootLockonLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticLockonLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticLockonRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool MySonicAttackModeB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyStylePointMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointAddRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointAddRateLv0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointAddRateLv1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointAddRateLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool MyAntiFormGenerate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeStylePointAddRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeStylePointAddRateLv0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeStylePointAddRateLv1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeStylePointAddRateLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeAntiFormGenerateRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalModeJustGuardTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float CriticalChargeStylePointAddRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool MyStylePointAddWithoutHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointDecStartTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointDecInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStylePointDec;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStyleFinishOffsetTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyStyleFinishOffsetTimeWeaponChange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFriendPointMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFriendPointTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyAttractionPointMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFocusPointAddHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFocusPointAddTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFocusPointAddInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFocusPointConvertRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFocusPointNeedAF;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFocusAspirRateLv1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFocusAspirRateLv2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFocusAspirRateLv3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFpChargeAddTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFpChargeInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticSlideTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticSlideSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticSlideKickAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticAttackSlowRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyAthleticAttackSlowTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimSurfaceBuoyancy;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimSurfaceSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveLowSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveHighSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveDiveSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveRiseSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDashSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDashTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveOxygenTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveDashOxygenConsumeRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDiveDashDisableInputTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDivingHighSpeedMoveRotSpeedYaw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MySwimDivingHighSpeedMoveRotSpeedPitch;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class ATresCameraDiving* m_pSwimDivingCamera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TEnumAsByte<ETresPlayerFlyModes> MyFlyMotion;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TEnumAsByte<ETresPlayerJumpModes> MyJumpMotion;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool bDispDebugInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool bDispNetDebugInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool bDebugDisableGameOver;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bAlwaysEnableWallRun;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugWallRunStartOff;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugDisableFriend;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugShooterModeInputType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bWallTurnWithoutAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_bDebugHighJump;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebug2ndJump;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugDodge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAirDodge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugRiskDodge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugSuperJump;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_bDebugSuperSlideLv;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugPoleSpin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugPoleSwing;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugWallKick;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugEnemyTurn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAirRecovery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugBlowCounter;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAirRecoveryInputChange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugGuard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugGuardCounter;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugRevengeImpact;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugRevengeDive;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugRevengeEx;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugDodgeCounter;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugComboMaster;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_bDebugComboPlus;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_bDebugAirComboPlus;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinTriple;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinThrust;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinFlash;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinDown;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugLaunchSpin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAirRollBeat;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinDonald1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinDonald2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinDonald3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinGoofy1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFinGoofy2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugSonicSlash;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugSonicJump;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugSonicTurn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugSonicWheel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionVS;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionBM;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionSM;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionSC;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionMG;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionTC;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionAS;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionWS;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugAttractionFF;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugShieldAutoGrowUp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugMpCharge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugFpCharge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugChargeBerserkTest;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugCuragan;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float m_fDebugAttackMoveLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugForceUseSpawnPointVolume;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugDispNearSpawnPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_nDebugTestMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	FVector m_vDebugTmpVec0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	FVector m_vDebugTmpVec1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	FVector m_vDebugTmpVec2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UClass* m_AthleticRoot;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bFriendDisableAutoCreate;
-
-	//ESQEX_AI_ThinkType m_FriendAIThinkType;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//struct FTresAttractionFlowAssetInfo m_AttractionFlowAssetInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TArray<float> m_AttractionFlowDrawingHistoryRatio;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresPlayerPawnLoadAsset* m_LoadAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int m_GameStartChrLevel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bEnableWeaponChangeEquip;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresAnimSet* m_RestrictWeaponModeAnimSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFriendComboFinishRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFriendComboFinishRangeHalf;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyFriendComboFinishRangeNear;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFriendComboFinishAddRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFriendComboFinishAddRateRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFriendComboFinishAddRateRangeHalf;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	int MyFriendComboFinishAddRateRangeNear;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnPlayerSpecificAction PlayerSpecificAction;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnActorSpecificAction ActorSpecificAction;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnPlayerBeginCommandAction PlayerBeginCommandAction;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnPlayerEndCommandAction PlayerEndCommandAction;
-
-	/*struct FScriptMulticastDelegate OnPlayerSpecificAction;
-	struct FScriptMulticastDelegate OnActorSpecificAction;
-	struct FScriptMulticastDelegate OnPlayerBeginCommandAction;
-	struct FScriptMulticastDelegate OnPlayerEndCommandAction;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pFireEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pHopEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pPoleEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pPoleEffectH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pWallRunEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pSprintEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pAthleticHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UClass* m_LensEffectClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pFocusAspirEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pSwanDiveEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pGuardReflectEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pJustGuardEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pCriticalCounterHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystem* m_pCoverShotDestroyEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class USQEX_ParticleAttachDataAsset* m_AntiFormEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyDarkScreenRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	bool m_bDebugHitStop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyHitStopTimeSmall;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	float MyHitStopTimeBig;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TArray<class AActor*> m_OverlappedAttractionFlowDrawingActors;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresSpawnPointDistanceScorer* m_pSpawnPointDistanceScorer;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresSpawnPointAvoidActorFilter* m_pSpawnPointFilter;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TEnumAsByte<ETresPlayerUniqueID> m_PlayerUniqueID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	class UParticleSystemComponent* m_pDeathSentenceCountEffect;
-
-	//void TresPlayerSpecificAction__DelegateSignature(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int SubID) {};
-	//void TresPlayerEndCommandAction__DelegateSignature(TEnumAsByte<ETresCommandKind> CommandKind) {};
-	//void TresPlayerBeginCommandAction__DelegateSignature(TEnumAsByte<ETresCommandKind> CommandKind) {};
-	//void TresActorSpecificAction__DelegateSignature(TEnumAsByte<ETresActorSpecificActionID> ActionID, class AActor* SendActor, int SubID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void RequestEndCommandKind(TEnumAsByte<ETresCommandKind> inCommand, int InParam0) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	bool RemotePlayerStateEvent(const FName& EventName, class AActor* inActor) { return false; };
-
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//void ReceivePlayerSpecificAction(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int SubID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void ReceivePlayerEndCommandAction(TEnumAsByte<ETresCommandKind> CommandKind) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void ReceivePlayerBeginCommandAction(TEnumAsByte<ETresCommandKind> CommandKind) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void NotifySpecificActionAccompanyPawn(int ID, int Param0, int Param1, int Param2) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	FVector GetSpecificActionTargetPos(int ID) { return FVector::FVector(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	class ATresCharPawnBase* GetSpecificActionAccompanyPawn(int ID) { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	//class UTresPlayerStateEvent* GetPlayerStateEventByName(const FName& Name) { return nullptr; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	//class UTresPlayerStateEvent* GetPlayerStateEvent(int Idx) { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	class UTresFriendComponent* GetFriendManager() { return nullptr; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugWarpCheck(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetVikingShipParam(float fIdlePitch, float fIdlePow, float fIdleAcc, float fIdleBrk, float fAtkPitch, float fAtkPow, float fAtkAcc, float fAtkBrk) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetTmpVector(int InSlot, float InX, float InY, float InZ) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetRailSlideShotMax(int InMax) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetRailSlideShotInterval(float InTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetRailSlideCheckRange(float InRange, float InAirRange) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetInputCancel(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetHitStopTime(int InMode, float Timer) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetGuardMoveSpeed(float InSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetGuardHoldTime(float InTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetGuardEnableDisp(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetGlideParam(int bEnable, float InGravityScale, float InSpeed, float InTurnRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetFriendComboFinishParam(float InRange, float InRangeHalf, float InRangeNear, int InAddRate, int InAddRateRange, int InAddRateRangeHalf, int InAddRateRangeNear) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetFocusAspirRate(float fAspirLv1, float fAspirLv2, float fAspirLv3) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetFloatingMode(bool bEnable, bool IsSpecial, float InGravityScale, float InSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetDiveFallLockon(float InRangeXY, float InLimitZ) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetCoverSlowParam(float InRate, float InTeme) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetCoverMoveSpeed(float InSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetCoverFindLimit(float InLimit) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetComboTimeDisp(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetClimbingParam(int InVersion, float InRadius, float InFront, float InFrontF, float InFrontN, float InFinalSpace, float InBottom) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugSetClimbingBodyOff() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugResetTmpVector() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugPlayerFallIntoBottomlessPit(float Z) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugEnableSkillCamera(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugEnableDamageAlwaysHeavy(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugEnableDamageAddVelocity(float InPow) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugCuragan(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugChangeWeaponType(int InType) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugChangePlayerWeaponEquip(int InSlotIndex, int InWeaponItemID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void DebugBurnTest(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetWaterFlowAngle(float fWaterFlowAngle) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetForceWalkSpeed(float fForceWalkSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetEnableShootLockModeForRIKU(bool IsOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetEnableGuardHitBackControl(bool IsOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetDisableWallRunPointDispOff(bool inSw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetDisableWallRunPointDisp(bool inSw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetDisablePolePointDisp(bool inSw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetDisableHopPointDisp(bool inSw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	void BP_SetDisableFreeRunPointDisp(bool inSw) {};
-
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//bool BP_NotifyForcedStartSnowCurling(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
-
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//bool BP_NotifyForcedStartSnowChase(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	bool BP_NotifyForcedStartDiveFall() { return false; };
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTresPlayerSpecificAction, TEnumAsByte<ETresPlayerSpecificActionID>, ActionID, int32, SubID);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresPlayerEndCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresPlayerBeginCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresActorSpecificAction, TEnumAsByte<ETresActorSpecificActionID>, ActionID, AActor*, SendActor, int32, SubID);
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresFriendComponent* MyFrdMgr;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresPlayerStateEventComponent* MyStateEvent;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySprintSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySprintDelay;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyForceWalkSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWaterFlowAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool MyHopRotateModeB;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyHopEffectRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyPoleEffectRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableClimbing: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingBottom;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingFront;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingFrontFar;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingFrontNear;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fClimbingFinalSpace;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableWallRun: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWallRunSpeedScaleUp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWallRunSpeedScaleSide;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerNormal;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerHigh;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerHighLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerHighLv3;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerSuper;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJumpPowerDouble;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyJump2ndEnableMinimumVelocityZ;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySmallJumpGravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyGlideGravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyGlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyGlideTurnRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFloatingSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFloatingGravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFloatingGravityScale2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAttackRiseThreshold;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAttackRiseRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAttackFirstAirMoveRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableDiveFall: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallStartHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallRotateScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallGravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallMoveSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallLockonRangeXY;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDiveFallLockonLimitZ;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAirSlideSpeedScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAirSlideSpeedScaleLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAirSlideSpeedScaleLv3;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySuperSlideTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySuperSlideTimeLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySuperSlideTimeLv3;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySuperSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SuperSlideMinSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySuperSlideBreak;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyPoleTurnRotMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyRailSlideCheckRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyRailSlideCheckAirRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyRailSlideShotMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyRailSlideShotInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySlopeSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySlopeSlideAccelTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySlopeSlideMinSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWallRunSideSwitchAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWallRunDownSwitchAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyWallRunSideMoveSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverFindLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverMoveSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_CoverSlideMinSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideBreak;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideMutekiTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverCommandRreadyTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideSlowRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverSlideSlowTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotSlideTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_CoverShotSlideMinSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotSlideBreak;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotMutekiTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotSlideHomingRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotLockonLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCoverShotLockonSightMoveRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyCommandCoolDownTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAirSlideCoolDownTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAirGuardCoolDownTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAntiFormCoolDownTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyReactionCoolDownTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDamageEndCancelTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyGuardHoldTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyGuardMoveSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAutoLockonLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAutoLockonNear;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyManualLockonLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyManualLockonOff;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyShootLockonLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticLockonLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticLockonRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool MySonicAttackModeB;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyStylePointMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointAddRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointAddRateLv0;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointAddRateLv1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointAddRateLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool MyAntiFormGenerate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeStylePointAddRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeStylePointAddRateLv0;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeStylePointAddRateLv1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeStylePointAddRateLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeAntiFormGenerateRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalModeJustGuardTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CriticalChargeStylePointAddRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool MyStylePointAddWithoutHit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointDecStartTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointDecInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStylePointDec;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStyleFinishOffsetTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyStyleFinishOffsetTimeWeaponChange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFriendPointMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFriendPointTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyAttractionPointMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFocusPointAddHit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFocusPointAddTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFocusPointAddInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFocusPointConvertRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFocusPointNeedAF;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFocusAspirRateLv1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFocusAspirRateLv2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFocusAspirRateLv3;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFpChargeAddTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFpChargeInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticSlideTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticSlideSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticSlideKickAnim;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticAttackSlowRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyAthleticAttackSlowTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimSurfaceBuoyancy;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimSurfaceSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveLowSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveHighSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveDiveSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveRiseSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDashSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDashTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveOxygenTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveDashOxygenConsumeRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDiveDashDisableInputTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDivingHighSpeedMoveRotSpeedYaw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MySwimDivingHighSpeedMoveRotSpeedPitch;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraDiving* m_pSwimDivingCamera;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresPlayerFlyModes> MyFlyMotion;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresPlayerJumpModes> MyJumpMotion;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 bDispDebugInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 bDispNetDebugInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 bDebugDisableGameOver: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bAlwaysEnableWallRun: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugWallRunStartOff: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugDisableFriend: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugShooterModeInputType: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bWallTurnWithoutAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_bDebugHighJump;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebug2ndJump: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugDodge: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAirDodge: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugRiskDodge: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugSuperJump: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_bDebugSuperSlideLv;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugPoleSpin: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugPoleSwing: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugWallKick: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugEnemyTurn: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAirRecovery: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugBlowCounter: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAirRecoveryInputChange: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugGuard: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugGuardCounter: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugRevengeImpact: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugRevengeDive: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugRevengeEx: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugDodgeCounter: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugComboMaster: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_bDebugComboPlus;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_bDebugAirComboPlus;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinTriple: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinThrust: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinFlash: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinDown: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugLaunchSpin: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAirRollBeat: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinDonald1: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinDonald2: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinDonald3: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinGoofy1: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFinGoofy2: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugSonicSlash: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugSonicJump: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugSonicTurn: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugSonicWheel: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionVS: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionBM: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionSM: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionSC: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionMG: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionTC: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionAS: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionWS: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugAttractionFF: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugShieldAutoGrowUp: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugMpCharge: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugFpCharge: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugChargeBerserkTest: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugCuragan: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fDebugAttackMoveLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugForceUseSpawnPointVolume: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugDispNearSpawnPoint: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_nDebugTestMode;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_vDebugTmpVec0;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_vDebugTmpVec1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_vDebugTmpVec2;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<ATresSimpleEffect> m_AthleticRoot;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bFriendDisableAutoCreate: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ESQEX_AI_ThinkType m_FriendAIThinkType;
+    
+    UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = true))
+    FTresAttractionFlowAssetInfo m_AttractionFlowAssetInfo[16];
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<float> m_AttractionFlowDrawingHistoryRatio;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresPlayerPawnLoadAsset* m_LoadAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_GameStartChrLevel;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableWeaponChangeEquip: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresAnimSet* m_RestrictWeaponModeAnimSet;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFriendComboFinishRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFriendComboFinishRangeHalf;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyFriendComboFinishRangeNear;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFriendComboFinishAddRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFriendComboFinishAddRateRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFriendComboFinishAddRateRangeHalf;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MyFriendComboFinishAddRateRangeNear;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresPlayerSpecificAction OnPlayerSpecificAction;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresActorSpecificAction OnActorSpecificAction;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresPlayerBeginCommandAction OnPlayerBeginCommandAction;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresPlayerEndCommandAction OnPlayerEndCommandAction;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pFireEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pHopEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pPoleEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pPoleEffectH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pWallRunEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pSprintEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pAthleticHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<AEmitterCameraLensEffectBase> m_LensEffectClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pFocusAspirEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pSwanDiveEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pGuardReflectEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pJustGuardEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pCriticalCounterHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_pCoverShotDestroyEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USQEX_ParticleAttachDataAsset* m_AntiFormEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyDarkScreenRate;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDebugHitStop: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyHitStopTimeSmall;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MyHitStopTimeBig;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_OverlappedAttractionFlowDrawingActors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresSpawnPointDistanceScorer* m_pSpawnPointDistanceScorer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresSpawnPointAvoidActorFilter* m_pSpawnPointFilter;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresPlayerUniqueID m_PlayerUniqueID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UParticleSystemComponent* m_pDeathSentenceCountEffect;
+    
+public:
+    ATresPlayerPawnBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void RequestEndCommandKind(ETresCommandKind inCommand, int32 InParam0);
+    
+    UFUNCTION(BlueprintCallable)
+    bool RemotePlayerStateEvent(FName EventName, AActor* inActor);
+    
+    UFUNCTION(BlueprintImplementableEvent)
+    void ReceivePlayerSpecificAction(ETresPlayerSpecificActionID ActionID, int32 SubID);
+    
+    UFUNCTION(BlueprintImplementableEvent)
+    void ReceivePlayerEndCommandAction(ETresCommandKind CommandKind);
+    
+    UFUNCTION(BlueprintImplementableEvent)
+    void ReceivePlayerBeginCommandAction(ETresCommandKind CommandKind);
+    
+    UFUNCTION(BlueprintCallable)
+    void NotifySpecificActionAccompanyPawn(int32 ID, int32 Param0, int32 Param1, int32 Param2);
+    
+    UFUNCTION(BlueprintCallable)
+    FVector GetSpecificActionTargetPos(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCharPawnBase* GetSpecificActionAccompanyPawn(int32 ID) const;
+    
+    UFUNCTION(BlueprintCallable)
+    UTresPlayerStateEvent* GetPlayerStateEventByName(FName Name);
+    
+    UFUNCTION(BlueprintCallable)
+    UTresPlayerStateEvent* GetPlayerStateEvent(int32 Idx);
+    
+    UFUNCTION(BlueprintCallable)
+    UTresFriendComponent* GetFriendManager();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugWarpCheck(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetVikingShipParam(float fIdlePitch, float fIdlePow, float fIdleAcc, float fIdleBrk, float fAtkPitch, float fAtkPow, float fAtkAcc, float fAtkBrk);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetTmpVector(int32 InSlot, float InX, float InY, float InZ);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetRailSlideShotMax(int32 InMax);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetRailSlideShotInterval(float InTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetRailSlideCheckRange(float InRange, float InAirRange);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetInputCancel(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetHitStopTime(int32 InMode, float Timer);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGuardMoveSpeed(float InSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGuardHoldTime(float InTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGuardEnableDisp(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGlideParam(int32 bEnable, float InGravityScale, float InSpeed, float InTurnRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFriendComboFinishParam(float InRange, float InRangeHalf, float InRangeNear, int32 InAddRate, int32 InAddRateRange, int32 InAddRateRangeHalf, int32 InAddRateRangeNear);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFocusAspirRate(float fAspirLv1, float fAspirLv2, float fAspirLv3);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFloatingMode(bool bEnable, bool IsSpecial, float InGravityScale, float InSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetDiveFallLockon(float InRangeXY, float InLimitZ);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCoverSlowParam(float InRate, float InTeme);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCoverMoveSpeed(float InSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCoverFindLimit(float InLimit);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetComboTimeDisp(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetClimbingParam(int32 InVersion, float InRadius, float InFront, float InFrontF, float InFrontN, float InFinalSpace, float InBottom);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetClimbingBodyOff();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugResetTmpVector();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerFallIntoBottomlessPit(float Z);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableSkillCamera(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableDamageAlwaysHeavy(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableDamageAddVelocity(float InPow);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugCuragan(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeWeaponType(int32 InType);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangePlayerWeaponEquip(int32 InSlotIndex, int32 InWeaponItemID);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugBurnTest(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetWaterFlowAngle(float fWaterFlowAngle);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetForceWalkSpeed(float fForceWalkSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetEnableShootLockModeForRIKU(bool IsOn);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetEnableGuardHitBackControl(bool IsOn);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableWallRunPointDispOff(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableWallRunPointDisp(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisablePolePointDisp(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableHopPointDisp(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableFreeRunPointDisp(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    bool BP_NotifyForcedStartSnowCurling(UTresUICommandInfoBase* pUICommandInfo);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    bool BP_NotifyForcedStartSnowChase(UTresUICommandInfoBase* pUICommandInfo);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    bool BP_NotifyForcedStartDiveFall();
+    
 };
+

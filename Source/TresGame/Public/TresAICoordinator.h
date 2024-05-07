@@ -1,126 +1,171 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "GameFramework/Actor.h"
-#include "TresGame.h"
+#include "GameplayTagContainer.h"
+#include "TresAI_BPEM_NotificationStartAttackLogInfoDelegate.h"
+#include "TresGameplayTagDebugColor.h"
+#include "TresTeamDebugColor.h"
+#include "TresAI_BPEM_NotificationStartAIAttackLogInfoDelegate.h"
+#include "TresAI_BPEM_NotificationTakeDamageLogInfoDelegate.h"
+#include "TresAI_BPEM_NotificationAttackHitInvincibleCharLogInfoDelegate.h"
+#include "ETresTeam.h"
+#include "TresAI_BPEM_NotificationRecoveryHpMpFpLogInfoDelegate.h"
+#include "TresAI_BPEM_NotificationCtorStateLogInfoDelegate.h"
+#include "TresAI_BPEM_NotificationDtorStateLogInfoDelegate.h"
+#include "GenericTeamAgentInterface.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "TresAICoordinator.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresAICoordinator : public AActor
-{
-	GENERATED_BODY()
+class UTresAttackPermissionManager;
+class UCurveVector;
+class UTresBattlePlayerEmotionManager;
+class UTresNpcMetaAI;
+class UEnvQuery;
+class UTresCoopManager;
+class ATresAICoordinator;
+class UObject;
+
+UCLASS(Blueprintable)
+class ATresAICoordinator : public AActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	TArray<class UClass*> AttackPermissionManagers;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	class UCurveVector* PostAttackerAssignedCooldown;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	class UCurveVector* PostTargetAttackedCooldown;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//TArray<struct FTresGameplayTagDebugColor> AttackGroupDebugColors;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//TArray<struct FTresTeamDebugColor> TargetDebugColors;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	bool EnableDebugDraw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	bool EnableCoopDebugDraw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	FGameplayTag AttackGroupDebugDraw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	class UClass* FriendNpcMetaAIClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	class UClass* BattlePlayerEmotionManagerClass;
-
-	/*struct FScriptMulticastDelegate OnNotificationStartAIAttackLogInfo;
-	struct FScriptMulticastDelegate OnNotificationStartAttackLogInfo;
-	struct FScriptMulticastDelegate OnNotificationTakeDamageLogInfo;
-	struct FScriptMulticastDelegate OnNotificationAttackHitInvincibleCharLogInfo;
-	struct FScriptMulticastDelegate OnNotificationRecoveryHpMpFpLogInfo;
-	struct FScriptMulticastDelegate OnNotificationCtorStateLogInfo;
-	struct FScriptMulticastDelegate OnNotificationDtorStateLogInfo;*/
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//TArray<class UTresAttackPermissionManager*> m_AttackPermissionManagers;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//class UTresCoopManager* m_CoopManager;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//class UTresNpcMetaAI* m_FriendNpcMetaAI;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//class UTresBattlePlayerEmotionManager* m_BattlePlayerEmotionManager;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	class UEnvQuery* GoalRankingQuery;
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	bool IsSelected() { return false; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator", meta = (WorldContext = "WorldContext"))
-	static class ATresAICoordinator* GetTresAICoordinator(class UObject* WorldContext) { return nullptr; };
-
-	//void GetTargetableActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	int GetPositionalRankingNotDuplicate(class AActor* inSourceActor, class AActor* inTargetedActor) { return 0; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	int GetPositionalRanking(class AActor* inSourceActor, class AActor* inTargetedActor) { return 0; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	void GetPlayerFaction(TArray<class AActor*>& outResult) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	void GetNeutralFaction(TArray<class AActor*>& outResult) {};
-
-	//int GetMemberCountWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, bool IncludingReserve) { return 0; };
-
-	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	//class UTresNpcMetaAI* GetFriendNpcMetaAI() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	FLinearColor GetFactionColor(class AActor* InTarget) { return FLinearColor::FLinearColor(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	void GetEnemyFaction(TArray<class AActor*>& outResult) {};
-
-	//void GetDestinationsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<struct FVector>* outResult) {};
-
-	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	//class UTresCoopManager* GetCoopManager() {};
-
-	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	//class UTresBattlePlayerEmotionManager* GetBattlePlayerEmotionManager() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	FLinearColor GetAttackGroupColor(class AActor* inAttacker) { return FLinearColor::FLinearColor(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	float GetAssigmentCooldownRemainingTicket(class AActor* inTargetedActor, const FGameplayTag& AttackerGroup) { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	float GetAssigmentCooldownRemaining(class AActor* inTargetedActor, const FGameplayTag& AttackerGroup) { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	void GetAlliesInAttackGroup(class AActor* inSourceActor, const FGameplayTag& AttackerGroup, TArray<class AActor*>& outResult) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
-	void GetActorsWithTeamID(TEnumAsByte<ETresTeam> inTeamID, TArray<class AActor*>& outResult) {};
-	//void GetActorsWithAffiliationAll(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
-	//void GetActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresAICoordinator")
-	void BP_AssignAttackers(TArray<class AActor*> inSourceActors) {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<TSubclassOf<UTresAttackPermissionManager>> AttackPermissionManagers;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveVector* PostAttackerAssignedCooldown;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveVector* PostTargetAttackedCooldown;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresGameplayTagDebugColor> AttackGroupDebugColors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresTeamDebugColor> TargetDebugColors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool EnableDebugDraw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool EnableCoopDebugDraw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FGameplayTag AttackGroupDebugDraw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresNpcMetaAI> FriendNpcMetaAIClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UTresBattlePlayerEmotionManager> BattlePlayerEmotionManagerClass;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationStartAIAttackLogInfo OnNotificationStartAIAttackLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationStartAttackLogInfo OnNotificationStartAttackLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationTakeDamageLogInfo OnNotificationTakeDamageLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationAttackHitInvincibleCharLogInfo OnNotificationAttackHitInvincibleCharLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationRecoveryHpMpFpLogInfo OnNotificationRecoveryHpMpFpLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationCtorStateLogInfo OnNotificationCtorStateLogInfo;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_BPEM_NotificationDtorStateLogInfo OnNotificationDtorStateLogInfo;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTresAttackPermissionManager*> m_AttackPermissionManagers;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresCoopManager* m_CoopManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresNpcMetaAI* m_FriendNpcMetaAI;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresBattlePlayerEmotionManager* m_BattlePlayerEmotionManager;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UEnvQuery* GoalRankingQuery;
+    
+public:
+    ATresAICoordinator(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsSelected() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static ATresAICoordinator* GetTresAICoordinator(UObject* WorldContext);
+    
+    UFUNCTION(BlueprintPure)
+    void GetTargetableActorsWithAffiliation(TArray<AActor*>& outResult, const AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetPositionalRankingNotDuplicate(const AActor* inSourceActor, const AActor* inTargetedActor) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetPositionalRanking(const AActor* inSourceActor, const AActor* inTargetedActor) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void GetPlayerFaction(TArray<AActor*>& outResult) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void GetNeutralFaction(TArray<AActor*>& outResult) const;
+    
+    UFUNCTION(BlueprintPure)
+    int32 GetMemberCountWithAffiliation(const AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, bool IncludingReserve) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresNpcMetaAI* GetFriendNpcMetaAI() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FLinearColor GetFactionColor(AActor* InTarget) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void GetEnemyFaction(TArray<AActor*>& outResult) const;
+    
+    UFUNCTION(BlueprintPure)
+    void GetDestinationsWithAffiliation(TArray<FVector>& outResult, AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresCoopManager* GetCoopManager() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UTresBattlePlayerEmotionManager* GetBattlePlayerEmotionManager() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FLinearColor GetAttackGroupColor(AActor* inAttacker) const;
+    
+    UFUNCTION(BlueprintCallable)
+    float GetAssigmentCooldownRemainingTicket(const AActor* inTargetedActor, FGameplayTag AttackerGroup);
+    
+    UFUNCTION(BlueprintCallable)
+    float GetAssigmentCooldownRemaining(const AActor* inTargetedActor, FGameplayTag AttackerGroup);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void GetAlliesInAttackGroup(TArray<AActor*>& outResult, const AActor* inSourceActor, FGameplayTag AttackerGroup) const;
+    
+    UFUNCTION(BlueprintPure)
+    void GetActorsWithTeamID(TArray<AActor*>& outResult, TEnumAsByte<ETresTeam::Type> inTeamID) const;
+    
+    UFUNCTION(BlueprintPure)
+    void GetActorsWithAffiliationAll(TArray<AActor*>& outResult, const AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude) const;
+    
+    UFUNCTION(BlueprintPure)
+    void GetActorsWithAffiliation(TArray<AActor*>& outResult, const AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude) const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_AssignAttackers(TArray<AActor*> inSourceActors);
+    
 };
+

@@ -1,150 +1,164 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "GameFramework/Actor.h"
-#include "TresGame.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresCommandKind.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=CoreUObject -ObjectName=StringAssetReference -FallbackName=StringAssetReference
+#include "UObject/NoExportTypes.h"
+#include "TresLevelEntityAppearInfo.h"
+#include "UObject/NoExportTypes.h"
+#include "TresLevelEntityUserData.h"
 #include "TresLevelEntity.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresLevelEntity : public AActor
-{
-	GENERATED_BODY()
-	
+class UObject;
+class USceneComponent;
+class UTresLevelEntityActorData;
+class ATresAIPawnBase;
+class UTresLevelEntityGroup;
+class UTresLevelEntityManager;
+
+UCLASS(Blueprintable)
+class TRESGAME_API ATresLevelEntity : public AActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_ForceLazyLoad;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class USceneComponent* TransformComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	FGuid m_GUID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_MaxSpawnCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	FName m_EntityTag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	FStringAssetReference m_ActorClassPath;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TEnumAsByte<ETresCommandKind> m_AttractionFlowMarkerCommand;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TArray<FName> m_GroupNames;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_LazyLoad;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_DontSpawnIfColliding;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_CurrentAppearInfoNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	struct FTresLevelEntityAppearInfo m_CurrentAppearInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class UObject* m_Spawner;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	FVector m_SpawnLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	FRotator m_SpawnRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	float m_SpawnWait;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	float m_AppearWait;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_AppearVisible;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_AppearCoopNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_AppearInfoNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TArray<struct FTresLevelEntityAppearInfo> m_AppearInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_CurrentUserDataNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	struct FTresLevelEntityUserData m_CurrentUserData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_UserDataNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TArray<struct FTresLevelEntityUserData> m_UserData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class UTresLevelEntityActorData* m_ActorData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class UClass* m_ActorClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class AActor* m_EntityActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class ATresAIPawnBase* m_VanishingActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TArray<class UTresLevelEntityGroup*> m_Groups;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	class UTresLevelEntityManager* m_Manager;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_Suspend;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_SpawnCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	int m_KillCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_PendingLoadActorClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_ActorClassLoading;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_LoadActorClassCompleteThenSpawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_CancelActorClassLoading;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	TArray<int> m_DataBuffer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	bool m_AutoDestroy;
-
-	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
-	void LinkActorPosition() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
-	class AActor* GetActor() { return nullptr; };
-	
-	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
-	void DestroyActor() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
-	void DestorySelfWithActor() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
-	void DestorySelf() {};
+private:
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ForceLazyLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    USceneComponent* TransformComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FGuid m_GUID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_MaxSpawnCount;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_EntityTag;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FStringAssetReference m_ActorClassPath;
+    
+    UPROPERTY(EditAnywhere, Transient)
+    TEnumAsByte<ETresCommandKind> m_AttractionFlowMarkerCommand;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_GroupNames;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_LazyLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_DontSpawnIfColliding;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 m_CurrentAppearInfoNo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FTresLevelEntityAppearInfo m_CurrentAppearInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UObject* m_Spawner;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FVector m_SpawnLocation;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FRotator m_SpawnRotation;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    float m_SpawnWait;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    float m_AppearWait;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_AppearVisible;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 m_AppearCoopNo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_AppearInfoNo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresLevelEntityAppearInfo> m_AppearInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 m_CurrentUserDataNo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FTresLevelEntityUserData m_CurrentUserData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_UserDataNo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresLevelEntityUserData> m_UserData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresLevelEntityActorData* m_ActorData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TSubclassOf<AActor> m_ActorClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    AActor* m_EntityActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresAIPawnBase* m_VanishingActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UTresLevelEntityGroup*> m_Groups;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresLevelEntityManager* m_Manager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_Suspend;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 m_SpawnCount;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 m_KillCount;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_PendingLoadActorClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_ActorClassLoading;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_LoadActorClassCompleteThenSpawn;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_CancelActorClassLoading;
+    
+    UPROPERTY(EditAnywhere, SaveGame, Transient)
+    TArray<uint8> m_DataBuffer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool m_AutoDestroy;
+    
+public:
+    ATresLevelEntity(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void LinkActorPosition();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    AActor* GetActor() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void DestroyActor();
+    
+    UFUNCTION(BlueprintCallable)
+    void DestorySelfWithActor();
+    
+    UFUNCTION(BlueprintCallable)
+    void DestorySelf();
+    
 };
+

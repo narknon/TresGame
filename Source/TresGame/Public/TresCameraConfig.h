@@ -1,22 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
 #include "TresCameraConfig.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresCameraConfig : public UObject
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, Config=TresCameraConfig)
+class UTresCameraConfig : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraConfig")
-	bool m_bAutoMoveRotationYawOnly;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraConfig")
-	bool m_bNoCollision;
+protected:
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bAutoMoveRotationYawOnly: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bNoCollision: 1;
+    
+public:
+    UTresCameraConfig();
 };
+

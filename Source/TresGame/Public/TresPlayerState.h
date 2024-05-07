@@ -1,27 +1,31 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "TresPlayerState.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresPlayerState : public APlayerState
-{
-	GENERATED_BODY()
+class ATresPlayerState;
+class UDamageType;
+
+UCLASS(Blueprintable)
+class ATresPlayerState : public APlayerState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerState")
-	int m_TeamNo;
-
-	//void OnRep_TeamNo() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerState")
-	void InformAboutKill(class ATresPlayerState* KillerPlayerState, class UDamageType* KillerDamageType, class ATresPlayerState* KilledPlayerState) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerState")
-	void BroadcastDeath(class ATresPlayerState* KillerPlayerState, class UDamageType* KillerDamageType, class ATresPlayerState* KilledPlayerState) {};
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_TeamNo, meta=(AllowPrivateAccess=true))
+    int32 m_TeamNo;
+    
+public:
+    ATresPlayerState(const FObjectInitializer& ObjectInitializer);
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
+    UFUNCTION(BlueprintCallable)
+    void OnRep_TeamNo();
+    
+    UFUNCTION(BlueprintCallable, Client, Reliable)
+    void InformAboutKill(ATresPlayerState* KillerPlayerState, const UDamageType* KillerDamageType, ATresPlayerState* KilledPlayerState);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void BroadcastDeath(ATresPlayerState* KillerPlayerState, const UDamageType* KillerDamageType, ATresPlayerState* KilledPlayerState);
+    
 };
+

@@ -1,25 +1,26 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TresGame.h"
+#include "TresAI_EBP_PhaseChangeDelegate.h"
+#include "GameplayTagContainer.h"
 #include "TresAIEventBattlePoint.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresAIEventBattlePoint : public AActor
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class TRESGAME_API ATresAIEventBattlePoint : public AActor {
+    GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate OnPhaseChange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIEventBattlePoint")
-	bool m_UseBattlePlayerEmotionManager;
-
-	UFUNCTION(BlueprintCallable, Category = "TresAIEventBattlePoint")
-	void SetPhaseTag(const FGameplayTag& InTag) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresAIEventBattlePoint")
-	bool IsPhaseTag(const FGameplayTag& InTag) { return false; };
+    UPROPERTY(BlueprintAssignable, BlueprintCallable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresAI_EBP_PhaseChange OnPhaseChange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_UseBattlePlayerEmotionManager;
+    
+    ATresAIEventBattlePoint(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetPhaseTag(const FGameplayTag& InTag);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPhaseTag(const FGameplayTag& InTag) const;
+    
 };
+

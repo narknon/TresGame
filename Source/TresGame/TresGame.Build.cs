@@ -1,23 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 using UnrealBuildTool;
 
-public class TresGame : ModuleRules
-{
-	public TresGame(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTags", "BonamikRt", "ScaleformUI" });
-
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-
-		// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
-	}
+public class TresGame : ModuleRules {
+    public TresGame(ReadOnlyTargetRules Target) : base(Target) {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        bEnableExceptions = true;
+        
+        PublicDependencyModuleNames.AddRange(new string[] {
+            "AIModule",
+            "AnimGraphRuntime",
+            "AnimationCore",
+            "BonamikRt",
+            "Core",
+            "CoreUObject",
+            "CriWareRuntime",
+            "Engine",
+            "GameplayTags",
+            "GameplayTasks",
+            "InputCore",
+            "KBDRt",
+			"KineDriverRt",
+            "Mercuna",
+            "Mercuna3DMovement",
+            "MovieScene",
+            "MovieSceneTracks",
+            "RenderCore",
+            "Renderer",
+            "SQEXSEAD",
+            "ScaleformUI",
+            "Slate",
+            "SlateCore",
+            "UMG",
+        });
+    }
 }

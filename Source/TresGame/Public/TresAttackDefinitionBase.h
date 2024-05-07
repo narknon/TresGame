@@ -1,107 +1,111 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresActionDefinitionBase.h"
+#include "ETresAttackDefinition.h"
+#include "TresFNpcAIAttackDefInfo.h"
 #include "TresAttackDefinitionBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAttackDefinitionBase : public UTresActionDefinitionBase
-{
-	GENERATED_BODY()
+class UEnvQuery;
+
+UCLASS(Abstract, Blueprintable)
+class UTresAttackDefinitionBase : public UTresActionDefinitionBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	TEnumAsByte<ETresAttackDefinition> m_AttackType;
-	FName m_AttackName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bMinDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_MinDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bMaxDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_MaxDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bMinHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_MinHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bMaxHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_MaxHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_EQSRangeRefinement;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bDirectPathRequired;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bLineOfSightRequired;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	class UEnvQuery* m_ActionEQSQuery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bTargetRequired;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bSelfInViewport;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bValidateYaw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_YawOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_YawTolerance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bValidatePitch;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_PitchOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_PitchTolerance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bEditNpcAIInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	struct FTresFNpcAIAttackDefInfo m_NpcAIInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bIndirectAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	FName m_AttackerDataID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	TArray<FName> m_AttackedDataID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_AttackDuration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	bool m_bCanMultiHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_SuspendTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAttackDefinitionBase")
-	float m_MissScore;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresAttackDefinition::Type> m_AttackType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_AttackName;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bMinDistance: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_MinDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bMaxDistance: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_MaxDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bMinHeight: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_MinHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bMaxHeight: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_MaxHeight;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_EQSRangeRefinement;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bDirectPathRequired: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bLineOfSightRequired: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UEnvQuery* m_ActionEQSQuery;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bTargetRequired: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bSelfInViewport: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bValidateYaw: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_YawOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_YawTolerance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bValidatePitch: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PitchOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PitchTolerance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bEditNpcAIInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresFNpcAIAttackDefInfo m_NpcAIInfo;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bIndirectAttack;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_AttackerDataID;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_AttackedDataID;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AttackDuration;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bCanMultiHit;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SuspendTime;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_MissScore;
+    
+public:
+    UTresAttackDefinitionBase();
 };
+

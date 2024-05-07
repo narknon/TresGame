@@ -1,25 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
 #include "TresNavMapVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresNavMapVolume : public ATresVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresNavMapVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNavMapVolume")
-	FName m_DataTableKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNavMapVolume")
-	bool m_EnableNavMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNavMapVolume")
-	float m_SwitchNavMapTime;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DataTableKey;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_EnableNavMap;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SwitchNavMapTime;
+    
+public:
+    ATresNavMapVolume(const FObjectInitializer& ObjectInitializer);
 };
+

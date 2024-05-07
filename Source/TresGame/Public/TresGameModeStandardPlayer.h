@@ -1,16 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresGameMode.h"
 #include "TresGameModeStandardPlayer.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGameModeStandardPlayer : public ATresGameMode
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, NonTransient)
+class ATresGameModeStandardPlayer : public ATresGameMode {
+    GENERATED_BODY()
+public:
+    ATresGameModeStandardPlayer(const FObjectInitializer& ObjectInitializer);
 };
+

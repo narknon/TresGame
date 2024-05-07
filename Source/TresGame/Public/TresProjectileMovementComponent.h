@@ -1,129 +1,134 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "TresGame.h"
+#include "ETresProjectileHomingType.h"
+#include "TresScaleVectorAnim.h"
 #include "TresProjectileMovementComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresProjectileMovementComponent : public UProjectileMovementComponent
-{
-	GENERATED_BODY()
+class UTresLockonTargetComponent;
+class UCurveFloat;
+class AActor;
+
+UCLASS(Blueprintable, ClassGroup=Custom, Config=Game, meta=(BlueprintSpawnableComponent))
+class UTresProjectileMovementComponent : public UProjectileMovementComponent {
+    GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate OnTickMove;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_Accel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	class UCurveFloat* m_VelocityCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bVelocityCurveLoop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bDisableMovementProc;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bEnableMapHitNormalCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_CheckMapHitNormal;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bQuaternionFollowsVelocity;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_fQuaternionFollowsVelRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bWaitMoveStartOnce;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_fMoveStartDelay;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bEnableHoming;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingStartDelay;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingMinDist;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bIgnoreHomingZ;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	TEnumAsByte<ETresProjectileHomingType> m_HomingType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingMaxAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingTurnMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingTurnAccel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingMaxTurnMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	class UCurveFloat* m_HomingTurnMaxCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bHomingTurnMaxCurveLoop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingMaxAnglePITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingTurnMaxPITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingTurnAccelPITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_HomingMaxTurnMaxPITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	class UCurveFloat* m_HomingTurnMaxCurvePITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bHomingTurnMaxCurveLoopPITCH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_StepUpHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	class AActor* m_HomingTargetActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	class UTresLockonTargetComponent* m_HomingTargetComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bEnableSpin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	struct FRotator m_Spin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_SpinStartDelay;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	float m_SpinMaxTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	bool m_bEnableUpdatedComponentScaleAnim;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	struct FTresScaleVectorAnim m_ScaleAnim;
-
-	//void OnMoveTickDelegate__DelegateSignature(float InDeltaTime);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMoveTickDelegate, float, InDeltaTime);
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnMoveTickDelegate OnTickMove;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_Accel;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveFloat* m_VelocityCurve;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bVelocityCurveLoop: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableMovementProc: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bEnableMapHitNormalCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_CheckMapHitNormal;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bQuaternionFollowsVelocity: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fQuaternionFollowsVelRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bWaitMoveStartOnce: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fMoveStartDelay;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bEnableHoming: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingStartDelay;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingMinDist;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bIgnoreHomingZ: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresProjectileHomingType m_HomingType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingMaxAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingTurnMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingTurnAccel;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingMaxTurnMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveFloat* m_HomingTurnMaxCurve;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bHomingTurnMaxCurveLoop: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingMaxAnglePITCH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingTurnMaxPITCH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingTurnAccelPITCH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_HomingMaxTurnMaxPITCH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveFloat* m_HomingTurnMaxCurvePITCH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bHomingTurnMaxCurveLoopPITCH: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_StepUpHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    AActor* m_HomingTargetActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresLockonTargetComponent* m_HomingTargetComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bEnableSpin: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FRotator m_Spin;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SpinStartDelay;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_SpinMaxTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bEnableUpdatedComponentScaleAnim: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresScaleVectorAnim m_ScaleAnim;
+    
+public:
+    UTresProjectileMovementComponent();
 };
+

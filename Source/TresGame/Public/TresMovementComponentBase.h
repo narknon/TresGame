@@ -1,20 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PawnMovementComponent.h"
-#include "TresGame.h"
+#include "TresMovementComponentPostPhysicsTickFunction.h"
 #include "TresMovementComponentBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresMovementComponentBase : public UPawnMovementComponent
-{
-	GENERATED_BODY()
-public:
+class ATresPawnBase;
 
-	FTresMovementComponentPostPhysicsTickFunction m_PostPhysicsTickFunction;
+UCLASS(Abstract, Blueprintable, ClassGroup=Custom, Config=Game, meta=(BlueprintSpawnableComponent))
+class UTresMovementComponentBase : public UPawnMovementComponent {
+    GENERATED_BODY()
+public:
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresPawnBase* CharacterOwner;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresMovementComponentPostPhysicsTickFunction m_PostPhysicsTickFunction;
+    
+    UTresMovementComponentBase();
 };
+

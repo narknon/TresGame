@@ -1,137 +1,153 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/Object.h"
+#include "TresAnimInterface.h"
+#include "TresNotifyInterface.h"
+#include "ETresStateID.h"
+#include "Engine/EngineTypes.h"
 #include "UObject/NoExportTypes.h"
-#include "TresGame.h"
 #include "TresStateBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresStateBase : public UObject
-{
-	GENERATED_BODY()
+class ATresPlayerControllerBase;
+class ATresCharPawnBase;
+class ATresPlayerPawnBase;
+class ATresSceneManager;
+class ATresPawnBase;
+class ATresAIController;
+class APawn;
+class AController;
+class AActor;
+class USQEX_ParticleAttachDataAsset;
+class UAnimSequenceBase;
+
+UCLASS(Blueprintable)
+class UTresStateBase : public UObject, public ITresAnimInterface, public ITresNotifyInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	FName MyStateName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	TEnumAsByte<ETresStateID> MyStateID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bEnableRecycle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	class ATresCharPawnBase* MyCharPawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	int m_nSubStep;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	int m_TurnIndex;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	float m_TurnToTargetSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bEnableChange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bReverseLeg;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bEnableTraction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bEnableTurnToTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bFaceAt;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresStateBase")
-	bool m_bEnableInput;
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresSceneManager* GetTresSceneManager() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresPlayerPawnBase* GetTresPlayerPawnBase() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresPlayerControllerBase* GetTresPlayerController() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresPawnBase* GetTresPawnBase() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresCharPawnBase* GetTresCharPawnBase() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class ATresAIController* GetTresAIController() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	FName GetStateName() { return FName::FName(); };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	TEnumAsByte<ETresStateID> GetStateID() { return ETresStateID::TSID_STATE_ACTION; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class APawn* GetPawn() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	TEnumAsByte<ENetRole> GetOwnerRole() { return ENetRole::ROLE_Authority; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	TEnumAsByte<ENetRole> GetOwnerRemoteRole() { return ENetRole::ROLE_Authority; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class AController* GetController() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	class AActor* GetActor() { return nullptr; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void DoRestartAgain() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void DoRestart() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void DoFinish() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void DoChain() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void DoAgain() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void BP_SetEffectAttach(int InGroup) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void BP_SetEffect(const FName& InAttachName, class USQEX_ParticleAttachDataAsset* InAttachData, int InGroupID) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	bool BP_IsAnimEnd(const FName& InSlotName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void BP_EndEffect(int InGroupID, bool bEqual) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	void BP_AnimStop(const FName& InSlotName, float InBlendOutTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	bool BP_AnimSetBlendSpaceParam(const FName& InSlotName, float InX, float InY, float InZ) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	float BP_AnimPlaySequence(class UAnimSequenceBase* InAsset, const FName& InSlotName, float InBlendInTime, bool InLoop, int InEffectGroup, float InPlayRate, bool InRootTrans, bool InRootRot, const FVector2D& InRootTransScale) { return 0.0f; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	float BP_AnimPlay(const FName& InAnimName, float InBlendInTime, float InBlendOutTime, bool InLoop, bool InRootTrans, bool InRootRot, float InPlayRate) { return 0.0f; };
-
-	UFUNCTION(BlueprintPure, Category = "TresStateBase")
-	FName BP_AnimGetUseSlotName(int InIndex) { return FName::FName();; };
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName MyStateName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresStateID> MyStateID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableRecycle: 1;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresCharPawnBase* MyCharPawn;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_nSubStep;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_TurnIndex;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_TurnToTargetSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableChange: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bReverseLeg: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableTraction: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableTurnToTarget: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bFaceAt: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 m_bEnableInput: 1;
+    
+    UTresStateBase();
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresSceneManager* GetTresSceneManager() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresPlayerPawnBase* GetTresPlayerPawnBase() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresPlayerControllerBase* GetTresPlayerController() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresPawnBase* GetTresPawnBase() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCharPawnBase* GetTresCharPawnBase() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresAIController* GetTresAIController() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName GetStateName() const;
+    
+    UFUNCTION(BlueprintPure)
+    TEnumAsByte<ETresStateID> GetStateID() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    APawn* GetPawn() const;
+    
+    UFUNCTION(BlueprintPure)
+    TEnumAsByte<ENetRole> GetOwnerRole() const;
+    
+    UFUNCTION(BlueprintPure)
+    TEnumAsByte<ENetRole> GetOwnerRemoteRole() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    AController* GetController() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    AActor* GetActor() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void DoRestartAgain();
+    
+    UFUNCTION(BlueprintCallable)
+    void DoRestart();
+    
+    UFUNCTION(BlueprintCallable)
+    void DoFinish();
+    
+    UFUNCTION(BlueprintCallable)
+    void DoChain();
+    
+    UFUNCTION(BlueprintCallable)
+    void DoAgain();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetEffectAttach(int32 InGroup);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetEffect(FName InAttachName, USQEX_ParticleAttachDataAsset* InAttachData, int32 InGroupID);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool BP_IsAnimEnd(FName InSlotName) const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_EndEffect(int32 InGroupID, bool bEqual);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_AnimStop(FName InSlotName, float InBlendOutTime);
+    
+    UFUNCTION(BlueprintCallable)
+    bool BP_AnimSetBlendSpaceParam(FName InSlotName, float InX, float InY, float InZ);
+    
+    UFUNCTION(BlueprintCallable)
+    float BP_AnimPlaySequence(UAnimSequenceBase* InAsset, FName InSlotName, float InBlendInTime, bool InLoop, int32 InEffectGroup, float InPlayRate, bool InRootTrans, bool InRootRot, const FVector2D& InRootTransScale);
+    
+    UFUNCTION(BlueprintCallable)
+    float BP_AnimPlay(FName InAnimName, float InBlendInTime, float InBlendOutTime, bool InLoop, bool InRootTrans, bool InRootRot, float InPlayRate);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName BP_AnimGetUseSlotName(int32 InIndex) const;
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

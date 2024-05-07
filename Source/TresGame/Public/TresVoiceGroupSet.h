@@ -1,21 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "TresVoiceGroup.h"
 #include "Engine/DataAsset.h"
-#include "TresGame.h"
 #include "TresVoiceGroupSet.generated.h"
 
-/**
- * 
- */
 UCLASS(Blueprintable)
-class TRESGAME_API UTresVoiceGroupSet : public UDataAsset
-{
-	GENERATED_BODY()
+class TRESGAME_API UTresVoiceGroupSet : public UDataAsset {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresVoiceGroupSet")
-	TArray<FTresVoiceGroup> m_VoiceGroups;
-	
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresVoiceGroup> m_VoiceGroups;
+    
+public:
+    UTresVoiceGroupSet();
 };
+

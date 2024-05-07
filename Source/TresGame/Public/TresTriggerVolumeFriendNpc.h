@@ -1,23 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Engine/TriggerVolume.h"
-#include "TresGame.h"
+#include "ETresNotifyFriendNpc.h"
 #include "TresTriggerVolumeFriendNpc.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresTriggerVolumeFriendNpc : public ATriggerVolume
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTriggerVolumeFriendNpc")
-	TEnumAsByte<ETresNotifyFriendNpc> m_NotifyType;
+class AActor;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTriggerVolumeFriendNpc")
-	class AActor* m_ActionPoint;
+UCLASS(Blueprintable, Config=Game)
+class ATresTriggerVolumeFriendNpc : public ATriggerVolume {
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresNotifyFriendNpc::Type> m_NotifyType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* m_ActionPoint;
+    
+    ATresTriggerVolumeFriendNpc(const FObjectInitializer& ObjectInitializer);
 };
+

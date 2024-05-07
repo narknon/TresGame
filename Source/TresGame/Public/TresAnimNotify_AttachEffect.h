@@ -1,26 +1,25 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "SQEX_AttachEffectNotifyDataToDataAsset.h"
+#include "SQEX_AttachEffectNotifyDataToMetaAttachData.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "TresGame.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_AttachEffectNotifyDataToMetaAttachData -FallbackName=SQEX_AttachEffectNotifyDataToMetaAttachData
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_AttachEffectNotifyDataToDataAsset -FallbackName=SQEX_AttachEffectNotifyDataToDataAsset
 #include "TresAnimNotify_AttachEffect.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_AttachEffect : public UAnimNotify
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_AttachEffect : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
-	FString Description;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
-	TArray<FSQEX_AttachEffectNotifyDataToMetaAttachData> MetaAttachDataList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
-	TArray<FSQEX_AttachEffectNotifyDataToDataAsset> AttachDataList;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString Description;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FSQEX_AttachEffectNotifyDataToMetaAttachData> MetaAttachDataList;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FSQEX_AttachEffectNotifyDataToDataAsset> AttachDataList;
+    
+    UTresAnimNotify_AttachEffect();
 };
+

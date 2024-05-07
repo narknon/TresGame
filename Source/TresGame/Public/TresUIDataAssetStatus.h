@@ -1,35 +1,37 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresUIDataAsset.h"
-#include "SwfMovie.h"
 #include "TresUIDataAssetStatus.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresUIDataAssetStatus : public UTresUIDataAsset
-{
-	GENERATED_BODY()
+class UTresUIHudCommandDataAsset;
+class ATresUIActor;
+class USwfMovie;
+class UObject;
+class UTexture;
+
+UCLASS(Blueprintable)
+class UTresUIDataAssetStatus : public UTresUIDataAsset {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	class USwfMovie* FaceSwfAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	TArray<class UObject*> FaceSwfRefAssets;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	bool EnableWearForm;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	class UClass* CampTopUIActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	class UTexture* MenuFaceIcon;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIDataAssetStatus")
-	//class UTresUIHudCommandDataAsset* HudCommandDataAsset;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USwfMovie* FaceSwfAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UObject*> FaceSwfRefAssets;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool EnableWearForm;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<ATresUIActor> CampTopUIActor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTexture* MenuFaceIcon;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTresUIHudCommandDataAsset* HudCommandDataAsset;
+    
+    UTresUIDataAssetStatus();
 };
+

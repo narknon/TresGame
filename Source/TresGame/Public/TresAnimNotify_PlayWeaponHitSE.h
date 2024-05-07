@@ -1,35 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ETresSoundAliasUnit.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "TresGame.h"
+#include "ETresSoundAliasLabel_WeaponHit.h"
 #include "TresAnimNotify_PlayWeaponHitSE.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_PlayWeaponHitSE : public UAnimNotify
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_PlayWeaponHitSE : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponHit> m_SoundAliasID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	TEnumAsByte<ETresSoundAliasUnit> m_SoundAliasUnit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	float m_VolumeMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	float m_PitchMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	FName m_SocketName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	bool m_bFollow;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresSoundAliasLabel_WeaponHit::Type> m_SoundAliasID;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))
+    TEnumAsByte<ETresSoundAliasUnit::Type> m_SoundAliasUnit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_VolumeMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PitchMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_SocketName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bFollow: 1;
+    
+public:
+    UTresAnimNotify_PlayWeaponHitSE();
 };
+

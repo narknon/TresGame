@@ -1,34 +1,30 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
 #include "TresAnimNotifyState_Bonamik_SpeedRate.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_Bonamik_SpeedRate : public UAnimNotifyState
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_Bonamik_SpeedRate : public UAnimNotifyState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	float m_BeginSpeedRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	float m_BeginBlendTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	bool m_RestoreOriginalSpeedRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	float m_EndSpeedRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	float m_EndBlendTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_SpeedRate")
-	bool m_ApplyToChildren;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_BeginSpeedRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_BeginBlendTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_RestoreOriginalSpeedRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_EndSpeedRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_EndBlendTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ApplyToChildren;
+    
+    UTresAnimNotifyState_Bonamik_SpeedRate();
 };
+

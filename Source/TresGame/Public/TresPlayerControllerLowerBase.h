@@ -1,76 +1,77 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "TresControllerInterface.h"
 #include "TresPlayerControllerLowerBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresPlayerControllerLowerBase : public APlayerController
-{
-	GENERATED_BODY()
+class ATresCameraDebug;
+class ATresCameraManager;
+
+UCLASS(Blueprintable)
+class ATresPlayerControllerLowerBase : public APlayerController, public ITresControllerInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerLowerBase")
-	class ATresCameraManager* m_pCameraManager;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerLowerBase")
-	class ATresCameraDebug* m_pCameraDebug;
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void ToggleTresCameraDebugStop() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void ToggleTresCameraDebug() {};
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseFrameSkip();
-	void OnDebugPauseFrameSkip_Implementation() {};
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseEnableGamePad();
-	void OnDebugPauseEnableGamePad_Implementation() {};
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseEnable();
-	void OnDebugPauseEnable_Implementation() {};
-
-	UFUNCTION(BlueprintPure, Category = "TresPlayerControllerLowerBase")
-	class ATresCameraManager* GetTresCameraManager() { return nullptr; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void EnableDebugPauseFunction(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugShowMatineeTime() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugShowCameraDebugInfo(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugSetGameFrameRate(float InMaxFrame, float InMinFrame) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugSetFixedDeltaTime(float InFrameRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugSetCameraZero() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugSetCameraSpeedScale(float SpeedScale) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugSetCameraFieldOfView(float FOV) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugGamePadSpecialLeftDebugPause(int debugPauseStyle) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void DebugCameraShutOutFade(bool bEnable) {};
-
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	//void DebugCameraCollCheck(unsigned char EnableNo) {};
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraManager* m_pCameraManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraDebug* m_pCameraDebug;
+    
+public:
+    ATresPlayerControllerLowerBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable, Exec)
+    void ToggleTresCameraDebugStop();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void ToggleTresCameraDebug();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void OnDebugPauseFrameSkip();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void OnDebugPauseEnableGamePad();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void OnDebugPauseEnable();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    ATresCameraManager* GetTresCameraManager() const;
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void EnableDebugPauseFunction(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowMatineeTime();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowCameraDebugInfo(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGameFrameRate(float InMaxFrame, float InMinFrame);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFixedDeltaTime(float InFrameRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraZero();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraSpeedScale(float SpeedScale);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetCameraFieldOfView(float FOV);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugGamePadSpecialLeftDebugPause(int32 debugPauseStyle);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugCameraShutOutFade(bool bEnable);
+    
+    UFUNCTION(Exec)
+    void DebugCameraCollCheck(uint8 EnableNo);
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

@@ -1,20 +1,26 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TresGame.h"
+#include "TresGumiShipNotifyInterface.h"
 #include "TresGumiShipActorBase.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresGumiShipActorBase : public AActor
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipActorBase")
-	class UTresRootComponent* m_pRootComponent;
+class UTresGumiShipSoundSetComponent;
+class UTresRootComponent;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipActorBase")
-	//class UTresGumiShipSoundSetComponent* m_pSoundSet;
+UCLASS(Abstract, Blueprintable)
+class ATresGumiShipActorBase : public AActor, public ITresGumiShipNotifyInterface {
+    GENERATED_BODY()
+public:
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresRootComponent* m_pRootComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UTresGumiShipSoundSetComponent* m_pSoundSet;
+    
+public:
+    ATresGumiShipActorBase(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

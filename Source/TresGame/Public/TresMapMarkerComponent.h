@@ -1,24 +1,24 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "TresGame.h"
+#include "ETresUIMapMarkerType.h"
 #include "TresMapMarkerComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TRESGAME_API UTresMapMarkerComponent : public UActorComponent
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresMapMarkerComponent : public UActorComponent {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapMarkerComponent")
-	TEnumAsByte<ETresUIMapMarkerType> m_MapMarkerType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapMarkerComponent")
-	TArray<FName> m_MaskMapNames;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapMarkerComponent")
-	bool m_EnableUpdatePosition;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ETresUIMapMarkerType m_MapMarkerType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_MaskMapNames;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_EnableUpdatePosition;
+    
+public:
+    UTresMapMarkerComponent();
 };
+

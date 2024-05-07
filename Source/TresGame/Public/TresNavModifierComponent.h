@@ -1,22 +1,25 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "AI/Navigation/NavModifierComponent.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=NavModifierComponent -FallbackName=NavModifierComponent
 #include "TresNavModifierComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresNavModifierComponent : public UNavModifierComponent
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UTresNavModifierComponent : public UNavModifierComponent {
+    GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, Category = "TresNavModifierComponent")
-	void SetUpdateNavigation(bool bEnabled) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNavModifierComponent")
-	void RefreshNavModifier() {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bManualCalcBounds;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_bAccurateNavigationData;
+    
+    UTresNavModifierComponent();
+    UFUNCTION(BlueprintCallable)
+    void SetUpdateNavigation(bool bEnabled);
+    
+    UFUNCTION(BlueprintCallable)
+    void RefreshNavModifier();
+    
 };
+

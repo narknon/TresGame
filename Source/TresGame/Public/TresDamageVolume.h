@@ -1,16 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PainCausingVolume.h"
+#include "TresNotifyInterface.h"
 #include "TresDamageVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresDamageVolume : public APainCausingVolume
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class ATresDamageVolume : public APainCausingVolume, public ITresNotifyInterface {
+    GENERATED_BODY()
+public:
+    ATresDamageVolume(const FObjectInitializer& ObjectInitializer);
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

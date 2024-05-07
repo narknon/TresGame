@@ -1,37 +1,53 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
 #include "TresGameState.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGameState : public AGameStateBase
-{
-	GENERATED_BODY()
+class ATresPrizeMan;
+class ATresSceneManager;
+class ATresVFXManager;
+class ATresEmitterPool;
+class UTresPhysMatEffectAsset;
+class ATresCollisionManager;
+class ATresPhysObjMan;
+class ASQEX_VFXManager;
+
+UCLASS(Blueprintable)
+class ATresGameState : public AGameStateBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameState")
-	class ATresSceneManager* m_SceneManager;
-
-	//class ATresVFXManager* m_VFXManager;
-	//class ATresEmitterPool* m_EmitterPool;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameState")
-	class UTresPhysMatEffectAsset* m_PhysMatEffects;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameState")
-	class ATresPrizeMan* m_PrizeMan;
-
-	//class ATresCollisionManager* m_CollisionManager;
-	//class ATresPhysObjMan* m_PhysObjMan;
-
-	//class ATresVFXManager* GetVFXManager() { return nullptr; };
-	//class ASQEX_VFXManager* GetSQEX_VFXManager() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGameState")
-	class ATresSceneManager* GetSceneManager() { return nullptr; };
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresSceneManager* m_SceneManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresVFXManager* m_VFXManager;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresEmitterPool* m_EmitterPool;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresPhysMatEffectAsset* m_PhysMatEffects;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresPrizeMan* m_PrizeMan;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCollisionManager* m_CollisionManager;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresPhysObjMan* m_PhysObjMan;
+    
+public:
+    ATresGameState(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    ATresVFXManager* GetVFXManager();
+    
+    UFUNCTION(BlueprintCallable)
+    ASQEX_VFXManager* GetSQEX_VFXManager();
+    
+    UFUNCTION(BlueprintCallable)
+    ATresSceneManager* GetSceneManager();
+    
 };
+

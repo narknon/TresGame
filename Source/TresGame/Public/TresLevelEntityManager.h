@@ -1,29 +1,31 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresGame.h"
+#include "UObject/Object.h"
+#include "TresEncountSpawnRequest.h"
 #include "TresLevelEntityManager.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresLevelEntityManager : public UObject
-{
-	GENERATED_BODY()
+class UTresLevelEntityGroup;
+class ATresLevelEntity;
+class ATresPawnBase;
+
+UCLASS(Blueprintable, Transient)
+class TRESGAME_API UTresLevelEntityManager : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntityManager")
-	TArray<class UTresLevelEntityGroup*> m_Groups;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntityManager")
-	TArray<struct FTresEncountSpawnRequest> m_EncountSpawnRequests;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntityManager")
-	TArray<class ATresPawnBase*> m_RemoveActors;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntityManager")
-	TArray<class ATresLevelEntity*> m_PendingSpawn;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTresLevelEntityGroup*> m_Groups;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresEncountSpawnRequest> m_EncountSpawnRequests;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ATresPawnBase*> m_RemoveActors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ATresLevelEntity*> m_PendingSpawn;
+    
+public:
+    UTresLevelEntityManager();
 };
+

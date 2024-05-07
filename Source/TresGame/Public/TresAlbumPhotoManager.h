@@ -1,27 +1,29 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
+#include "TresPhotoLoadWork.h"
 #include "TresAlbumPhotoManager.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAlbumPhotoManager : public UObject
-{
-	GENERATED_BODY()
+class UTexture2D;
+
+UCLASS(Blueprintable)
+class UTresAlbumPhotoManager : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	TArray<int> m_PhotoIdList;
-
-	//TArray<struct FTresPhotoLoadWork> m_PhotoLoadWorkPool;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	class UTexture2D* m_pTargetTexture;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	TArray<class UTexture2D*> m_ReleaseTextureBuffer;
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<int32> m_PhotoIdList;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresPhotoLoadWork> m_PhotoLoadWorkPool;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UTexture2D* m_pTargetTexture;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTexture2D*> m_ReleaseTextureBuffer;
+    
+public:
+    UTresAlbumPhotoManager();
 };
+

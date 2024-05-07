@@ -1,106 +1,129 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "TresVehiclePawnBase.h"
+#include "Engine/EngineTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "TresGimmickBalanceBall.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresGimmickBalanceBall : public ATresVehiclePawnBase
-{
-	GENERATED_BODY()
+class USceneComponent;
+class UParticleSystemComponent;
+class UCapsuleComponent;
+class USphereComponent;
+class UPrimitiveComponent;
+class AActor;
+class ATresCharPawnBase;
+
+UCLASS(Blueprintable)
+class ATresGimmickBalanceBall : public ATresVehiclePawnBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	class USceneComponent* BallRoot;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	class UParticleSystemComponent* SignEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	class USphereComponent* TickSensor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	class UCapsuleComponent* BlockCollision;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_ParamSpeedDumping;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_ParamAccelSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_ParamReflection;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_ParamBallSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_ParamMoveThreshold;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	bool m_CanbePushed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_PawnPushPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	float m_AttackPushPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	bool ReturnToInitialWhenCutScenes;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBalanceBall")
-	bool m_CheckSpawnPoint;
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetSensorEnable(bool Enable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetIgnoreLanding(bool InIgnore) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetFadeParam(float Param) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetEmphasis(bool Enable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetCurrentAttackName(const FName& AttackName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	bool SetCollisionEnable(bool bEnable) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void SetAttachmentComp(class USceneComponent* pAttachComp) {};
-
-	/*void OnReflectBalanceBall(const FHitResult& Impact) {};
-	void OnEndSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex) {};
-	void OnBeginSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
-	void NotifyChangeGimmickPause(bool bPause) {};
-	void NotifyChangeGimmickActionImpl(bool bShow) {};
-	void NotifyChangeBallSpeed(const FVector& Speed, float fRatio) {};
-	void NotifyChangeBallEntried(bool Entry) {};*/
-
-	UFUNCTION(BlueprintPure, Category = "TresGimmickBalanceBall")
-	class USphereComponent* GetEntrySensorComponent() { return nullptr; };
-
-	UFUNCTION(BlueprintPure, Category = "TresGimmickBalanceBall")
-	float GetBalanceBallSize() { return 0.0f; };
-
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void EndOverlap(class ATresCharPawnBase* pPawn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void BeginOverlap(class ATresCharPawnBase* pPawn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void BalanceBallRemoveCollisionShape(const FName& InTagName, bool bUpdate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
-	void BalanceBallAppendCollisionShape(const FName& InTagName, const FVector& InSize, const FVector& InRelativeLocaiton, const FRotator& InRelativeRotation, bool bUpdate) {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    USceneComponent* BallRoot;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UParticleSystemComponent* SignEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    USphereComponent* TickSensor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UCapsuleComponent* BlockCollision;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ParamSpeedDumping;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ParamAccelSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ParamReflection;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ParamBallSize;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ParamMoveThreshold;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_CanbePushed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PawnPushPower;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_AttackPushPower;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool ReturnToInitialWhenCutScenes;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_CheckSpawnPoint;
+    
+    ATresGimmickBalanceBall(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetSensorEnable(bool Enable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetIgnoreLanding(bool InIgnore);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void SetFadeParam(float Param);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetEmphasis(bool Enable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetCurrentAttackName(FName AttackName);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    bool SetCollisionEnable(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAttachmentComp(USceneComponent* pAttachComp);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void OnReflectBalanceBall(const FHitResult& Impact);
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnEndSensorOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnBeginSensorOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    void NotifyChangeGimmickPause(bool bPause);
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    void NotifyChangeGimmickActionImpl(bool bShow);
+    
+public:
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void NotifyChangeBallSpeed(const FVector& Speed, float fRatio);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void NotifyChangeBallEntried(bool Entry);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    USphereComponent* GetEntrySensorComponent();
+    
+    UFUNCTION(BlueprintCallable)
+    float GetBalanceBallSize();
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void EndOverlap(ATresCharPawnBase* pPawn);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void BeginOverlap(ATresCharPawnBase* pPawn);
+    
+    UFUNCTION(BlueprintCallable)
+    void BalanceBallRemoveCollisionShape(const FName InTagName, bool bUpdate);
+    
+    UFUNCTION(BlueprintCallable)
+    void BalanceBallAppendCollisionShape(const FName InTagName, FVector InSize, FVector InRelativeLocaiton, FRotator InRelativeRotation, bool bUpdate);
+    
 };
+

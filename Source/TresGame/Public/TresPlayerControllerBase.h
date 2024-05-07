@@ -1,680 +1,693 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresPlayerControllerLowerBase.h"
-#include "TresGame.h"
+#include "InputCoreTypes.h"
+#include "Engine/EngineBaseTypes.h"
+#include "ETresCommandKind.h"
+#include "ETresDlcChallengeCode.h"
+#include "ETresShootFlowKind.h"
 #include "TresPlayerControllerBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresPlayerControllerBase : public ATresPlayerControllerLowerBase
-{
-	GENERATED_BODY()
+class UTresLockonTargetComponent;
+class ATresCameraMultiLock;
+class ATresCameraPreview;
+class ATresCameraShootFlow;
+class ATresProjectileBase;
+class UTresUICommandInfoBase;
+class AActor;
+class UPrimitiveComponent;
+class ATresCharPawnBase;
+
+UCLASS(Blueprintable)
+class ATresPlayerControllerBase : public ATresPlayerControllerLowerBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugProjectileInfo;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerCollisionCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugPlayerNoCheckAutoRun;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugPlayerNoCheckUnWalkable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerClimbingCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerWallRunCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerSlopeSlideCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerHoppingCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerLockon;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	bool m_bDebugShowPlayerExternalExposure;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class ATresCameraShootFlow* m_CameraShootFlow;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class ATresCameraPreview* m_CameraPreview;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class UTresUICommandInfoBase* m_pUICommandInfo;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class ATresCameraMultiLock* m_CameraMultiLock;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class UTresLockonTargetComponent* m_pAthleticFlowStartPointDispComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	class AActor* m_pAttackCameraTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
-	TArray<class ATresProjectileBase*> m_AvaterProjList;
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void SimulateKeypress(const FKey& Key, TEnumAsByte<EInputEvent> EventType, float AmountDepressed, bool bGamepad) {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifyStartActionCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifySetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifySetDlcChallengeCodeEnable(ETresDlcChallengeCode InCode) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	bool NotifySetDiveAttackCommand(class UTresLockonTargetComponent* InTarget) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifySetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer, class UTresUICommandInfoBase* pUICommandInfo) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifyResetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifyEndActionCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void NotifyDeleteActionCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugWallKick(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugUseMP0() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugTestMode(int32 InMode) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSuperSlideLv(int32 InLv) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSuperJump(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugStartPlayerWarpMode() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSituationTimerInfinity(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowStyleInfo(bool bDispEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowProjectileInfo(bool bDispEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerWallRunCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerSlopeSlideCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerLockon() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerHUD(bool bDispEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerHoppingCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerExternalExposure() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerCollisionCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerClimbingCheck() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowPlayerAnimationInfo(bool bDispEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowNetPlayerHUD(bool bDispEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugShowFriend(bool disp) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetWarpDelayCamera(float InRate, float InLimit) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetWandanyanParam(float InSpeed, float InCamAimZ, float InCamDist, float InCamPitch, float InCamAngle) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetWandanyanJumpRate(float InLv1, float InLv2, float InLv3, float InLv4, float InLv5) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetWallTurnWithoutAnim(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetWallRunParam(float fSideAngle, float fDownAngle, float fSideMoveSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStyleTimeLimit(float InTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStylePointAddWithoutHit(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStylePoint(int inSP, int inAttrP, int inAttrF, int inAttrB, int inAttrT, int inAttrW, int inAttrA, int inAttrD, int inAttrN) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStyleFix(int inStyle) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStyleCommandEntryTime(float InTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetStyleChangeChargeEffect(int InLevel) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetSprintMode(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetSonicAttackMode(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetSmallJumpGravityScale(float fGravityScale) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetShootLockSlowRate(float InRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetShootFlow(int inShootFlowId) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetShooterModeInputType(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetShieldAutoGrowup(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetRiseAttackParam(float fThreshold, float fRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetPlayerSlopeSlideParam(float MaxSpeed, float AccTime, float MinSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetPlayerPos(float InX, float InY, float InZ) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetPlayerExternalExposureColor(float InR, float InG, float InB, float InA) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetIgnoreShootLockModeTimer(bool InIgnore) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetHPPer(int HP) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetHP(int HP) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetHopRotateMode(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetGlobalGameSpeed(float InSpeed, float InInterpTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetFriendHP(int Index, int HP) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetFriend(int inIdx, const FName& inNpcName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetFocusPoint(int InFP) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetFinishAutoPopup(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetFinish(int32 InId, bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetEnableDiveFall(bool bEnable, float inPitch, float inDist, float inAngle, float InOffset) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetDiveFallStartHeight(float fHeight) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetDiveFallMovement(float inRotateScale, float InGravityScale, float inMoveSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetDarkScreenRate(float InRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetDamageEndChancelTime(float InTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetComboPlus(int InGround, int InAir) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAttraction(int32 InId, bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAttackMoveLimit(float fDist) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAttackFirstAirMoveRate(float fRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAttackCollType(const FName& InName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticVersion(int32 InVersion, float inRootSpeed) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticSlideParam(float InTime, float InSpeed, float inKickAnim) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticLockonRange(float InRange) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticLockonLimit(float InLimit) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticDelayCamera(float InRate, float InLimit, int InMode) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAthleticAttackParam(float inSlowRate, float inSlowTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetAllFriendFinish(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugSet2ndJumpParam(float fEnableMinVZ) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugRiskDodge(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugRevengeImpact(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugRevengeEx(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugRevengeDive(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugResetPlayerLocation() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugProjectileLimitOff() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPoleSwing(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPoleSpin(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerWarpToTaggedPlayerStart(const FName& InTag) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerWallRunStartOff(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerPad(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerNoCheckUnWalkable() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerNoCheckAutoRun() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerForceL1Cancel(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugPlayerControllerStop() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugMpCharge(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugModePlayerClimbing() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugInfinityJump(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugHighJump(int32 InLv) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugGuardCounter(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugGuard(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugGlide(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugFriendsWarp() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugFpCharge(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugFPAutoRecovery() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugForceUseSpawnPointVolume(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnemyTurn(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnableWaterMagic(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnableShootLockonMax() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerWallRun(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerNoHpDamage(bool bNoHpDamage) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerNoDamageResponse(bool bNoDamageResponse) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerLookAt(int InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerInvincible(bool bInvincible) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerIK(int InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerControl(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnablePlayerClimbing(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnableHighQualityScreenShot(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnableFestivalDanceCmd(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugEnableCommandMenu(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDodgeCounter(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDodge(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDispPrizeRange(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDispNearSpawnPoint(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDisableGameOver(bool bDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDisableDarkScreen(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDeleteFriendAll() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugDamageBlowTest() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugCreateRollerCoaster() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugCreateFriend() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugComboMaster(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChargeBerserkTest(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChangeWearform(int InForm) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChangeNextWeaponForm() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChangeNextProjectile() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChangeFriendPadControl(int Index, bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugChangeDecoParts(int InPartIdx, int InItemID) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugBlowCounter(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugAirRecoveryInputChange(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugAirRecovery(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugAirDodge(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugAddStylePoint(float inAddPoint, int inAttr) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void DebugAddFriendPoint(float inAddPoint) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void Debug2ndJump(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_TresCinematicDelayRunWalkStop(float fDelayRunStop, float fDelayWalkStop, float fForceYawRate, float fForceYaw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_TresCinematicDelayRunStop(float fDelayRunStop, bool bForceYaw, float fForceYaw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetShootLockonLimit(float InShootLockonLimit) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictWeapon(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictStyle(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictSituation(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictShootLock(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictRun(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictMagic(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictLink(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictJump(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictItem(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictGuard(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictFriend(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictDiveFall(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictAttraction(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictAttack(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetRestrictAntiForm(bool bRestrict) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetNearTargetSingle(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetManualLockonLimit(float InManualLockonLimit, float InManualLockonOff) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetLookAtActor(class AActor* inActor) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetForceEnemyHpKeep(bool bEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetDisableRestrictVolumeDetect(bool InDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetDisableManualLockon(bool InDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetDisableGimmickLockon(bool InDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetDisableAutoLockon(bool InDisable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityWallRun(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityStyleChange(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityShortCutMenu(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityShootFlow(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityMagic(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityFreeFlow(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityAttractionFlow(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityAttack(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityAthleticFlow(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbilityAirSlide(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_SetAbility2ndJump(bool InEnable) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_ResetShootLockonLimit() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_ResetManualLockonLimit() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_ResetLookAtActor() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	bool BP_NotifyStartSpecialAntiForm() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifySetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifySetSpecialAction(bool inSw) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifySetFloatingMode(bool IsOn, bool IsSpecial) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifySetAntiFormCommand() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifySetActionCommand1(TEnumAsByte<ETresCommandKind> inCommand, float inTimer, class AActor* inActor, class UPrimitiveComponent* InComponent) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifyResetSpecialCommand() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifyRegisterEnemyGaugeTarget(class ATresCharPawnBase* InTarget) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifyPauseSituationTimer(bool IsOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifyPauseActionCommandTimer(bool IsOn) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_NotifyDeleteActionCommand(TEnumAsByte<ETresCommandKind> inCommand) {};
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	bool BP_IsNowNoSpeak() { return false; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	bool BP_IsNowAntiForm() { return false; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	bool BP_IsDisableManualLockon() { return false; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	bool BP_IsDisableAutoLockon() { return false; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	class AActor* BP_GetShootFlowTargetActor_AvatarRush() { return nullptr; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	TEnumAsByte<ETresShootFlowKind> BP_GetPlayShootFlow() { return TEnumAsByte<ETresShootFlowKind>(); };
-
-	UFUNCTION(Blueprintpure, Category = "TresPlayerControllerBase")
-	TEnumAsByte<ETresCommandKind> BP_GetPlayActionCommand() { return TEnumAsByte<ETresCommandKind>(); };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_EndManualLockon() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
-	void BP_DebugAbilityEnable(bool InEnable) {};
+private:
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugProjectileInfo: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerCollisionCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugPlayerNoCheckAutoRun: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugPlayerNoCheckUnWalkable: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerClimbingCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerWallRunCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerSlopeSlideCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerHoppingCheck: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerLockon: 1;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDebugShowPlayerExternalExposure: 1;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraShootFlow* m_CameraShootFlow;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    ATresCameraPreview* m_CameraPreview;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UTresUICommandInfoBase* m_pUICommandInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresCameraMultiLock* m_CameraMultiLock;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresLockonTargetComponent* m_pAthleticFlowStartPointDispComponent;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* m_pAttackCameraTarget;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ATresProjectileBase*> m_AvaterProjList;
+    
+public:
+    ATresPlayerControllerBase(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SimulateKeypress(FKey Key, TEnumAsByte<EInputEvent> EventType, float AmountDepressed, bool bGamepad);
+    
+    UFUNCTION(Exec)
+    void NotifyStartActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(Exec)
+    void NotifySetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void NotifySetDlcChallengeCodeEnable(ETresDlcChallengeCode InCode);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    bool NotifySetDiveAttackCommand(UTresLockonTargetComponent* InTarget);
+    
+    UFUNCTION(Exec)
+    void NotifySetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer, UTresUICommandInfoBase* pUICommandInfo);
+    
+    UFUNCTION(Exec)
+    void NotifyResetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(Exec)
+    void NotifyEndActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(Exec)
+    void NotifyDeleteActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugWallKick(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugUseMP0();
+    
+    UFUNCTION(Exec)
+    void DebugTestMode(uint32 InMode);
+    
+    UFUNCTION(Exec)
+    void DebugSuperSlideLv(uint32 InLv);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSuperJump(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugStartPlayerWarpMode();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSituationTimerInfinity(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowStyleInfo(bool bDispEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowProjectileInfo(bool bDispEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerWallRunCheck();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerSlopeSlideCheck();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerLockon();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerHUD(bool bDispEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerHoppingCheck();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerExternalExposure();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerCollisionCheck();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerClimbingCheck();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowPlayerAnimationInfo(bool bDispEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowNetPlayerHUD(bool bDispEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugShowFriend(bool disp);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetWarpDelayCamera(float InRate, float InLimit);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetWandanyanParam(float InSpeed, float InCamAimZ, float InCamDist, float InCamPitch, float InCamAngle);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetWandanyanJumpRate(float InLv1, float InLv2, float InLv3, float InLv4, float InLv5);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetWallTurnWithoutAnim(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetWallRunParam(float fSideAngle, float fDownAngle, float fSideMoveSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStyleTimeLimit(float InTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStylePointAddWithoutHit(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStylePoint(int32 inSP, int32 inAttrP, int32 inAttrF, int32 inAttrB, int32 inAttrT, int32 inAttrW, int32 inAttrA, int32 inAttrD, int32 inAttrN);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStyleFix(int32 inStyle);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStyleCommandEntryTime(float InTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetStyleChangeChargeEffect(int32 InLevel);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetSprintMode(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetSonicAttackMode(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetSmallJumpGravityScale(float fGravityScale);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetShootLockSlowRate(float InRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetShootFlow(int32 inShootFlowId);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetShooterModeInputType(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetShieldAutoGrowup(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetRiseAttackParam(float fThreshold, float fRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetPlayerSlopeSlideParam(float MaxSpeed, float AccTime, float MinSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetPlayerPos(float InX, float InY, float InZ);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetPlayerExternalExposureColor(uint8 InR, uint8 InG, uint8 InB, uint8 InA);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetIgnoreShootLockModeTimer(bool InIgnore);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetHPPer(int32 HP);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetHP(int32 HP);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetHopRotateMode(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetGlobalGameSpeed(float InSpeed, float InInterpTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFriendHP(int32 Index, int32 HP);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFriend(int32 inIdx, FName inNpcName);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFocusPoint(int32 InFP);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetFinishAutoPopup(bool bEnable);
+    
+    UFUNCTION(Exec)
+    void DebugSetFinish(uint32 InId, bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetEnableDiveFall(bool bEnable, float inPitch, float inDist, float inAngle, float InOffset);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetDiveFallStartHeight(float fHeight);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetDiveFallMovement(float inRotateScale, float InGravityScale, float inMoveSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetDarkScreenRate(float InRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetDamageEndChancelTime(float InTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetComboPlus(int32 InGround, int32 InAir);
+    
+    UFUNCTION(Exec)
+    void DebugSetAttraction(uint32 InId, bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAttackMoveLimit(float fDist);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAttackFirstAirMoveRate(float fRate);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAttackCollType(FName InName);
+    
+    UFUNCTION(Exec)
+    void DebugSetAthleticVersion(uint32 InVersion, float inRootSpeed);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAthleticSlideParam(float InTime, float InSpeed, float inKickAnim);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAthleticLockonRange(float InRange);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAthleticLockonLimit(float InLimit);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAthleticDelayCamera(float InRate, float InLimit, int32 InMode);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAthleticAttackParam(float inSlowRate, float inSlowTime);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSetAllFriendFinish(bool bEnable);
+    
+    UFUNCTION(Exec)
+    void DebugSetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugSet2ndJumpParam(float fEnableMinVZ);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugRiskDodge(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugRevengeImpact(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugRevengeEx(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugRevengeDive(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugResetPlayerLocation();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugProjectileLimitOff();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPoleSwing(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPoleSpin(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerWarpToTaggedPlayerStart(FName InTag);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerWallRunStartOff(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerPad(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerNoCheckUnWalkable();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerNoCheckAutoRun();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerForceL1Cancel(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugPlayerControllerStop();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugMpCharge(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugModePlayerClimbing();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugInfinityJump(bool bEnable);
+    
+    UFUNCTION(Exec)
+    void DebugHighJump(uint32 InLv);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugGuardCounter(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugGuard(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugGlide(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugFriendsWarp();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugFpCharge(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugFPAutoRecovery();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugForceUseSpawnPointVolume(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnemyTurn(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableWaterMagic(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableShootLockonMax();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerWallRun(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerNoHpDamage(bool bNoHpDamage);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerNoDamageResponse(bool bNoDamageResponse);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerLookAt(int32 InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerInvincible(bool bInvincible);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerIK(int32 InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerControl(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnablePlayerClimbing(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableHighQualityScreenShot(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableFestivalDanceCmd(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugEnableCommandMenu(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDodgeCounter(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDodge(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDispPrizeRange(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDispNearSpawnPoint(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDisableGameOver(bool bDisable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDisableDarkScreen(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDeleteFriendAll();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugDamageBlowTest();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugCreateRollerCoaster();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugCreateFriend();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugComboMaster(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChargeBerserkTest(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeWearform(int32 InForm);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeNextWeaponForm();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeNextProjectile();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeFriendPadControl(int32 Index, bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugChangeDecoParts(int32 InPartIdx, int32 InItemID);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugBlowCounter(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugAirRecoveryInputChange(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugAirRecovery(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugAirDodge(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugAddStylePoint(float inAddPoint, int32 inAttr);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void DebugAddFriendPoint(float inAddPoint);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void Debug2ndJump(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_TresCinematicDelayRunWalkStop(float fDelayRunStop, float fDelayWalkStop, float fForceYawRate, float fForceYaw);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_TresCinematicDelayRunStop(float fDelayRunStop, bool bForceYaw, float fForceYaw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetShootLockonLimit(float InShootLockonLimit);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictWeapon(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictStyle(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictSituation(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictShootLock(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictRun(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictMagic(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictLink(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictJump(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictItem(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictGuard(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictFriend(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictDiveFall(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictAttraction(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictAttack(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetRestrictAntiForm(bool bRestrict);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetNearTargetSingle(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetManualLockonLimit(float InManualLockonLimit, float InManualLockonOff);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetLookAtActor(AActor* inActor);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetForceEnemyHpKeep(bool bEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableRestrictVolumeDetect(bool InDisable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableManualLockon(bool InDisable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableGimmickLockon(bool InDisable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetDisableAutoLockon(bool InDisable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityWallRun(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityStyleChange(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityShortCutMenu(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityShootFlow(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityMagic(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityFreeFlow(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityAttractionFlow(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityAttack(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityAthleticFlow(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbilityAirSlide(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_SetAbility2ndJump(bool InEnable);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_ResetShootLockonLimit();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_ResetManualLockonLimit();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ResetLookAtActor();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    bool BP_NotifyStartSpecialAntiForm();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifySetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_NotifySetSpecialAction(bool inSw);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_NotifySetFloatingMode(bool IsOn, bool IsSpecial);
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_NotifySetAntiFormCommand();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifySetActionCommand1(TEnumAsByte<ETresCommandKind> inCommand, float inTimer, AActor* inActor, UPrimitiveComponent* InComponent);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyResetSpecialCommand();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyRegisterEnemyGaugeTarget(ATresCharPawnBase* InTarget);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyPauseSituationTimer(bool IsOn);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyPauseActionCommandTimer(bool IsOn);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyDeleteActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure, Exec)
+    bool BP_IsNowNoSpeak() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure, Exec)
+    bool BP_IsNowAntiForm() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure, Exec)
+    bool BP_IsDisableManualLockon() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure, Exec)
+    bool BP_IsDisableAutoLockon() const;
+    
+    UFUNCTION(BlueprintCallable)
+    AActor* BP_GetShootFlowTargetActor_AvatarRush();
+    
+    UFUNCTION(BlueprintCallable)
+    TEnumAsByte<ETresShootFlowKind> BP_GetPlayShootFlow();
+    
+    UFUNCTION(BlueprintCallable)
+    TEnumAsByte<ETresCommandKind> BP_GetPlayActionCommand();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_EndManualLockon();
+    
+    UFUNCTION(BlueprintCallable, Exec)
+    void BP_DebugAbilityEnable(bool InEnable);
+    
 };
+

@@ -1,43 +1,43 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ObjectType -FallbackName=ESQEX_ObjectType
 #include "TresBonamikCollisionVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresBonamikCollisionVolume : public ATresVolume
-{
-	GENERATED_BODY()
+class AActor;
+class USkinnedMeshComponent;
+
+UCLASS(Blueprintable)
+class TRESGAME_API ATresBonamikCollisionVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	//TArray<ESQEX_ObjectType> m_MonitoringObjectTypes;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	TArray<FString> m_Groups;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	TArray<class AActor*> m_BonamikActors;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	bool m_ControlBonamikCollision;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	bool m_ControlBonamikWeightAndEnable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	bool m_AllowMultipleOverlaps;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	bool m_FixForGigasMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	bool m_DisableHighFPSEvaluation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	TArray<class USkinnedMeshComponent*> m_ReferencedComponets;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<ESQEX_ObjectType> m_MonitoringObjectTypes;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FString> m_Groups;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_BonamikActors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ControlBonamikCollision;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ControlBonamikWeightAndEnable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_AllowMultipleOverlaps;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_FixForGigasMesh;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_DisableHighFPSEvaluation;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    TArray<USkinnedMeshComponent*> m_ReferencedComponets;
+    
+    ATresBonamikCollisionVolume(const FObjectInitializer& ObjectInitializer);
 };
+

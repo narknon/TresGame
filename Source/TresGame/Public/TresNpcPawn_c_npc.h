@@ -1,172 +1,199 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresAIPawnBase.h"
+#include "TresComNpcScaleData.h"
+#include "TresComNpcMaterialInfo.h"
+#include "UObject/NoExportTypes.h"
 #include "TresNpcPawn_c_npc.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresNpcPawn_c_npc : public ATresAIPawnBase
-{
-	GENERATED_BODY()
+class UTresReactorComponent;
+class UMaterialInterface;
+class AActor;
+class UTresAnimSet;
+
+UCLASS(Blueprintable)
+class ATresNpcPawn_c_npc : public ATresAIPawnBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_RecordName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_IdleAnimName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_ActionSeqName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	int m_BodyColType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	int m_PoseGroupType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	TArray<FName> m_ReplaceMovePoints;
-
-	/*unsigned char m_bBodyImmovable : 1;
-	unsigned char m_bDisableStagger : 1;
-	unsigned char m_bEnableBgCave : 1;
-	unsigned char m_bDisableReactor : 1;
-	unsigned char m_bDisableBodyCollision : 1;
-	unsigned char m_bDisableNavModifier : 1;
-	unsigned char m_bDisableLookAt : 1;
-	unsigned char m_bUniqueComNpc : 1;
-	unsigned char m_bForceAddComAction : 1;
-	unsigned char m_bDisableTurn : 1;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	int m_ReactionType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_ReplaceMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	class UMaterialInterface* m_MatData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_WalkSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_RunSpeed;
-
-	//struct FTresComNpcScaleData m_ScaleData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	TArray<class UTresAnimSet*> m_ReplaceAnimSets;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	//TArray<struct FTresComNpcMaterialInfo> m_MaterialInfos;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_fNearCameraRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_LookAtBoneName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_DefaultFaceEyeAnimName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_DefaultFaceLipAnimName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_FaceEyeBlinkMinTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_FaceEyeBlinkMaxTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_IdleBreakMinTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_IdleBreakMaxTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_IdleAnimNameStart;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_IdleAnimNameLoop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	FName m_IdleAnimNameEnd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_fTurnWaitTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_fLookAtBlendTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_fMinDegree;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	float m_fAddYaw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	TArray<FName> m_LinkActors;
-
-	//unsigned char m_bDispDebugInfo : 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	class UTresReactorComponent* MyReactor;
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void SetSubMeshFacePlay(const FName& inSubMeshName, const FName& InLipAnimName, const FName& inEyeAnimName, float in_fBlendTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void SetSnowBallBody(int InType, bool inChatMode) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void SetBodyImmovable(bool InOnOff) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	bool RemoteEventComNpc(const FName& inEventName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void PlayLipAnim(const FName& InAnimName, float in_fBlendTime, bool in_bPriortyChange, bool in_bForceChange) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void PlayEyeAnim(const FName& InAnimName, float in_fBlendTime, bool in_bPriortyChange, bool in_bForceChange, bool in_bNoBlink) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresNpcPawn_c_npc")
-	bool IsRecordName(const FName& InName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void ChangeStarMode(float in_fTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	bool ChangeActionComNpc(const FName& inActionName) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_TalkTurnStart(float InReturnTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_TalkTurnDefault() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_SetTalkMotion(const FName& InAnimStart, const FName& InAnimLoop, const FName& InAnimEnd) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_SetMaterial(const FName& InMaterialName, const FName& InParamName, float inValue) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	FVector BP_SetLookTarget(class AActor* inActor, const FVector& InLocation, float InReturnTime) { return FVector::FVector(); };
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_SetIdleMotion(const FName& InAnimName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_ResetLookAt() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresNpcPawn_c_npc")
-	void BP_ReqEndMotion() {};
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_RecordName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_IdleAnimName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_ActionSeqName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_BodyColType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_PoseGroupType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_ReplaceMovePoints;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bBodyImmovable: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableStagger: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bEnableBgCave: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableReactor: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableBodyCollision: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableNavModifier: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableLookAt: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bUniqueComNpc: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bForceAddComAction: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDisableTurn: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 m_ReactionType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_ReplaceMesh;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UMaterialInterface* m_MatData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_WalkSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_RunSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTresComNpcScaleData m_ScaleData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<UTresAnimSet*> m_ReplaceAnimSets;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresComNpcMaterialInfo> m_MaterialInfos;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fNearCameraRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_LookAtBoneName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DefaultFaceEyeAnimName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_DefaultFaceLipAnimName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FaceEyeBlinkMinTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_FaceEyeBlinkMaxTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_IdleBreakMinTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_IdleBreakMaxTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_IdleAnimNameStart;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_IdleAnimNameLoop;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_IdleAnimNameEnd;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fTurnWaitTimer;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fLookAtBlendTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fMinDegree;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_fAddYaw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> m_LinkActors;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bDispDebugInfo: 1;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    UTresReactorComponent* MyReactor;
+    
+public:
+    ATresNpcPawn_c_npc(const FObjectInitializer& ObjectInitializer);
+    UFUNCTION(BlueprintCallable)
+    void SetSubMeshFacePlay(FName inSubMeshName, FName InLipAnimName, FName inEyeAnimName, float in_fBlendTime);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetSnowBallBody(int32 InType, bool inChatMode);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBodyImmovable(bool InOnOff);
+    
+    UFUNCTION(BlueprintCallable)
+    bool RemoteEventComNpc(FName inEventName);
+    
+    UFUNCTION(BlueprintCallable)
+    void PlayLipAnim(const FName& InAnimName, float in_fBlendTime, bool in_bPriortyChange, bool in_bForceChange);
+    
+    UFUNCTION(BlueprintCallable)
+    void PlayEyeAnim(const FName& InAnimName, float in_fBlendTime, bool in_bPriortyChange, bool in_bForceChange, bool in_bNoBlink);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsRecordName(FName InName);
+    
+    UFUNCTION(BlueprintCallable)
+    void ChangeStarMode(float in_fTime);
+    
+    UFUNCTION(BlueprintCallable)
+    bool ChangeActionComNpc(FName inActionName);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_TalkTurnStart(float InReturnTime);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_TalkTurnDefault();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTalkMotion(FName InAnimStart, FName InAnimLoop, FName InAnimEnd);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetMaterial(FName InMaterialName, FName InParamName, float inValue);
+    
+    UFUNCTION(BlueprintCallable)
+    FVector BP_SetLookTarget(AActor* inActor, FVector InLocation, float InReturnTime);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetIdleMotion(FName InAnimName);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ResetLookAt();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ReqEndMotion();
+    
 };
+

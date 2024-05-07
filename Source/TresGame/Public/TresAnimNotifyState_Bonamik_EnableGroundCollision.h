@@ -1,22 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
 #include "TresAnimNotifyState_Bonamik_EnableGroundCollision.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotifyState_Bonamik_EnableGroundCollision : public UAnimNotifyState
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, EditInlineNew, MinimalAPI)
+class UTresAnimNotifyState_Bonamik_EnableGroundCollision : public UAnimNotifyState {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_EnableGroundCollision")
-	bool m_Enable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Bonamik_EnableGroundCollision")
-	TArray<FString> m_Groups;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_Enable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FString> m_Groups;
+    
+    UTresAnimNotifyState_Bonamik_EnableGroundCollision();
 };
+

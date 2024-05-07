@@ -1,35 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ESQEX_ChangeFaceAnimBlendParamFunction.h"
+#include "UObject/NoExportTypes.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "TresGame.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ChangeFaceAnimBlendParamFunction -FallbackName=ESQEX_ChangeFaceAnimBlendParamFunction
 #include "TresAnimNotify_ChangeEyeLookAtBlendParam.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresAnimNotify_ChangeEyeLookAtBlendParam : public UAnimNotify
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_ChangeEyeLookAtBlendParam : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	FVector m_ParamEnd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	float m_InterpTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	ESQEX_ChangeFaceAnimBlendParamFunction m_InterpFunc;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	float m_InterpExp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	bool m_bSetInitParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_ChangeEyeLookAtBlendParam")
-	FVector m_ParamStart;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_ParamEnd;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_InterpTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ESQEX_ChangeFaceAnimBlendParamFunction m_InterpFunc;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_InterpExp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bSetInitParam: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_ParamStart;
+    
+public:
+    UTresAnimNotify_ChangeEyeLookAtBlendParam();
 };
+

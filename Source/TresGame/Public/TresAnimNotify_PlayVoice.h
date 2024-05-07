@@ -1,26 +1,38 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "TresGame.h"
+#include "TresRandomVoice.h"
 #include "TresAnimNotify_PlayVoice.generated.h"
 
-/**
- * 
- */
+class USoundBase;
 
-UCLASS()
-class TRESGAME_API UTresAnimNotify_PlayVoice : public UAnimNotify
-{
-	GENERATED_BODY()
-
+UCLASS(Blueprintable, CollapseCategories, MinimalAPI)
+class UTresAnimNotify_PlayVoice : public UAnimNotify {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
-	TArray<FTresRandomVoice> m_RandomVoiceAssets;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
-	FName m_VoiceGroupName;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    USoundBase* m_VoiceAsset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FTresRandomVoice> m_RandomVoiceAssets;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_VoiceGroupName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_VolumeMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_PitchMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName m_SocketName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 m_bFollow: 1;
+    
+public:
+    UTresAnimNotify_PlayVoice();
 };
 

@@ -1,69 +1,122 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/GameUserSettings.h"
 #include "TresGameUserSettings.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresGameUserSettings : public UGameUserSettings
-{
-	GENERATED_BODY()
+UCLASS(Blueprintable)
+class UTresGameUserSettings : public UGameUserSettings {
+    GENERATED_BODY()
 public:
-	/*unsigned char VolumetricRenderQuality;
-	unsigned char UICharaRenderQuality;
-	unsigned char SceneCaptureRenderQuality;
-	unsigned char AOQuality;
-	unsigned char AAType;
-	unsigned char ShadowResolutionQuality;
-	unsigned char TextureQuality;
-	unsigned char FoliageQuality;
-	unsigned char SSRQuality;
-	unsigned char CharaLODQuality;
-	unsigned char DisableLOD;
-	unsigned char VolumetricFogQuality;
-	unsigned char CapsuleShadowQuality;
-	unsigned char BloomQuality;
-	unsigned char MotionBlurQuality;
-	unsigned char LensFlareQuality;
-	unsigned char DepthOfFieldQuality;
-	unsigned char DisableFog;
-	unsigned char ResolutionScaleBase;
-	unsigned char ResolutionScale;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameUserSettings")
-	int MaxFPS;
-
-	/*unsigned char EnableFPSSettingToCutscene;
-	unsigned char EnableShadowSettingToCutscene;
-	unsigned char EnableHDR;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameUserSettings")
-	float HDRBloomBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameUserSettings")
-	float HDRSceneColorBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameUserSettings")
-	float HDRUIBrightness;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameUserSettings")
-	float HDRUIGamma;
-
-	/*unsigned char ColorVisionDeficiencyType;
-	unsigned char ColorVisionDeficiencySeverity;
-	unsigned char ColorVisionDeficiencyCorrect;
-	unsigned char ColorVisionDeficiencyShowCorrection;
-	unsigned char GraphicsPreset;
-	int8_t HDRBrightness;*/
-
-	UFUNCTION(BlueprintCallable, Category = "TresGameUserSettings")
-	void SetToDefaults() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGameUserSettings")
-	void ApplyNonResolutionSettings() {};
+protected:
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 VolumetricRenderQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 UICharaRenderQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 SceneCaptureRenderQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 AOQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 AAType;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ShadowResolutionQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 TextureQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 FoliageQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 SSRQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 CharaLODQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 DisableLOD;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 VolumetricFogQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 CapsuleShadowQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 BloomQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 MotionBlurQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 LensFlareQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 DepthOfFieldQuality;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 DisableFog;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ResolutionScaleBase;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ResolutionScale;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 MaxFPS;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 EnableFPSSettingToCutscene;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 EnableShadowSettingToCutscene;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 EnableHDR;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float HDRBloomBoost;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float HDRSceneColorBoost;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float HDRUIBrightness;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float HDRUIGamma;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ColorVisionDeficiencyType;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ColorVisionDeficiencySeverity;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ColorVisionDeficiencyCorrect;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 ColorVisionDeficiencyShowCorrection;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 GraphicsPreset;
+    
+    UPROPERTY(Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int8 HDRBrightness;
+    
+public:
+    UTresGameUserSettings();
+    UFUNCTION(BlueprintCallable)
+    void SetToDefaults();
+    
+    UFUNCTION(BlueprintCallable)
+    void ApplyNonResolutionSettings();
+    
 };
+

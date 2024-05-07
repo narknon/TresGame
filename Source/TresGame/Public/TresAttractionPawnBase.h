@@ -1,21 +1,30 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresAccompanyPawnBase.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "TresAttractionPawnBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresAttractionPawnBase : public ATresAccompanyPawnBase
-{
-	GENERATED_BODY()
+class ATresCameraFirstPerson;
+
+UCLASS(Abstract, Blueprintable)
+class ATresAttractionPawnBase : public ATresAccompanyPawnBase {
+    GENERATED_BODY()
 public:
-	FVector m_Param_FCameraLocalOffset;
-	FRotator m_Param_FCameraRotMin;
-	FRotator m_Param_FCameraRotMax;
-	//class ATresCameraFirstPerson* m_FCamera;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_Param_FCameraLocalOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FRotator m_Param_FCameraRotMin;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FRotator m_Param_FCameraRotMax;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    ATresCameraFirstPerson* m_FCamera;
+    
+public:
+    ATresAttractionPawnBase(const FObjectInitializer& ObjectInitializer);
 };
+

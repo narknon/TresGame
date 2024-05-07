@@ -1,44 +1,49 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "GameFramework/Actor.h"
 #include "TresAtkCollManager.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresAtkCollManager : public AActor
-{
-	GENERATED_BODY()
-	
+class UTresAtkCollComponent;
+class UParticleSystem;
+class UTresDamageType;
+
+UCLASS(Blueprintable, NotPlaceable, Transient)
+class ATresAtkCollManager : public AActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	TArray<class UTresAtkCollComponent*> m_AtkCompList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnGuardReflectEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnStaggerReflectEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnInvincibleHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnCriticalHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnArmorHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UParticleSystem* m_CmnIgnoreGuardHitEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	class UClass* m_PhysDamageTypeClass;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	TMap<TWeakObjectPtr<class AActor>, int> m_CheeringList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
-	TArray<class AActor*> m_JoinForceTargetList;
+protected:
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UTresAtkCollComponent*> m_AtkCompList;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnGuardReflectEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnStaggerReflectEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnInvincibleHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnCriticalHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnArmorHitEffect;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UParticleSystem* m_CmnIgnoreGuardHitEffect;
+    
+    UPROPERTY(DuplicateTransient, EditAnywhere, Transient)
+    TSubclassOf<UTresDamageType> m_PhysDamageTypeClass[4];
+    
+    UPROPERTY(DuplicateTransient, EditAnywhere, Transient)
+    TMap<TWeakObjectPtr<AActor>, int32> m_CheeringList;
+    
+    UPROPERTY(BlueprintReadWrite, DuplicateTransient, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<AActor*> m_JoinForceTargetList;
+    
+public:
+    ATresAtkCollManager(const FObjectInitializer& ObjectInitializer);
 };
+
