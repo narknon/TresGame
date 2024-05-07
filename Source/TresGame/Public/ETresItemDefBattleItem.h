@@ -5,17 +5,17 @@
 UENUM(BlueprintType)
 enum class ETresItemDefBattleItem : uint8 {
     NOTHING,
-    BI_POTION,
-    BI_HIGHPOTION,
-    BI_MEGAPOTION,
-    BI_ETHER,
-    BI_MEGAETHER,
-    BI_ELIXIR,
-    BI_LASTELIXIR,
-    BI_FOCUSSUPPLY,
-    BI_HIGHFOCUSSUPPLY,
-    BI_ALLCURE,
-    BI_HIGHETHER,
+    BI_POTION UMETA(DisplayName = "Potion"),
+    BI_HIGHPOTION UMETA(DisplayName = "Hi-Potion"),
+    BI_MEGAPOTION UMETA(DisplayName = "Mega-Potion"),
+    BI_ETHER UMETA(DisplayName = "Ether"),
+    BI_MEGAETHER UMETA(DisplayName = "Mega-Ether"),
+    BI_ELIXIR UMETA(DisplayName = "Elixir"),
+    BI_LASTELIXIR UMETA(DisplayName = "Megalixir"),
+    BI_FOCUSSUPPLY UMETA(DisplayName = "Refocuser"),
+    BI_HIGHFOCUSSUPPLY UMETA(DisplayName = "Hi-Refocuser"),
+    BI_ALLCURE UMETA(DisplayName = "Panacea"),
+    BI_HIGHETHER UMETA(DisplayName = "Hi-Ether"),
     _MAX = 0x10,
 };
 
