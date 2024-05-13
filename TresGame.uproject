@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{F8310D78-4846-03A8-D8F5-49AD5B2D990D}",
+	"EngineAssociation": "{1C600538-4B60-D2DF-BE85-CF8F2E348CE6}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -60,6 +60,11 @@
 		{
 			"Name": "ScaleformUI",
 			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ScaleformUIEd",
+			"Type": "Editor",
 			"LoadingPhase": "Default"
 		}
 	],
@@ -136,10 +141,6 @@
 		{
 			"Name": "PhysXVehicles",
 			"Enabled": false
-		},
-		{
-			"Name": "SQEX_SplineEditor",
-			"Enabled": true
 		},
 		{
 			"Name": "AndroidPermission",

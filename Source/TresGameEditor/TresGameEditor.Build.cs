@@ -29,6 +29,7 @@ public class TresGameEditor : ModuleRules {
             "SQEXSEAD",
             "SQEXSEADEd",
             "ScaleformUI",
+            "ScaleformUIEd",
             "Slate",
             "SlateCore",
             "TresGame",

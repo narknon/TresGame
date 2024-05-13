@@ -15,6 +15,7 @@ public class TresGameEditorTarget : TargetRules {
 			"KineDriverEd",
 			"Niagara",
 			"ScaleformUI",
+			"ScaleformUIEd",
 			"SQEXSEAD",
 			"SQEXSEADEd",
 			"TresGame",
