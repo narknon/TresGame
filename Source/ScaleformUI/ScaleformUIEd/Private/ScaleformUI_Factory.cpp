@@ -9,7 +9,7 @@
 #include "Paths.h"
 #include "SwfMovie.h"
 
-UScaleformUI_Factory::UScaleformUI_Factory()
+UScaleformUI_Factory::UScaleformUI_Factory(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	Formats.Add(TEXT("swf;SWF Movie"));
 	Formats.Add(TEXT("gfx;SWF Movie (Stripped)"));

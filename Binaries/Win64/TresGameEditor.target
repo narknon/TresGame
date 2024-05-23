@@ -2,7 +2,7 @@
 	"TargetName" : "TresGameEditor",
 	"Platform" : "Win64",
 	"Configuration" : "Development",
-	"BuildId" : "65b889c9-c30c-45d0-b5a1-8131235041f2",
+	"BuildId" : "c396004f-2f37-4882-a3dc-713af5843f9e",
 	"Version" : 
 	{
 		"MajorVersion" : 4,
@@ -822,6 +822,18 @@
 		},
 		{
 			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ScaleformUI.lib",
+			"Type" : "ImportLibrary"
+		},
+		{
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-ScaleformUIEd.dll",
+			"Type" : "DynamicLibrary"
+		},
+		{
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-ScaleformUIEd.pdb",
+			"Type" : "SymbolFile"
+		},
+		{
+			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ScaleformUIEd.lib",
 			"Type" : "ImportLibrary"
 		},
 		{
